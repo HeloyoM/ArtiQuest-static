@@ -1,0 +1,15 @@
+.articles{
+    display: flex;
+    justify-content: center;
+}
+
+.articles>ul{
+    display: grid;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5%;
+    max-width: 40%;
+    height: 100%;
+    width: 100%;
+    grid-template-columns: auto auto auto auto;
+}
