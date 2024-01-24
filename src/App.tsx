@@ -4,6 +4,9 @@ import {
 } from "react-router-dom"
 import { LandPage, Login, HomePage } from './screens/index'
 import ScreenContainer from "./screens/Screen"
+import { Paths } from "./utils/paths"
+import Category from "./components/category/Category"
+import Article from "./components/article/Article"
 
 function App() {
 
@@ -20,6 +23,15 @@ function App() {
       path: "/home",
       element: (<HomePage />)
     },
+    {
+      path: Paths.CAT,
+      element: (<ScreenContainer><Category /></ScreenContainer>)
+    },
+    {
+      path: Paths.ART,
+      element: (<Article />)
+    },
+
   ])
   return (
     <RouterProvider router={router} />

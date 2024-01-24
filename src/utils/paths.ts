@@ -1,5 +1,6 @@
 export enum Paths {
     HOME = 'home',
     LOGIN = 'login',
-    ARTICLE = 'article'
+    CAT = 'cat/:category',
+    ART = 'cat/:category/art/:name/:id'
 }

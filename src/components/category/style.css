@@ -1,0 +1,21 @@
+.cat {
+    background-color:  #68d388;
+    overflow-y: hidden;
+    height: 99%;
+    padding:15px;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 5.5%;
+
+}
+.cards-container>div{
+    cursor: pointer;
+}
+
+.cards-container>div:hover{
+    box-shadow: 0px 4px 6px 0px white;
+    background-color:lightgrey;
+}

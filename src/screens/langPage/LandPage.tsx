@@ -18,6 +18,7 @@ const LandPage = () => {
         if (path === Paths.HOME) {
             localStorage.setItem('artiQuest-demo', 'true')
         }
+        console.log('nav')
         navigate(`/${path}`)
     }
 
