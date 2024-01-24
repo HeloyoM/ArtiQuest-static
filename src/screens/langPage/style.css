@@ -3,14 +3,67 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: 93%;
     font-size: 30px;
     white-space: nowrap;
     overflow: hidden;
+
+    flex-direction: column;
 }
 
+.land-page>p {
+    margin: 0;
+}
+
+.intro-btn {
+    border: none;
+    outline: none;
+    background: inherit;
+    color: #0000ffb0;
+    cursor: pointer;
+    font-size: 19px;
+    position: absolute;
+    right: 23%;
+    bottom: 33%;
+}
+
+.sure {
+    position: relative;
+    bottom: 44%;
+    right: 0;
+    border-radius: 47%;
+    height: 45px;
+}
+
+.sure:hover{
+    background-color:lightgrey;
+    color: green;
+}
 #typing-text {
     animation: typing 2s;
+}
+
+.cursor {
+    border-right: 2px solid #000;
+    animation: cursorBlink 1s step-end infinite;
+    height: 4%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+@keyframes cursorBlink {
+
+    0%,
+    100% {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: #000;
+        /* Change the color of the cursor as needed */
+    }
 }
 
 @keyframes typing {

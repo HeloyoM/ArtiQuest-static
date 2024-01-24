@@ -1,31 +1,28 @@
-import './App.css'
-import LandPage from './screens/langPage/LandPage';
-import ScreenContainer from './screens/Screen'
 import {
   createBrowserRouter,
   RouterProvider,
-  Link
 } from "react-router-dom"
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LandPage />,
-  },
-  {
-    path: "about",
-    element: <div>About</div>,
-  },
-]);
+import { LandPage, Login, HomePage } from './screens/index'
+import ScreenContainer from "./screens/Screen"
 
 function App() {
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (<ScreenContainer><LandPage /></ScreenContainer>)
+    },
+    {
+      path: "login",
+      element: (<ScreenContainer><Login /></ScreenContainer>)
+    },
+    {
+      path: "/home",
+      element: (<HomePage />)
+    },
+  ])
   return (
-    <div className="App">
-      <ScreenContainer>
-        <RouterProvider router={router} />
-      </ScreenContainer>
-    </div>
+    <RouterProvider router={router} />
   )
 }
-
 export default App
