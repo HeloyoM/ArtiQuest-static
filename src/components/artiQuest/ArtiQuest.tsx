@@ -1,19 +1,21 @@
 import AppChip from '../common/AppChip'
 import './style.css'
 
-const ArtiQuest = () => {
-    const articles = [
-        { id: '1234', category: 'frontend', length: 15 },
-        { id: '5678', category: 'backend', length: 33 },
-        { id: '9012', category: 'devops', length: 2 },
-        { id: '3456', category: 'architecture', length: 14 },
+type Props = {
+    isdemo: boolean
+}
+const ArtiQuest = (props: Props) => {
+    const categories = [
+        { id: '1234', name: 'frontend', length: 15 },
+        { id: '5678', name: 'backend', length: 33 },
+        { id: '9012', name: 'devops', length: 2 },
+        { id: '3456', name: 'architecture', length: 14 },
     ]
-
     return (
         <div className='articles'>
             <ul>
-                {articles.map(i => (
-                    <AppChip item={i} key={i.id} />
+                {categories.map(c => (
+                    <AppChip cat={c} key={c.id} isdemo={props.isdemo} />
                 ))}
             </ul>
         </div>

@@ -4,23 +4,25 @@ import { useNavigate } from 'react-router-dom'
 import { Paths } from '../../utils/paths'
 
 type Props = {
-    item: any
+    cat: any
+    isdemo: boolean
 }
-const AppChip = (props: Props) => {
 
+const AppChip = (props: Props) => {
     const navigate = useNavigate()
 
-    const handleClick = (id: string) => {
-        navigate(`/${Paths.ARTICLE}/${id}`)
+    const toCategory = () => {
+        navigate(`/${Paths.ARTICLE}`)
     }
 
     return (
         <Stack direction="row" spacing={1}>
             <Chip
-                label={`${props.item.category} (${props.item.length})`}
+                id="chip"
+                label={`${props.cat.name} (${props.cat.length})`}
                 color="primary"
-                variant="outlined"
-                onClick={() => handleClick(props.item.id)} />
+                variant={"outlined"}
+                onClick={toCategory} />
         </Stack>
     )
 }
