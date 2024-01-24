@@ -1,19 +1,26 @@
 import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
+import { useNavigate } from 'react-router-dom'
+import { Paths } from '../../utils/paths'
 
 type Props = {
-    name: string
-    length: number
+    item: any
 }
 const AppChip = (props: Props) => {
 
-    const handleClick = () => {
-        console.info('You clicked the Chip.')
+    const navigate = useNavigate()
+
+    const handleClick = (id: string) => {
+        navigate(`/${Paths.ARTICLE}/${id}`)
     }
 
     return (
         <Stack direction="row" spacing={1}>
-            <Chip label={`${props.name} (${props.length})`} color="primary" variant="outlined" onClick={handleClick} />
+            <Chip
+                label={`${props.item.category} (${props.item.length})`}
+                color="primary"
+                variant="outlined"
+                onClick={() => handleClick(props.item.id)} />
         </Stack>
     )
 }

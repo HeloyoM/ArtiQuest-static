@@ -1,20 +1,19 @@
-import React from 'react'
 import AppChip from '../common/AppChip'
 import './style.css'
 
 const ArtiQuest = () => {
     const articles = [
-        { category: 'frontend', length: 15 },
-        { category: 'backend', length: 33 },
-        { category: 'devops', length: 2 },
-        { category: 'architecture', length: 14 },
+        { id: '1234', category: 'frontend', length: 15 },
+        { id: '5678', category: 'backend', length: 33 },
+        { id: '9012', category: 'devops', length: 2 },
+        { id: '3456', category: 'architecture', length: 14 },
     ]
 
     return (
         <div className='articles'>
             <ul>
                 {articles.map(i => (
-                    <AppChip name={i.category} length={i.length} />
+                    <AppChip item={i} key={i.id} />
                 ))}
             </ul>
         </div>
