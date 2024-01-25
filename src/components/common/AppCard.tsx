@@ -2,16 +2,17 @@ import { Typography, IconButton, CardActions, CardContent, Card, CardHeader } fr
 import { Share as ShareIcon, Favorite as FavoriteIcon } from '@mui/icons-material'
 import { Article } from '../../interface/article.interface'
 import { useNavigate } from 'react-router-dom'
+import { ICategory } from '../../interface/category.interface'
 
 type Props = {
-    item: Article
+    item: Article<ICategory>
 }
 const AppCard = (props: Props) => {
     const navigate = useNavigate()
 
     const openArticle = () => {
         const title = props.item.title.replace(/\s/g, '-')
-        navigate(`/cat/${props.item.cat}/art/${title}/${props.item.id}`)
+        navigate(`/cat/${props.item.cat.name}/art/${title}/${props.item.id}`)
     }
 
     return (

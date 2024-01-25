@@ -21,9 +21,7 @@ const Category = () => {
         queryKey: ['categories'],
         queryFn: () => getArticlesByCategoryId(catId?.id!)
     })
-
-    console.log(catId)
-
+    console.log(articles)
     if (isLoading) return (<AppProgress />)
 
     return (
@@ -32,7 +30,7 @@ const Category = () => {
             <p>Number of articles: {articles.length}</p>
 
             <div className='cards-container'>
-                {articles.map((a: Article) => (
+                {articles.map((a: Article<ICategory>) => (
                     <AppCard item={a} key={a.id} />
                 ))}
             </div>
