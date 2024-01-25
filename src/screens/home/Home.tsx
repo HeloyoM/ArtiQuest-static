@@ -19,7 +19,6 @@ const HomePage = () => {
     setDemoMode(Boolean(isdemo))
   }, [])
 
-
   return (
     <div className={!demoMode ? 'home' : 'home demo'}>
       <AppNav isdemo={demoMode} closeDemo={closeDemoMode} />

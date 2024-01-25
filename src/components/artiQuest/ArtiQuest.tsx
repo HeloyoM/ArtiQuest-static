@@ -1,20 +1,26 @@
 import AppChip from '../common/AppChip'
 import './style.css'
+import { useQuery } from '@tanstack/react-query'
+import { getAllCategories } from '../../api/articles'
+import { ICategory } from '../../interface/category.interface'
+import AppProgress from '../common/AppProgress'
 
 type Props = {
     isdemo: boolean
 }
 const ArtiQuest = (props: Props) => {
-    const categories = [
-        { id: '1234', name: 'frontend', length: 15 },
-        { id: '5678', name: 'backend', length: 33 },
-        { id: '9012', name: 'devops', length: 2 },
-        { id: '3456', name: 'architecture', length: 14 },
-    ]
+
+    const { isLoading, data } = useQuery({
+        queryKey: ['categories'],
+        queryFn: getAllCategories
+    })
+
+    if (isLoading) return (<AppProgress />)
+
     return (
         <div className='articles'>
             <ul>
-                {categories.map(c => (
+                {data?.map((c: ICategory) => (
                     <AppChip cat={c} key={c.id} isdemo={props.isdemo} />
                 ))}
             </ul>

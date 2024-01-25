@@ -18,7 +18,7 @@ const AppChip = (props: Props) => {
         <Stack direction="row" spacing={1}>
             <Chip
                 id="chip"
-                label={`${props.cat.name} (${props.cat.length})`}
+                label={`${props.cat.name} (${props.cat.len})`}
                 color="primary"
                 variant={"outlined"}
                 onClick={toCategory} />

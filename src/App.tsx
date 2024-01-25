@@ -7,6 +7,7 @@ import ScreenContainer from "./screens/Screen"
 import { Paths } from "./utils/paths"
 import Category from "./components/category/Category"
 import Article from "./components/article/Article"
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
 function App() {
 
@@ -33,8 +34,13 @@ function App() {
     },
 
   ])
+
+  const queryClient = new QueryClient()
+
   return (
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   )
 }
 export default App

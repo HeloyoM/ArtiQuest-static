@@ -1,30 +1,30 @@
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import AppProgress from '../common/AppProgress'
 import AppCard from '../common/AppCard'
 import './style.css'
+import { useQuery } from 'react-query'
+import { getArticlesByCategoryId } from '../../api/articles'
+import { useQueryClient } from '@tanstack/react-query'
+import { ICategory } from '../../interface/category.interface'
 import { Article } from '../../interface/article.interface'
 
 const Category = () => {
-    const [articles, setArticles] = useState<Article[]>([])
     let { category } = useParams()
 
-    useEffect(() => {
-        setTimeout(() => {
-            setArticles([
-                {
-                    id: '123',
-                    auther: 'Meir Juli',
-                    sub_title: 'reactjs',
-                    title: 'JS framework',
-                    created: new Date(),
-                    cat: category || 'Frontend'
-                },
-            ])
-        }, 2500)
-    }, [category])
+    const queryClient = useQueryClient();
 
-    if (!articles.length) return (<AppProgress />)
+    const categoriesData = queryClient.getQueryData(['categories']) as ICategory[]
+
+    const catId = categoriesData.find((c: ICategory) => c.name.trim() === category?.trim())
+
+    const { isLoading, data: articles } = useQuery({
+        queryKey: ['categories'],
+        queryFn: () => getArticlesByCategoryId(catId?.id!)
+    })
+
+    console.log(catId)
+
+    if (isLoading) return (<AppProgress />)
 
     return (
         <div className='cat'>
@@ -32,8 +32,8 @@ const Category = () => {
             <p>Number of articles: {articles.length}</p>
 
             <div className='cards-container'>
-                {articles.map(i => (
-                    <AppCard item={i} key={i.id} />
+                {articles.map((a: Article) => (
+                    <AppCard item={a} key={a.id} />
                 ))}
             </div>
         </div>
