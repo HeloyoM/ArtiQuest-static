@@ -4,9 +4,10 @@ import { Box, Typography, Input, FormLabel, FormControl, FormGroup } from '@mui/
 import { ArrowForward, ArrowBack } from '@mui/icons-material'
 import { ActionTypes, FormState, reducer } from './useReducer'
 import './style.css'
+import { useQuery } from 'react-query'
+import { register } from '../../api/user'
 
 const initialState: FormState = {
-  type: null,
   email: '',
   password: '',
   phoneNumber: '',
@@ -20,11 +21,18 @@ type Props = {
 }
 
 const Login = (props: Props) => {
-  const [{ type, email, password, phoneNumber, firstName, lastName }, localDispatch] =
+  const [{ email, password, phoneNumber, firstName, lastName }, localDispatch] =
     useReducer(reducer, initialState)
   const [currentStep, setCurrentStep] = useState(0)
 
-  const fieldLabel = ['first_name', 'last_name', 'email', 'phone_number', 'password']
+  const fieldLabel = [
+    { label: 'first_name', field: firstName },
+    { label: 'last_name', field: lastName },
+    { label: 'email', field: email },
+    { label: 'phone_number', field: phoneNumber },
+    { label: 'password', field: password }
+  ]
+
   const nextField = () => {
     if (currentStep + 1 >= fieldLabel.length) return
 
@@ -40,7 +48,7 @@ const Login = (props: Props) => {
   const onFormChange = ({
     target: { name, value },
   }: ChangeEvent<HTMLInputElement>) => {
-    console.log({ name })
+    console.log({ name, value })
     if (name === 'email') {
       localDispatch({ type: ActionTypes.set_email, email: value })
     }
@@ -55,6 +63,15 @@ const Login = (props: Props) => {
     if (name === 'last_name') {
       localDispatch({ type: ActionTypes.set_last_name, lastName: value })
     }
+
+    if (name === 'phone_number') {
+      localDispatch({ type: ActionTypes.set_phone_number, phoneNumber: value })
+    }
+  }
+
+  const submit = () => {
+    const user = { firstName, lastName, email, phoneNumber, password }
+
   }
 
   const loginForm = (
@@ -64,18 +81,20 @@ const Login = (props: Props) => {
       </Typography>
       <Typography id="modal-content" sx={{ mt: 2 }} >
         {currentStep > 0 && <ArrowBack onClick={backField} />}
-        <FormControl component="fieldset" variant="standard">
-          <FormLabel component="legend">{fieldLabel[currentStep]}</FormLabel>
+        <FormControl component="fieldset" variant="standard" onSubmit={submit}>
+          <FormLabel component="legend">{fieldLabel[currentStep].label}</FormLabel>
           <FormGroup>
-            <Input onChange={onFormChange} name={fieldLabel[currentStep]} />
+            <Input
+              onChange={onFormChange}
+              name={fieldLabel[currentStep].label}
+              value={fieldLabel[currentStep].field}
+            />
           </FormGroup>
         </FormControl>
-        {currentStep !== fieldLabel.length - 1 && <ArrowForward onClick={nextField} />}
+        {currentStep !== fieldLabel.length - 1 ? <ArrowForward onClick={nextField} /> : <button onClick={submit}>Register</button>}
       </Typography>
     </Box>
   )
-
-
 
   return (
     <div>
