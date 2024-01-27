@@ -17,10 +17,6 @@ function App() {
       element: (<ScreenContainer><LandPage /></ScreenContainer>)
     },
     {
-      path: "login",
-      element: (<ScreenContainer><Login /></ScreenContainer>)
-    },
-    {
       path: "/home",
       element: (<HomePage />)
     },

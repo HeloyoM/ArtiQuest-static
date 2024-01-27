@@ -9,6 +9,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import AppPopover from './AppPopover'
 import { useEffect, useMemo, useState } from 'react'
 import { Button, PopoverOrigin, PopoverPosition } from '@mui/material'
+import LoginIcon from '@mui/icons-material/Login'
+import Login from '../login/Login'
 
 type Props = {
   isdemo: boolean
@@ -16,6 +18,7 @@ type Props = {
 }
 
 const AppNav = (props: Props) => {
+  const [openLogin, setOpenLogin] = useState(false)
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [demoSession, setDemoSession] = useState<(HTMLElement | null)[]>([])
   const [indexSession, setIndexSession] = useState<number>(0)
@@ -41,6 +44,13 @@ const AppNav = (props: Props) => {
       setAnchorEl(demoSession[indexSession])
     }
   }, [demoSession])
+
+  const handleOpenLogin = () => {
+    setOpenLogin(prev => true)
+  }
+  const closeLoginModal = () => {
+    setOpenLogin(prev => false)
+  }
 
   const definedEl = () => {
     const email = document.getElementById('mail')
@@ -101,58 +111,73 @@ const AppNav = (props: Props) => {
   }, [anchorEl, popoverOpen, demoSession])
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar sx={{ background: props.isdemo ? 'rgba(0, 0, 0, 0.5)' : 'default' }}>
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar sx={{ background: props.isdemo ? 'rgba(0, 0, 0, 0.5)' : 'default' }}>
 
-          <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ flexGrow: 1 }} />
 
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-              id='mail'
-              onClick={togglePopover}
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+                id='mail'
+                onClick={togglePopover}
 
-            >
-              <Badge badgeContent={0} color="error">
-                <MailIcon />
-                {popover}
-              </Badge>
-            </IconButton>
+              >
+                <Badge badgeContent={0} color="error">
+                  <MailIcon />
+                  {props.isdemo && popover}
+                </Badge>
+              </IconButton>
 
-            <IconButton
-              size="large"
-              color="inherit"
-              id='notifications'
-              onClick={togglePopover}
-            >
-              <Badge badgeContent={0} color="error">
-                <NotificationsIcon />
-                {popover}
-              </Badge>
-            </IconButton>
-
-
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              onClick={togglePopover}
-              color="inherit"
-              id='account'
-            >
-              <AccountCircle />
-              {popover}
-            </IconButton>
+              <IconButton
+                size="large"
+                color="inherit"
+                id='notifications'
+                onClick={togglePopover}
+              >
+                <Badge badgeContent={0} color="error">
+                  <NotificationsIcon />
+                  {props.isdemo && popover}
+                </Badge>
+              </IconButton>
 
 
-          </Box>
-        </Toolbar>
-      </AppBar>
-    </Box>
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                onClick={togglePopover}
+                color="inherit"
+                id='account'
+              >
+                <AccountCircle />
+                {props.isdemo && popover}
+              </IconButton>
+
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                onClick={togglePopover}
+                color="inherit"
+                id='account'
+              >
+                <LoginIcon onClick={handleOpenLogin} />
+              </IconButton>
+
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </Box>
+
+      <Login openLogin={openLogin} closeLoginModal={closeLoginModal} />
+    </>
   )
 }
 export default AppNav

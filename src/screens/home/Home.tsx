@@ -2,6 +2,7 @@ import './style.css'
 import AppNav from '../../components/common/AppNav'
 import { useEffect, useState } from 'react'
 import ArtiQuest from '../../components/artiQuest/ArtiQuest'
+import Login from '../../components/login/Login'
 
 const HomePage = () => {
   const [demoMode, setDemoMode] = useState(false)
@@ -24,6 +25,7 @@ const HomePage = () => {
       <AppNav isdemo={demoMode} closeDemo={closeDemoMode} />
 
       <ArtiQuest isdemo={demoMode} />
+
     </div>
   )
 }
