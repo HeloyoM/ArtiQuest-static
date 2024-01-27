@@ -1,8 +1,18 @@
-import { useState } from 'react'
+import { ChangeEvent, useReducer, useState } from 'react'
 import AppModal from '../common/modal/AppModal'
-import { Box, Typography, Input, FormLabel, FormControl, FormGroup, FormControlLabel, Switch, FormHelperText } from '@mui/material'
+import { Box, Typography, Input, FormLabel, FormControl, FormGroup } from '@mui/material'
 import { ArrowForward, ArrowBack } from '@mui/icons-material'
+import { ActionTypes, FormState, reducer } from './useReducer'
 import './style.css'
+
+const initialState: FormState = {
+  type: null,
+  email: '',
+  password: '',
+  phoneNumber: '',
+  firstName: '',
+  lastName: ''
+}
 
 type Props = {
   openLogin: boolean
@@ -10,9 +20,11 @@ type Props = {
 }
 
 const Login = (props: Props) => {
-  const [fieldLabel, setFieldLabel] = useState(['First name', 'Last name', 'email', 'phone number', 'password'])
+  const [{ type, email, password, phoneNumber, firstName, lastName }, localDispatch] =
+    useReducer(reducer, initialState)
   const [currentStep, setCurrentStep] = useState(0)
 
+  const fieldLabel = ['first_name', 'last_name', 'email', 'phone_number', 'password']
   const nextField = () => {
     if (currentStep + 1 >= fieldLabel.length) return
 
@@ -25,6 +37,26 @@ const Login = (props: Props) => {
     else setCurrentStep(prev => prev - 1)
   }
 
+  const onFormChange = ({
+    target: { name, value },
+  }: ChangeEvent<HTMLInputElement>) => {
+    console.log({ name })
+    if (name === 'email') {
+      localDispatch({ type: ActionTypes.set_email, email: value })
+    }
+    if (name === 'password') {
+      localDispatch({ type: ActionTypes.set_password, password: value })
+    }
+
+    if (name === 'first_name') {
+      localDispatch({ type: ActionTypes.set_first_name, firstName: value })
+    }
+
+    if (name === 'last_name') {
+      localDispatch({ type: ActionTypes.set_last_name, lastName: value })
+    }
+  }
+
   const loginForm = (
     <Box sx={style}>
       <Typography variant="h6" component="h2" align='center'>
@@ -35,13 +67,15 @@ const Login = (props: Props) => {
         <FormControl component="fieldset" variant="standard">
           <FormLabel component="legend">{fieldLabel[currentStep]}</FormLabel>
           <FormGroup>
-            <Input />
+            <Input onChange={onFormChange} name={fieldLabel[currentStep]} />
           </FormGroup>
         </FormControl>
         {currentStep !== fieldLabel.length - 1 && <ArrowForward onClick={nextField} />}
       </Typography>
     </Box>
   )
+
+
 
   return (
     <div>
