@@ -24,6 +24,11 @@ const AppCard = (props: Props) => {
 
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
+                    {props.item.sub_title}
+                </Typography>
+
+                <Typography>
+                    {props.item.auther}
                 </Typography>
             </CardContent>
 
