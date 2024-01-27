@@ -1,5 +1,3 @@
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 import './style.css'
 
@@ -9,8 +7,6 @@ type Props = {
     popupModal: boolean
     children: JSX.Element
 }
-
-
 
 const AppModal = (props: Props) => {
     return (
