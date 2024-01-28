@@ -7,7 +7,7 @@ const API = 'auth'
 export const login = async (payload: LoginDto) => {
     try {
         const response = await axios.post(`${baseUrl}/${API}/login`, payload).then(res => res.data)
-        return response.data
+        return response
     } catch (error) {
         throw new Error('Failed to login')
     }

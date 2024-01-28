@@ -5,13 +5,9 @@ import { ArrowForward, ArrowBack } from '@mui/icons-material'
 import { ActionTypes, FormState, reducer } from './useReducer'
 import './style.css'
 import {
-  useQuery,
   useMutation,
   useQueryClient,
-  QueryClient,
-  QueryClientProvider,
 } from '@tanstack/react-query'
-import { getAllCategories } from '../../api/articles'
 import { register } from '../../api/user'
 import { User } from '../../interface/user.interface'
 import { LoginDto } from '../../api/dto/LoginDto.dto'
@@ -47,8 +43,8 @@ const RegisterForm = (props: Props) => {
 
   const loginMutate = useMutation({
     mutationFn: (payload: LoginDto) => login(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['login'] })
+    onSuccess: async (data: any, { email: temail, password: tpass }) => {
+      localStorage.setItem('token', data.token)
     }
   })
 
@@ -75,7 +71,7 @@ const RegisterForm = (props: Props) => {
   const onFormChange = ({
     target: { name, value },
   }: ChangeEvent<HTMLInputElement>) => {
-    console.log({ name, value })
+
     if (name === 'email') {
       localDispatch({ type: ActionTypes.set_email, email: value })
     }

@@ -7,7 +7,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import AppPopover from './AppPopover'
-import { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Button, PopoverOrigin } from '@mui/material'
 import LoginIcon from '@mui/icons-material/Login'
 import RegisterForm from '../register/Register'
@@ -111,7 +111,7 @@ const AppNav = (props: Props) => {
   }, [anchorEl, popoverOpen, demoSession])
 
   return (
-    <>
+    <React.Fragment>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar sx={{ background: props.isdemo ? 'rgba(0, 0, 0, 0.5)' : 'default' }}>
@@ -177,7 +177,7 @@ const AppNav = (props: Props) => {
       </Box>
 
       <RegisterForm openRegisterForm={openRegisterForm} closeRegisterModal={closeLoginModal} />
-    </>
+    </React.Fragment>
   )
 }
 export default AppNav
