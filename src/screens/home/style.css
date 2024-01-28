@@ -1,13 +1,58 @@
-.home{
+.home {
     height: 100%;
     width: 100%;
 }
 
-.demo{
+.demo {
     position: relative;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
     padding: 20px;
     box-sizing: border-box;
+}
+
+.arti-quest-header {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 150px;
+    font-family: Sora, sens-srif;
+    color: darkcyan;
+    background-color: #ce9e62;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.arti-quest-header>* {
+    margin: 0
+}
+
+.transform-text {
+    color: white;
+    margin-top: 1%;
+    font-size: 19px;
+}
+
+@keyframes cursorBlink {
+
+    0%,
+    100% {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: #000;
+    }
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
 }

@@ -32,6 +32,11 @@ const HomePage = () => {
 
       <ArtiQuest isdemo={demoMode} />
 
+      <div className='arti-quest-header'>
+        <h1>Arti-Quest</h1>
+        <p className="transform-text">Discover programming world </p>
+      </div>
+
     </div>
   )
 }

@@ -1,10 +1,4 @@
-export enum ActionTypes {
-    set_email = 'email',
-    set_password = 'password',
-    set_first_name = 'first_name',
-    set_last_name = 'last_name',
-    set_phone_number = 'phone_number',
-}
+import { FormFields } from "./form.enum"
 
 export type FormState = {
     email: string
@@ -16,21 +10,21 @@ export type FormState = {
 
 export const reducer = (state: FormState, action: any) => {
     switch (action.type) {
-        case ActionTypes.set_password: {
+        case FormFields.set_password: {
             return { ...state, password: action.password }
         }
-        case ActionTypes.set_email: {
+        case FormFields.set_email: {
             return { ...state, email: action.email }
         }
-        case ActionTypes.set_first_name: {
+        case FormFields.set_first_name: {
             return { ...state, firstName: action.firstName }
         }
 
-        case ActionTypes.set_last_name: {
+        case FormFields.set_last_name: {
             return { ...state, lastName: action.lastName }
         }
 
-        case ActionTypes.set_phone_number: {
+        case FormFields.set_phone_number: {
             return { ...state, phoneNumber: action.phoneNumber }
         }
 
