@@ -4,8 +4,6 @@ import { Box, Typography, Input, FormLabel, FormControl, FormGroup } from '@mui/
 import { ArrowForward, ArrowBack } from '@mui/icons-material'
 import { ActionTypes, FormState, reducer } from './useReducer'
 import './style.css'
-import { useQuery } from 'react-query'
-import { register } from '../../api/user'
 
 const initialState: FormState = {
   email: '',
@@ -16,11 +14,11 @@ const initialState: FormState = {
 }
 
 type Props = {
-  openLogin: boolean
-  closeLoginModal: () => void
+  openRegisterForm: boolean
+  closeRegisterModal: () => void
 }
 
-const Login = (props: Props) => {
+const RegisterForm = (props: Props) => {
   const [{ email, password, phoneNumber, firstName, lastName }, localDispatch] =
     useReducer(reducer, initialState)
   const [currentStep, setCurrentStep] = useState(0)
@@ -74,10 +72,10 @@ const Login = (props: Props) => {
 
   }
 
-  const loginForm = (
+  const RegisterForm = (
     <Box sx={style}>
       <Typography variant="h6" component="h2" align='center'>
-        Login
+        Register
       </Typography>
       <Typography id="modal-content" sx={{ mt: 2 }} >
         {currentStep > 0 && <ArrowBack onClick={backField} />}
@@ -98,14 +96,14 @@ const Login = (props: Props) => {
 
   return (
     <div>
-      <AppModal popupModal open={props.openLogin} close={props.closeLoginModal} >
-        {loginForm}
+      <AppModal popupModal open={props.openRegisterForm} close={props.closeRegisterModal} >
+        {RegisterForm}
       </AppModal>
     </div>
   )
 }
 
-export default Login
+export default RegisterForm
 
 const style = {
   position: 'absolute' as 'absolute',

@@ -8,9 +8,9 @@ import MailIcon from '@mui/icons-material/Mail'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import AppPopover from './AppPopover'
 import { useEffect, useMemo, useState } from 'react'
-import { Button, PopoverOrigin, PopoverPosition } from '@mui/material'
+import { Button, PopoverOrigin } from '@mui/material'
 import LoginIcon from '@mui/icons-material/Login'
-import Login from '../login/Login'
+import Login from '../login/Register'
 
 type Props = {
   isdemo: boolean
@@ -18,7 +18,7 @@ type Props = {
 }
 
 const AppNav = (props: Props) => {
-  const [openLogin, setOpenLogin] = useState(false)
+  const [openRegisterForm, setOpenRegister] = useState(false)
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [demoSession, setDemoSession] = useState<(HTMLElement | null)[]>([])
   const [indexSession, setIndexSession] = useState<number>(0)
@@ -46,10 +46,10 @@ const AppNav = (props: Props) => {
   }, [demoSession])
 
   const handleOpenLogin = () => {
-    setOpenLogin(prev => true)
+    setOpenRegister(prev => true)
   }
   const closeLoginModal = () => {
-    setOpenLogin(prev => false)
+    setOpenRegister(prev => false)
   }
 
   const definedEl = () => {
@@ -176,7 +176,7 @@ const AppNav = (props: Props) => {
         </AppBar>
       </Box>
 
-      <Login openLogin={openLogin} closeLoginModal={closeLoginModal} />
+      <Login openRegisterForm={openRegisterForm} closeRegisterModal={closeLoginModal} />
     </>
   )
 }
