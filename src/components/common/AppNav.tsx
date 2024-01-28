@@ -10,7 +10,7 @@ import AppPopover from './AppPopover'
 import { useEffect, useMemo, useState } from 'react'
 import { Button, PopoverOrigin } from '@mui/material'
 import LoginIcon from '@mui/icons-material/Login'
-import Login from '../login/Register'
+import RegisterForm from '../register/Register'
 
 type Props = {
   isdemo: boolean
@@ -176,7 +176,7 @@ const AppNav = (props: Props) => {
         </AppBar>
       </Box>
 
-      <Login openRegisterForm={openRegisterForm} closeRegisterModal={closeLoginModal} />
+      <RegisterForm openRegisterForm={openRegisterForm} closeRegisterModal={closeLoginModal} />
     </>
   )
 }

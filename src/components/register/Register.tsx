@@ -4,6 +4,16 @@ import { Box, Typography, Input, FormLabel, FormControl, FormGroup } from '@mui/
 import { ArrowForward, ArrowBack } from '@mui/icons-material'
 import { ActionTypes, FormState, reducer } from './useReducer'
 import './style.css'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import { getAllCategories } from '../../api/articles'
+import { register } from '../../api/user'
+import { User } from '../../interface/user.interface'
 
 const initialState: FormState = {
   email: '',
@@ -23,6 +33,19 @@ const RegisterForm = (props: Props) => {
     useReducer(reducer, initialState)
   const [currentStep, setCurrentStep] = useState(0)
 
+  const queryClient = useQueryClient()
+
+  // Queries
+  const query = useQuery({ queryKey: ['todos'], queryFn: getAllCategories })
+
+  // Mutations
+  const mutation = useMutation({
+    mutationFn: (user: User) => register(user),
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['todos'] })
+    },
+  })
   const fieldLabel = [
     { label: 'first_name', field: firstName },
     { label: 'last_name', field: lastName },
@@ -69,7 +92,7 @@ const RegisterForm = (props: Props) => {
 
   const submit = () => {
     const user = { firstName, lastName, email, phoneNumber, password }
-
+    mutation.mutate(user)
   }
 
   const RegisterForm = (
