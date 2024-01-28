@@ -2,10 +2,17 @@ import './style.css'
 import AppNav from '../../components/common/AppNav'
 import { useEffect, useState } from 'react'
 import ArtiQuest from '../../components/artiQuest/ArtiQuest'
+import { useQuery } from '@tanstack/react-query'
+import { findAllUsers } from '../../api/user'
 
 const HomePage = () => {
   const [demoMode, setDemoMode] = useState(false)
   const [componentsState, setComponentsState] = useState<JSX.Element[]>([])
+
+  const { isLoading, data: users } = useQuery({
+    queryKey: ['users'],
+    queryFn: findAllUsers
+  })
 
   const closeDemoMode = () => {
     setDemoMode(false)
@@ -21,7 +28,7 @@ const HomePage = () => {
 
   return (
     <div className={!demoMode ? 'home' : 'home demo'}>
-      <AppNav isdemo={demoMode} closeDemo={closeDemoMode} />
+      <AppNav isdemo={demoMode} closeDemo={closeDemoMode} users={users} />
 
       <ArtiQuest isdemo={demoMode} />
 

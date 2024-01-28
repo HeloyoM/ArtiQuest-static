@@ -24,6 +24,7 @@ const initialState: FormState = {
 type Props = {
   openRegisterForm: boolean
   closeRegisterModal: () => void
+  onLogin: () => void
 }
 
 const RegisterForm = (props: Props) => {
@@ -43,8 +44,13 @@ const RegisterForm = (props: Props) => {
 
   const loginMutate = useMutation({
     mutationFn: (payload: LoginDto) => login(payload),
-    onSuccess: async (data: any, { email: temail, password: tpass }) => {
-      localStorage.setItem('token', data.token)
+    onSuccess: async (data: any, { email }) => {
+      if (data.token) {
+        const user = { token: data.token, email: email }
+        localStorage.setItem('user', JSON.stringify(user))
+        props.onLogin()
+      }
+      else throw Error('unable to log in')
     }
   })
 

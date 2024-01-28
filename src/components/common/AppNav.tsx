@@ -11,10 +11,12 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Button, PopoverOrigin } from '@mui/material'
 import LoginIcon from '@mui/icons-material/Login'
 import RegisterForm from '../register/Register'
+import { User } from '../../interface/user.interface'
 
 type Props = {
   isdemo: boolean
   closeDemo: () => void
+  users: User[]
 }
 
 const AppNav = (props: Props) => {
@@ -28,12 +30,27 @@ const AppNav = (props: Props) => {
     `In case you'll get some personal message you have this mail section. you can contect us there too.`,
     `Here you can see your profile, edit your details and make more personal things`
   ]
+  const onLogin = () => {
 
+  }
   useEffect(() => {
     if (props.isdemo) {
       startDemo()
     }
   }, [props.isdemo])
+
+  useEffect(() => {
+    console.log(props.users)
+    if (!props.users) return
+
+    
+    const user = localStorage.getItem('user')
+    if (user !== null) {
+      const userData = JSON.parse(user)
+      const userFound = props.users.find(u => u.email === userData.email)
+      console.log(userFound)
+    }
+  }, [props.users])
 
   const startDemo = () => {
     setDemoSession(definedEl())
@@ -176,7 +193,11 @@ const AppNav = (props: Props) => {
         </AppBar>
       </Box>
 
-      <RegisterForm openRegisterForm={openRegisterForm} closeRegisterModal={closeLoginModal} />
+      <RegisterForm
+        onLogin={onLogin}
+        openRegisterForm={openRegisterForm}
+        closeRegisterModal={closeLoginModal}
+      />
     </React.Fragment>
   )
 }
