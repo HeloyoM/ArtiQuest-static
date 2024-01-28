@@ -1,6 +1,6 @@
 import { ChangeEvent, useReducer, useState } from 'react'
 import AppModal from '../common/modal/AppModal'
-import { Box, Typography, Input, FormLabel, FormControl, FormGroup } from '@mui/material'
+import { Box, Typography, Input, FormLabel, FormControl, FormGroup, Button } from '@mui/material'
 import { ArrowForward, ArrowBack } from '@mui/icons-material'
 import { ActionTypes, FormState, reducer } from './useReducer'
 import './style.css'
@@ -14,6 +14,8 @@ import {
 import { getAllCategories } from '../../api/articles'
 import { register } from '../../api/user'
 import { User } from '../../interface/user.interface'
+import { LoginDto } from '../../api/dto/LoginDto.dto'
+import { login } from '../../api/auth'
 
 const initialState: FormState = {
   email: '',
@@ -29,29 +31,33 @@ type Props = {
 }
 
 const RegisterForm = (props: Props) => {
+  const [isLoginForm, setIsLoginFrom] = useState(false)
   const [{ email, password, phoneNumber, firstName, lastName }, localDispatch] =
     useReducer(reducer, initialState)
   const [currentStep, setCurrentStep] = useState(0)
 
   const queryClient = useQueryClient()
 
-  // Queries
-  const query = useQuery({ queryKey: ['todos'], queryFn: getAllCategories })
-
-  // Mutations
-  const mutation = useMutation({
+  const registerMutate = useMutation({
     mutationFn: (user: User) => register(user),
     onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['todos'] })
-    },
+      queryClient.invalidateQueries({ queryKey: ['register'] })
+    }
   })
+
+  const loginMutate = useMutation({
+    mutationFn: (payload: LoginDto) => login(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['login'] })
+    }
+  })
+
   const fieldLabel = [
     { label: 'first_name', field: firstName },
     { label: 'last_name', field: lastName },
-    { label: 'email', field: email },
     { label: 'phone_number', field: phoneNumber },
-    { label: 'password', field: password }
+    { label: 'email', field: email },
+    { label: 'password', field: password },
   ]
 
   const nextField = () => {
@@ -91,29 +97,66 @@ const RegisterForm = (props: Props) => {
   }
 
   const submit = () => {
-    const user = { firstName, lastName, email, phoneNumber, password }
-    mutation.mutate(user)
+    if (!isLoginForm) {
+      const user = { firstName, lastName, email, phoneNumber, password }
+      registerMutate.mutate(user)
+
+
+    } else {
+      const payload = { email, password }
+
+      loginMutate.mutate(payload)
+    }
+    props.closeRegisterModal()
+  }
+
+  const handleLoginForm = () => {
+    setIsLoginFrom(prev => true)
+    setCurrentStep(3)
+  }
+
+  const backRegister = () => {
+    setIsLoginFrom(prev => false)
+    setCurrentStep(0)
   }
 
   const RegisterForm = (
     <Box sx={style}>
       <Typography variant="h6" component="h2" align='center'>
-        Register
+        {!isLoginForm ? 'Register' : 'Login'}
       </Typography>
+
+      <Typography align='center'>
+        {!isLoginForm ? <Button onClick={handleLoginForm}>Allready have aacount? </Button>
+          : <Button onClick={backRegister}>back register </Button>}
+      </Typography>
+
       <Typography id="modal-content" sx={{ mt: 2 }} >
-        {currentStep > 0 && <ArrowBack onClick={backField} />}
+
+        {
+          currentStep > 0 && !isLoginForm ||
+          currentStep == fieldLabel.length - 1 && isLoginForm
+          && <ArrowBack onClick={backField} />}
+
         <FormControl component="fieldset" variant="standard" onSubmit={submit}>
           <FormLabel component="legend">{fieldLabel[currentStep].label}</FormLabel>
           <FormGroup>
             <Input
+              autoFocus
               onChange={onFormChange}
               name={fieldLabel[currentStep].label}
               value={fieldLabel[currentStep].field}
             />
           </FormGroup>
         </FormControl>
-        {currentStep !== fieldLabel.length - 1 ? <ArrowForward onClick={nextField} /> : <button onClick={submit}>Register</button>}
+
+        {currentStep !== fieldLabel.length - 1
+          ? <ArrowForward onClick={nextField} />
+          : <Button onClick={submit}>{isLoginForm ? 'Login' : 'Register'}</Button>
+        }
+
       </Typography>
+
     </Box>
   )
 
