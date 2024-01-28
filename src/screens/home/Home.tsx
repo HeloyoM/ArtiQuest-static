@@ -1,5 +1,5 @@
 import './style.css'
-import AppNav from '../../components/common/AppNav'
+import AppNav from '../../components/common/navbar/AppNav'
 import { useEffect, useState } from 'react'
 import ArtiQuest from '../../components/artiQuest/ArtiQuest'
 import { useQuery } from '@tanstack/react-query'

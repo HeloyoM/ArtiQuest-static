@@ -6,12 +6,13 @@ import Badge from '@mui/material/Badge'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import AppPopover from './AppPopover'
+import AppPopover from '../AppPopover'
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, PopoverOrigin } from '@mui/material'
+import { Button, PopoverOrigin, Typography } from '@mui/material'
 import LoginIcon from '@mui/icons-material/Login'
-import RegisterForm from '../register/Register'
-import { User } from '../../interface/user.interface'
+import RegisterForm from '../../register/Register'
+import { User } from '../../../interface/user.interface'
+import './style.css'
 
 type Props = {
   isdemo: boolean
@@ -20,6 +21,7 @@ type Props = {
 }
 
 const AppNav = (props: Props) => {
+  const [crrUser, setCurrUser] = useState<User | undefined>(undefined)
   const [openRegisterForm, setOpenRegister] = useState(false)
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [demoSession, setDemoSession] = useState<(HTMLElement | null)[]>([])
@@ -30,9 +32,15 @@ const AppNav = (props: Props) => {
     `In case you'll get some personal message you have this mail section. you can contect us there too.`,
     `Here you can see your profile, edit your details and make more personal things`
   ]
-  const onLogin = () => {
 
+  const onLogin = () => {
+    const userStorage = localStorage.getItem('user')
+
+    const user = props.users.find(u => u.email === JSON.parse(userStorage!).email)
+
+    setCurrUser(user)
   }
+
   useEffect(() => {
     if (props.isdemo) {
       startDemo()
@@ -40,16 +48,18 @@ const AppNav = (props: Props) => {
   }, [props.isdemo])
 
   useEffect(() => {
-    console.log(props.users)
     if (!props.users) return
 
-    
-    const user = localStorage.getItem('user')
-    if (user !== null) {
-      const userData = JSON.parse(user)
-      const userFound = props.users.find(u => u.email === userData.email)
-      console.log(userFound)
+    const userStorage = localStorage.getItem('user')
+
+
+    if (userStorage !== null) {
+      const user = props.users.find(u => u.email === JSON.parse(userStorage).email)
+
+      setCurrUser(user)
     }
+
+
   }, [props.users])
 
   const startDemo = () => {
@@ -163,18 +173,19 @@ const AppNav = (props: Props) => {
               </IconButton>
 
 
-              <IconButton
+              {crrUser && <IconButton
                 size="large"
                 edge="end"
+                className='account-icon'
                 aria-label="account of current user"
                 aria-haspopup="true"
                 onClick={togglePopover}
                 color="inherit"
                 id='account'
               >
-                <AccountCircle />
+                <AccountCircle className={crrUser ? 'fade-in' : ''} />
                 {props.isdemo && popover}
-              </IconButton>
+              </IconButton>}
 
               <IconButton
                 size="large"
