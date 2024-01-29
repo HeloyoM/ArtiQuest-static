@@ -1,21 +1,24 @@
-import './style.css'
-import AppNav from '../../components/common/navbar/AppNav'
 import { useEffect, useState } from 'react'
-import ArtiQuest from '../../components/artiQuest/ArtiQuest'
 import { useQuery } from '@tanstack/react-query'
+import { Typography } from '@mui/material'
+
+import AppNav from '../../components/common/navbar/AppNav'
+import ArtiQuest from '../../components/artiQuest/ArtiQuest'
+
 import { findAllUsers } from '../../api/user'
 
+import './style.css'
+
 const HomePage = () => {
-  const [demoMode, setDemoMode] = useState(false)
-  const [componentsState, setComponentsState] = useState<JSX.Element[]>([])
+  const [demo, setDemo] = useState(false)
 
   const { isLoading, data: users } = useQuery({
     queryKey: ['users'],
     queryFn: findAllUsers
   })
 
-  const closeDemoMode = () => {
-    setDemoMode(false)
+  const endDemo = () => {
+    setDemo(false)
 
     localStorage.removeItem('artiQuest-demo')
   }
@@ -23,19 +26,19 @@ const HomePage = () => {
   useEffect(() => {
     const isdemo = localStorage.getItem('artiQuest-demo')
 
-    setDemoMode(Boolean(isdemo))
+    setDemo(Boolean(isdemo))
   }, [])
 
   return (
-    <div className={!demoMode ? 'home' : 'home demo'}>
-      <AppNav isdemo={demoMode} closeDemo={closeDemoMode} users={users} />
+    <div className={!demo ? 'home' : 'home demo'}>
+      <AppNav isdemo={demo} endDemo={endDemo} users={users} />
 
-      <ArtiQuest isdemo={demoMode} />
+      <ArtiQuest isdemo={demo} />
 
-      <div className='arti-quest-header'>
+      <Typography component='p' className='arti-quest-header'>
         <h1>Arti-Quest</h1>
-        <p className="transform-text">Discover programming world </p>
-      </div>
+        <p className="transform-text">Discover programming world right under your hands</p>
+      </Typography>
 
     </div>
   )

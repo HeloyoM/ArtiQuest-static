@@ -13,25 +13,20 @@ import LoginIcon from '@mui/icons-material/Login'
 import RegisterForm from '../../register/Register'
 import { User } from '../../../interface/user.interface'
 import './style.css'
+import AppProgress from '../AppProgress'
+import useDemo from './useDemo'
 
 type Props = {
   isdemo: boolean
-  closeDemo: () => void
+  endDemo: () => void
   users: User[]
 }
 
 const AppNav = (props: Props) => {
   const [crrUser, setCurrUser] = useState<User | undefined>(undefined)
   const [openRegisterForm, setOpenRegister] = useState(false)
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
-  const [demoSession, setDemoSession] = useState<(HTMLElement | null)[]>([])
-  const [indexSession, setIndexSession] = useState<number>(0)
 
-  const explanationStrings = [
-    `when some new articels or new products published you will alerted here.`,
-    `In case you'll get some personal message you have this mail section. you can contect us there too.`,
-    `Here you can see your profile, edit your details and make more personal things`
-  ]
+  const { popover } = useDemo({ endDemo: props.endDemo, isdemo: props.isdemo })
 
   const onLogin = () => {
     const userStorage = localStorage.getItem('user')
@@ -41,11 +36,6 @@ const AppNav = (props: Props) => {
     setCurrUser(user)
   }
 
-  useEffect(() => {
-    if (props.isdemo) {
-      startDemo()
-    }
-  }, [props.isdemo])
 
   useEffect(() => {
     if (!props.users) return
@@ -62,15 +52,7 @@ const AppNav = (props: Props) => {
 
   }, [props.users])
 
-  const startDemo = () => {
-    setDemoSession(definedEl())
-  }
 
-  useEffect(() => {
-    if (demoSession.length) {
-      setAnchorEl(demoSession[indexSession])
-    }
-  }, [demoSession])
 
   const handleOpenLogin = () => {
     setOpenRegister(prev => true)
@@ -79,63 +61,20 @@ const AppNav = (props: Props) => {
     setOpenRegister(prev => false)
   }
 
-  const definedEl = () => {
-    const email = document.getElementById('mail')
-    const notifications = document.getElementById('notifications')
-    const account = document.getElementById('account')
-    const navbarEl = [email, notifications, account]
 
-    return navbarEl
-  }
 
-  const nextDemo = () => {
-    if (indexSession >= demoSession.length - 1) {
-      exitDemoMode()
-    }
 
-    const incIndex = indexSession + 1
-    setAnchorEl(null)
 
-    setTimeout(() => {
-      setIndexSession(prev => incIndex)
-      setAnchorEl(demoSession[incIndex])
-    }, 1000)
-  }
+  // const togglePopover = (event?: React.MouseEvent<HTMLElement>) => {
+  //   if (!event) return
 
-  const demoProgress = useMemo(() => {
-    if (indexSession >= demoSession.length - 1) return 'End'
+  //   setAnchorEl(anchorEl ? null : event.currentTarget)
+  // }
 
-    else return 'Next'
-  }, [anchorEl, indexSession, demoSession])
 
-  const togglePopover = (event?: React.MouseEvent<HTMLElement>) => {
-    if (!event) return
 
-    setAnchorEl(anchorEl ? null : event.currentTarget)
-  }
 
-  const exitDemoMode = () => {
-    setAnchorEl(null)
-    props.closeDemo()
-  }
 
-  const popoverOpen = Boolean(anchorEl)
-
-  const anchorOrigin: PopoverOrigin = {
-    vertical: 'bottom',
-    horizontal: 'center',
-  }
-
-  const popover = useMemo(() => {
-    return (
-      <AppPopover anchorEl={anchorEl} position={anchorOrigin} open={popoverOpen}>
-        <Box sx={{ padding: '8px', height: '119px', wordBreak: 'break-word' }}>
-          {explanationStrings[indexSession]}
-        </Box>
-        <Button onClick={nextDemo}>{demoProgress}</Button>
-      </AppPopover>
-    )
-  }, [anchorEl, popoverOpen, demoSession])
 
   return (
     <React.Fragment>
@@ -145,14 +84,12 @@ const AppNav = (props: Props) => {
 
             <Box sx={{ flexGrow: 1 }} />
 
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Box sx={{ display: { md: 'flex' } }}>
               <IconButton
                 size="large"
                 aria-label="show 4 new mails"
                 color="inherit"
                 id='mail'
-                onClick={togglePopover}
-
               >
                 <Badge badgeContent={0} color="error">
                   <MailIcon />
@@ -164,7 +101,6 @@ const AppNav = (props: Props) => {
                 size="large"
                 color="inherit"
                 id='notifications'
-                onClick={togglePopover}
               >
                 <Badge badgeContent={0} color="error">
                   <NotificationsIcon />
@@ -173,26 +109,24 @@ const AppNav = (props: Props) => {
               </IconButton>
 
 
-              {crrUser && <IconButton
+              {crrUser ? <IconButton
                 size="large"
                 edge="end"
                 className='account-icon'
                 aria-label="account of current user"
                 aria-haspopup="true"
-                onClick={togglePopover}
                 color="inherit"
                 id='account'
               >
                 <AccountCircle className={crrUser ? 'fade-in' : ''} />
                 {props.isdemo && popover}
-              </IconButton>}
+              </IconButton> : <AppProgress type='Circular' />}
 
               <IconButton
                 size="large"
                 edge="end"
                 aria-label="account of current user"
                 aria-haspopup="true"
-                onClick={togglePopover}
                 color="inherit"
                 id='account'
               >

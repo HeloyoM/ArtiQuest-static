@@ -11,6 +11,7 @@ type Props = {
 const AppModal = (props: Props) => {
     return (
         <Modal
+            sx={{ display: { md: 'flex', xs:'flex' } }}
             className={props.popupModal ? 'popup-modal' : ''}
             open={props.open}
             onClose={props.close}
