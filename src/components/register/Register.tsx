@@ -81,7 +81,7 @@ const RegisterForm = (props: Props) => {
 
   const submitForm = () => {
     if (!isLoginForm) {
-      const user = { firstName, lastName, email, phoneNumber, password }
+      const user = { first_name: firstName, last_name: lastName, email, phoneNumber, password }
       registerMutate.mutate(user)
 
 

@@ -2,6 +2,6 @@ export interface User {
     email: string
     password: string
     phoneNumber: string
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
 }

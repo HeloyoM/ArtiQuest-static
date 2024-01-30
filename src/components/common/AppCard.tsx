@@ -29,7 +29,7 @@ const AppCard = (props: Props) => {
                 </Typography>
 
                 <Typography>
-                    {props.item.auther}
+                    {props.item.auther.first_name + ' ' + props.item.auther.last_name}
                 </Typography>
             </CardContent>
 

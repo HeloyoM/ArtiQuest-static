@@ -28,10 +28,10 @@ const Article = () => {
             navigate(Paths.NOT_FOUND)
         }
     }
-
+    console.log(art)
     return (
         <div>
-            {JSON.stringify(art)}
+
         </div>
     )
 }
