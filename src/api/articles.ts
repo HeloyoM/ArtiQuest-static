@@ -20,3 +20,12 @@ export const getArticlesByCategoryId = async (id: string) => {
         throw new Error('Failed to fetch articles')
     }
 }
+
+export const getArticleById = async (id: string) => {
+    try {
+        const response = await axios.get(`${baseUrl}/${API}/findOne/${id}`)
+        return response.data
+    } catch (error) {
+        throw new Error(`Failed to fetch article with given id ${id}`)
+    }
+}

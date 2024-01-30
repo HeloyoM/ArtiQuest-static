@@ -12,6 +12,7 @@ const AppCard = (props: Props) => {
 
     const openArticle = () => {
         const title = props.item.title.replace(/\s/g, '-')
+
         navigate(`/cat/${props.item.cat.name}/art/${title}/${props.item.id}`)
     }
 

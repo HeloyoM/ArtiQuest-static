@@ -8,6 +8,7 @@ import { Paths } from "./utils/paths"
 import Category from "./components/category/Category"
 import Article from "./components/article/Article"
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import NotFoundPage from "./screens/notFound/NotFoundPage"
 
 function App() {
 
@@ -27,6 +28,10 @@ function App() {
     {
       path: Paths.ART,
       element: (<Article />)
+    },
+    {
+      path: Paths.NOT_FOUND,
+      element: (<NotFoundPage />)
     },
 
   ])
