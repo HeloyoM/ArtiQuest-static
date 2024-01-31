@@ -1,0 +1,63 @@
+.art {
+    padding: 15px;
+}
+
+.art h1 {
+    font-size: 42px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.art h2 {
+    font-size: 32px;
+}
+
+.auther {
+    display: flex;
+    margin: 1%;
+    gap: 2%;
+    font-weight: bold;
+    width: 100%;
+    overflow: hidden;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.art-container {
+    margin: 0 15%;
+}
+
+.body-paragraph {
+    font-size: 22px !important;
+    font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif !important;
+    padding: 8px;
+    letter-spacing: -0.0003em;
+    line-height: 40px;
+    margin-top: 1.56em !important;
+    word-break: break-word;
+    color: #242424;
+}
+
+.art-actions {
+    background-color: #135e76;
+    width: fit-content;
+    min-width:100px;
+    border-radius: 15px;
+    position:relative;
+    right:20%;
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+    gap:10%;
+    align-items: center;
+    justify-content: center;
+}
+
+.download {
+    cursor: pointer;
+}
