@@ -7,9 +7,24 @@
 }
 
 .title {
-    display: flex;
+    height: 96px;
+    font-size: 42px;
     align-items: center;
+    display: flex;
+    background-color: white;
+
     justify-content: space-between;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .art h2 {
@@ -46,14 +61,14 @@
 .art-actions {
     background-color: #135e76;
     width: fit-content;
-    min-width:100px;
+    min-width: 100px;
     border-radius: 15px;
-    position:relative;
-    right:20%;
+    position: relative;
+    right: 20%;
     height: 45px;
     display: flex;
     flex-direction: row;
-    gap:10%;
+    gap: 10%;
     align-items: center;
     justify-content: center;
 }

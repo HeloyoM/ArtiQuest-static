@@ -11,6 +11,7 @@ import { Theme, Typography, createStyles, makeStyles } from '@mui/material'
 import useExportPdf from '../../utils/useExportPdf'
 
 import ArtActions from './ArtAtcions'
+import ArtiTitle from './ArtiTitle'
 
 // import PdfTemplate from './arti-pdf/PdfContent'
 
@@ -68,19 +69,16 @@ const Article = () => {
     return (
         <div className='art'>
 
-            <div className='title'>
-                <h1>{title}</h1>
-                <ArtActions downloadArticle={downloadArticle} />
-            </div>
+            <ArtiTitle downloadArticle={downloadArticle} title={title} />
 
             <h2>{sub_title}</h2>
             <p><strong>{new Date(created).toLocaleDateString()}</strong></p>
-            
+
             <div className='auther'>
                 <p>{auther.first_name + ' ' + auther.last_name}</p>
                 <p>{auther.email}</p>
             </div>
-            
+
             <main className='art-container'>
                 {paragraphs.map((paragraph, index) => (
                     <Typography component='p' key={index} className='body-paragraph'>{paragraph}</Typography>
