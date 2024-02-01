@@ -12,50 +12,18 @@ import ArtActions from './ArtAtcions'
 import ArtiTitle from './ArtiTitle'
 import ArtiBody from './ArtiBody'
 
-// import PdfTemplate from './arti-pdf/PdfContent'
+import PdfTemplate from './arti-pdf/PdfContent'
 
 const Article = () => {
     const [art, setArt] = React.useState<IArticle>()
-    const [isSticky, setSticky] = React.useState(false)
-
 
     const navigate = useNavigate()
     const { category, name, id } = useParams()
-
-    // const instance = (<PdfTemplate art={art!} />)
-
-    // const { handleSendPdf } = useExportPdf({ reactPdfInstance: instance })
-
-    // const queryClient = useQueryClient()
-
-    const downloadArticle = () => {
-
-    }
 
     const { isLoading, data: categoriesData } = useQuery({
         queryKey: ['categories'],
         queryFn: getAllCategories
     })
-
-
-
-    React.useEffect(() => {
-
-        const handleScroll = () => {
-            if (window.scrollY > 0) {
-                setSticky(true)
-            } else {
-                setSticky(false)
-            }
-        }
-
-        window.addEventListener('scroll', handleScroll)
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll)
-        }
-    }, [])
-
 
 
     React.useEffect(() => {
@@ -89,10 +57,12 @@ const Article = () => {
     return (
         <div className='art'>
 
-            <ArtiTitle downloadArticle={downloadArticle} title={title} />
+            <ArtiTitle title={title} art={art} />
 
             <h2>{sub_title}</h2>
-            <p><strong>{new Date(created).toLocaleDateString()}</strong></p>
+            <p>
+                <strong>{new Date(created).toLocaleDateString()}</strong>
+            </p>
 
             <div className='auther'>
                 <p>{auther.first_name + ' ' + auther.last_name}</p>
@@ -100,6 +70,7 @@ const Article = () => {
             </div>
 
             <ArtiBody body={body} />
+
         </div>
     )
 }
