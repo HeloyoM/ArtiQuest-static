@@ -1,5 +1,6 @@
 import axios from 'axios'
 import baseUrl from './base-url'
+import { EditArticleDto } from './dto/EditArticleDto.dto'
 
 const API = 'art'
 
@@ -24,6 +25,15 @@ export const getArticlesByCategoryId = async (id: string) => {
 export const getArticleById = async (id: string) => {
     try {
         const response = await axios.get(`${baseUrl}/${API}/findOne/${id}`)
+        return response.data
+    } catch (error) {
+        throw new Error(`Failed to fetch article with given id ${id}`)
+    }
+}
+
+export const editArticleById = async (id: string, payload: EditArticleDto) => {
+    try {
+        const response = await axios.patch(`${baseUrl}/${API}/${id}`, payload)
         return response.data
     } catch (error) {
         throw new Error(`Failed to fetch article with given id ${id}`)

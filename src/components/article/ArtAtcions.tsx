@@ -1,8 +1,8 @@
+import React from 'react'
 import fileUpload from '../../assets/fileUpload.svg'
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined'
-import './style.css'
 import AppTooltip from '../common/AppTooltip'
-import React from 'react'
+import './style.css'
 
 type Props = {
     downloadArticle: () => void
