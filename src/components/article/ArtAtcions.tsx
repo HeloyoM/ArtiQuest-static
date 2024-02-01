@@ -1,6 +1,7 @@
 import fileUpload from '../../assets/fileUpload.svg'
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined'
 import './style.css'
+import AppTooltip from '../common/AppTooltip'
 
 type Props = {
     downloadArticle: () => void
@@ -8,14 +9,16 @@ type Props = {
 const ArtActions = (props: Props) => {
     return (
         <div className='art-actions'>
-            <img
-                src={fileUpload}
-                alt='file-upload'
-                className='download'
-                onClick={props.downloadArticle}
-            />
-
-            <CreateOutlinedIcon />
+            <AppTooltip title='download'>
+                <img
+                    src={fileUpload}
+                    alt='file-upload'
+                    onClick={props.downloadArticle}
+                />
+            </AppTooltip>
+            <AppTooltip title='edit'>
+                <CreateOutlinedIcon />
+            </AppTooltip>
         </div>
     )
 }

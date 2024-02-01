@@ -26,7 +26,7 @@
     width: 100%;
     transition: all 0.3s ease;
     background-color: white;
-    margin-top:2%
+    margin-top: 2%
 }
 
 .sticky {
@@ -83,6 +83,6 @@
     justify-content: center;
 }
 
-.download {
+.art-actions>* {
     cursor: pointer;
 }

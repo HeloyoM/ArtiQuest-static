@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Article as IArticle } from '../../interface/article.interface'
 import React from 'react'
 import { ICategory } from '../../interface/category.interface'
@@ -7,12 +7,10 @@ import { Paths } from '../../utils/paths'
 import AppProgress from '../common/AppProgress'
 import './style.css'
 import { getAllCategories } from '../../api/articles'
-import { Theme, Typography, createStyles, makeStyles } from '@mui/material'
 import useExportPdf from '../../utils/useExportPdf'
-import ReactHtmlParser from 'html-react-parser'
 import ArtActions from './ArtAtcions'
 import ArtiTitle from './ArtiTitle'
-import RegExpUtil from '../../utils/RegExp.util'
+import ArtiBody from './ArtiBody'
 
 // import PdfTemplate from './arti-pdf/PdfContent'
 
@@ -87,7 +85,6 @@ const Article = () => {
 
     const { auther, body, cat, created, id: artId, sub_title, title } = art
 
-    const paragraphs = body.split(/[\n\r]+/)
 
     return (
         <div className='art'>
@@ -102,28 +99,7 @@ const Article = () => {
                 <p>{auther.email}</p>
             </div>
 
-            <main className='art-container'>
-
-                {paragraphs.map((paragraph, index) => {
-                    const isHeader: RegExpMatchArray | null = paragraph.match(RegExpUtil.headers)
-
-                    if (isHeader?.length) {
-                        const header = paragraph.slice(4, paragraph.length - 5)
-                        return (
-                            <Typography
-                                gutterBottom
-                                component={'h2'}
-                                paragraph={false}
-                                key={index}
-                                className='title-index'
-                            >
-                                {header}
-                            </Typography>)
-                    } else {
-                        return (<Typography component='p' key={index} className='body-paragraph'>{paragraph}</Typography>)
-                    }
-                })}
-            </main>
+            <ArtiBody body={body} />
         </div>
     )
 }
