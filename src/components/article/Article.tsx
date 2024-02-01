@@ -9,14 +9,17 @@ import './style.css'
 import { getAllCategories } from '../../api/articles'
 import { Theme, Typography, createStyles, makeStyles } from '@mui/material'
 import useExportPdf from '../../utils/useExportPdf'
-
+import ReactHtmlParser from 'html-react-parser'
 import ArtActions from './ArtAtcions'
 import ArtiTitle from './ArtiTitle'
+import RegExpUtil from '../../utils/RegExp.util'
 
 // import PdfTemplate from './arti-pdf/PdfContent'
 
 const Article = () => {
     const [art, setArt] = React.useState<IArticle>()
+    const [isSticky, setSticky] = React.useState(false)
+
 
     const navigate = useNavigate()
     const { category, name, id } = useParams()
@@ -35,6 +38,27 @@ const Article = () => {
         queryKey: ['categories'],
         queryFn: getAllCategories
     })
+
+
+
+    React.useEffect(() => {
+
+        const handleScroll = () => {
+            if (window.scrollY > 0) {
+                setSticky(true)
+            } else {
+                setSticky(false)
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll)
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
+
 
     React.useEffect(() => {
 
@@ -65,7 +89,6 @@ const Article = () => {
 
     const paragraphs = body.split(/[\n\r]+/)
 
-
     return (
         <div className='art'>
 
@@ -80,9 +103,26 @@ const Article = () => {
             </div>
 
             <main className='art-container'>
-                {paragraphs.map((paragraph, index) => (
-                    <Typography component='p' key={index} className='body-paragraph'>{paragraph}</Typography>
-                ))}
+
+                {paragraphs.map((paragraph, index) => {
+                    const isHeader: RegExpMatchArray | null = paragraph.match(RegExpUtil.headers)
+
+                    if (isHeader?.length) {
+                        const header = paragraph.slice(4, paragraph.length - 5)
+                        return (
+                            <Typography
+                                gutterBottom
+                                component={'h2'}
+                                paragraph={false}
+                                key={index}
+                                className='title-index'
+                            >
+                                {header}
+                            </Typography>)
+                    } else {
+                        return (<Typography component='p' key={index} className='body-paragraph'>{paragraph}</Typography>)
+                    }
+                })}
             </main>
         </div>
     )

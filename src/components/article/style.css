@@ -19,6 +19,16 @@
     transition: all 0.3s ease;
 }
 
+.title-index {
+    position: sticky;
+    top: 13%;
+    height: 96px;
+    width: 100%;
+    transition: all 0.3s ease;
+    background-color: white;
+    margin-top:2%
+}
+
 .sticky {
     position: fixed;
     top: 0;
