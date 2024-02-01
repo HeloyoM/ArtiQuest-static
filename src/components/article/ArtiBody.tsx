@@ -4,9 +4,11 @@ import './style.css'
 
 type Props = {
     body: string
+    isedit: boolean
 }
 
 const ArtiBody = (props: Props) => {
+
     const paragraphs = props.body.split(/[\n\r]+/)
 
     return (
@@ -26,8 +28,10 @@ const ArtiBody = (props: Props) => {
                         >
                             {header}
                         </Typography>)
-                } else {
+                } else if (!props.isedit) {
                     return (<Typography component='p' key={index} className='body-paragraph'>{paragraph}</Typography>)
+                } else {
+                    return (<textarea className='p-edit' >{paragraph}</textarea>)
                 }
             })}
         </main>

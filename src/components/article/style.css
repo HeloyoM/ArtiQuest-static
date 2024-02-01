@@ -97,3 +97,13 @@
     width: 90%;
     height: 90%;
 }
+
+.p-edit{
+    display: inline-block;
+    transition: all 0.8s ease 0.8s;
+    width: 100%;
+    height: 199px;
+    font-size: 22px;
+    overflow: overlay;
+    margin: 4% 0;
+}

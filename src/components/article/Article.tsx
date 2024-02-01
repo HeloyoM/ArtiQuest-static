@@ -7,15 +7,12 @@ import { Paths } from '../../utils/paths'
 import AppProgress from '../common/AppProgress'
 import './style.css'
 import { getAllCategories } from '../../api/articles'
-import useExportPdf from '../../utils/useExportPdf'
-import ArtActions from './ArtAtcions'
 import ArtiTitle from './ArtiTitle'
 import ArtiBody from './ArtiBody'
 
-import PdfTemplate from './arti-pdf/PdfContent'
-
 const Article = () => {
     const [art, setArt] = React.useState<IArticle>()
+    const [isedit, setIsedit] = React.useState(false)
 
     const navigate = useNavigate()
     const { category, name, id } = useParams()
@@ -25,6 +22,7 @@ const Article = () => {
         queryFn: getAllCategories
     })
 
+    const toggleEdit = () => { setIsedit(prev => !prev) }
 
     React.useEffect(() => {
 
@@ -57,7 +55,7 @@ const Article = () => {
     return (
         <div className='art'>
 
-            <ArtiTitle title={title} art={art} />
+            <ArtiTitle title={title} art={art} toggleEdit={toggleEdit} />
 
             <h2>{sub_title}</h2>
             <p>
@@ -69,7 +67,7 @@ const Article = () => {
                 <p>{auther.email}</p>
             </div>
 
-            <ArtiBody body={body} />
+            <ArtiBody body={body} isedit={isedit} />
 
         </div>
     )

@@ -1,10 +1,4 @@
 import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
-
-// import FileHeader from './FileHeader'
-// import DebriefInfo from './DebriefInfo'
-// import { useMatchPointsList } from 'utils/useMatchPointsList'
-// import PdfMatchpoint from './FileMatchpoint'
-
 import { Article } from '../../../interface/article.interface'
 import FileHeader from './PdfFileHeader'
 

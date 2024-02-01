@@ -11,6 +11,7 @@ import './style.css'
 type Props = {
     art: IArticle
     title: string
+    toggleEdit: () => void
 }
 
 const ArtiTitle = (props: Props) => {
@@ -50,7 +51,7 @@ const ArtiTitle = (props: Props) => {
         <>
             <div className={isSticky ? 'title sticky' : 'title'} >
                 <h1>{props.title}</h1>
-                <ArtActions downloadArticle={openArticle} />
+                <ArtActions downloadArticle={openArticle} toggleEdit={props.toggleEdit}/>
             </div>
 
             <AppModal
