@@ -6,7 +6,7 @@ type Props = {
 }
 const PdfReview: FC<Props> = ({ children }) => {
     return (
-        <PDFViewer width={1000} height={600}>
+        <PDFViewer width={1000} height={600} showToolbar={false}>
             {children}
         </PDFViewer >
     )

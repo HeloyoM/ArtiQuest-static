@@ -20,7 +20,7 @@ const PdfTemplate = ({ art }: Props) => {
         <Document>
             <Page style={styles.body}>
 
-                <FileHeader />
+                <FileHeader date={art.created} />
 
                 <Text style={styles.title}>
                     {art.title}

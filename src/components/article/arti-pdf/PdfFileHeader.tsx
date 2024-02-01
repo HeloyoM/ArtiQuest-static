@@ -1,13 +1,16 @@
 import { Text, StyleSheet, View } from '@react-pdf/renderer'
 
-const FileHeader = () => {
+type Props = {
+    date: Date
+}
+const FileHeader = (props: Props) => {
     return (
         <>
             <View style={styles.svgContainer}>
                 ArtiQuest
             </View>
             <Text style={styles.time} fixed>
-                {new Date().getTime().toLocaleString()}
+                {new Date(props.date).toLocaleDateString()}
             </Text>
         </>
     )
