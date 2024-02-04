@@ -56,5 +56,27 @@
     border: none;
     outline: none;
     background-color: inherit;
-    color:black;
+    color: black;
+}
+
+.error-upload {
+    position: absolute;
+    top: 38%;
+    right: 11%;
+    box-shadow: 0px 4px 6px 4px lightgrey;
+    width: 250px;
+    height: 250px;
+    animation-name: slideIn;
+    animation-duration: 0.5s;
+}
+
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
 }

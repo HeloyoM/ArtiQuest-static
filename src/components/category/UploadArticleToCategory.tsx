@@ -3,14 +3,18 @@ import './style.css'
 import { Box, Button, Divider, List, ListItem, ListItemText, Typography } from '@mui/material'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import AppProgress from '../common/AppProgress'
+import { UploadErrors } from './interface/fileErrors.interface'
 
 type Props = {
     category?: string
     handleUploading: (e: React.ChangeEvent<HTMLInputElement>) => void
     isUploading: boolean
+    error: UploadErrors
 }
 
 const UploadArticleToCategory = (props: Props) => {
+    const occueredError = Object.values(props.error)
+
     return (
         <Box
             sx={{ width: 850 }}
@@ -60,10 +64,18 @@ const UploadArticleToCategory = (props: Props) => {
                                 hidden
                             />
                         </label>
-                        : <AppProgress type='Circular' />}
+                        : <AppProgress type='Circular' />
+                    }
                 </Button>
             </div>
 
+            {occueredError.includes(true) && <Typography className='error-upload' component='div'>
+                Errors
+
+                <Typography component='p'>{props.error.fileSizeInMB && 'file is too big'}</Typography>
+                <Typography component='p'>{props.error.fileExtension && 'type of file is not allowded yet'}</Typography>
+
+            </Typography>}
         </Box >
     )
 }
