@@ -22,12 +22,13 @@ const Category = () => {
     const [page, setPage] = React.useState(1)
     const [articles, setArticles] = React.useState<any[]>([])
     const [insertionOpen, setInsertionOpen] = React.useState(false)
+    const [uploading, setUploading] = React.useState(false)
 
     const openInsertionModal = () => { setInsertionOpen(true) }
 
     const closeInsertion = () => { setInsertionOpen(false) }
 
-    const { handleArtiFile } = useUpload()
+    const { handleArtiFile } = useUpload({ setIsUploading: setUploading })
 
     let { category } = useParams()
 
@@ -93,10 +94,9 @@ const Category = () => {
                     page={page}
                     itemsCount={articles.length}
                     pageSize={pageSize} />
-
             </div>
 
-            <AppMenu menuBody={<UploadArticleToCategory handleUploading={handleArtiFile} category={category} />} openMenu={insertionOpen} close={closeInsertion} category={category} children={insertionModalContent} />
+            <AppMenu menuBody={<UploadArticleToCategory isUploading={uploading} handleUploading={handleArtiFile} category={category} />} openMenu={insertionOpen} close={closeInsertion} category={category} children={insertionModalContent} />
 
         </>
     )

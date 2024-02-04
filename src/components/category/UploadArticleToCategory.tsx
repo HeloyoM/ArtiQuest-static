@@ -1,10 +1,13 @@
+import React from 'react'
+import './style.css'
 import { Box, Button, Divider, List, ListItem, ListItemText, Typography } from '@mui/material'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
-import './style.css'
-import React from 'react'
+import AppProgress from '../common/AppProgress'
+
 type Props = {
     category?: string
     handleUploading: (e: React.ChangeEvent<HTMLInputElement>) => void
+    isUploading: boolean
 }
 
 const UploadArticleToCategory = (props: Props) => {
@@ -48,12 +51,16 @@ const UploadArticleToCategory = (props: Props) => {
                     className='upload-btn'
                     startIcon={<FileUploadOutlinedIcon />}
                 >
-                    Upload Article
-                    <input
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.handleUploading(e)}
-                        type="file"
-                        hidden
-                    />
+                    {!props.isUploading ?
+                        <label>
+                            'Upload Article'
+                            <input
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.handleUploading(e)}
+                                type="file"
+                                hidden
+                            />
+                        </label>
+                        : <AppProgress type='Circular' />}
                 </Button>
             </div>
 
