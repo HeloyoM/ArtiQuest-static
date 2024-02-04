@@ -13,7 +13,9 @@ import { paginate } from '../../utils/paginate'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import AppModal from '../common/modal/AppModal'
 import { Box, Typography } from '@mui/material'
-import AppMenu from '../common/menu/AppMenu'
+import AppMenu from '../common/AppMenu'
+import UploadArticleToCategory from './UploadArticleToCategory'
+import useUpload from './useUpload'
 const pageSize = 4
 
 const Category = () => {
@@ -25,6 +27,7 @@ const Category = () => {
 
     const closeInsertion = () => { setInsertionOpen(false) }
 
+    const { handleArtiFile } = useUpload()
 
     let { category } = useParams()
 
@@ -93,7 +96,7 @@ const Category = () => {
 
             </div>
 
-            <AppMenu openMenu={insertionOpen} close={closeInsertion} category={category} children={insertionModalContent} />
+            <AppMenu menuBody={<UploadArticleToCategory handleUploading={handleArtiFile} category={category} />} openMenu={insertionOpen} close={closeInsertion} category={category} children={insertionModalContent} />
 
         </>
     )
