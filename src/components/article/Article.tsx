@@ -14,7 +14,7 @@ import './style.css'
 const Article = () => {
     const [art, setArt] = React.useState<IArticle>()
     const [isedit, setIsedit] = React.useState(false)
-
+    const [currentCategory, setCurrentCategory] = React.useState<ICategory>()
 
     const queryClient = useQueryClient()
     const navigate = useNavigate()
@@ -33,11 +33,7 @@ const Article = () => {
 
     }
 
-
-
     const toggleEdit = () => { setIsedit(prev => !prev) }
-
-
 
     React.useEffect(() => {
 
@@ -72,18 +68,14 @@ const Article = () => {
 
     if (!art) return (<AppProgress />)
 
-
-
-
     const editArticle = () => { editArticleMutate.mutate() }
-
 
     const { auther, body, cat, created, id: artId, sub_title, title } = art
 
     return (
         <div className='art'>
 
-            <ArtiTitle title={title} art={art} toggleEdit={toggleEdit} editArticleMutate={editArticle} />
+            <ArtiTitle title={title} category={category}art={art} toggleEdit={toggleEdit} editArticleMutate={editArticle} />
 
             <h2>{sub_title}</h2>
             <p>
@@ -92,7 +84,7 @@ const Article = () => {
 
             <div className='auther'>
                 <p>{auther.first_name + ' ' + auther.last_name}</p>
-                <p>{auther.email}</p>
+                <p><a href={`mailto:${auther.email}`}>{auther.email}</a></p>
             </div>
 
             <ArtiBody

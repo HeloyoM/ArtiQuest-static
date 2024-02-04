@@ -19,6 +19,14 @@
     transition: all 0.3s ease;
 }
 
+.title>p {
+    font-size: 15px;
+    width: 6%;
+    position: absolute;
+    right: 0;
+    font-weight: bold;
+}
+
 .title-index {
     position: sticky;
     top: 13%;
@@ -98,7 +106,7 @@
     height: 90%;
 }
 
-.p-edit{
+.p-edit {
     display: inline-block;
     transition: all 0.8s ease 0.8s;
     width: 100%;
@@ -108,16 +116,16 @@
     margin: 4% 0;
 }
 
-.textarea-p{
+.textarea-p {
     display: flex;
     align-items: center;
 }
 
-.check-icon{
-    width:75px;
-    color:white;
-    height:75px;
-    border:1px solid lightgreen;
+.check-icon {
+    width: 75px;
+    color: white;
+    height: 75px;
+    border: 1px solid lightgreen;
     cursor: pointer;
     border-radius: 20%;
     position: absolute;

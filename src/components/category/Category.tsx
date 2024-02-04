@@ -1,3 +1,4 @@
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import AppProgress from '../common/AppProgress'
 import AppCard from '../common/AppCard'
@@ -8,14 +9,22 @@ import { useQueryClient } from '@tanstack/react-query'
 import { ICategory } from '../../interface/category.interface'
 import { Article } from '../../interface/article.interface'
 import AppPagination from '../common/AppPagination'
-import { useEffect, useMemo, useState } from 'react'
 import { paginate } from '../../utils/paginate'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import AppModal from '../common/modal/AppModal'
+import { Box, Typography } from '@mui/material'
+import AppMenu from '../common/menu/AppMenu'
 const pageSize = 4
 
 const Category = () => {
-    const [page, setPage] = useState(1)
-    const [articles, setArticles] = useState<any[]>([])
+    const [page, setPage] = React.useState(1)
+    const [articles, setArticles] = React.useState<any[]>([])
+    const [insertionOpen, setInsertionOpen] = React.useState(false)
+
+    const openInsertionModal = () => { setInsertionOpen(true) }
+
+    const closeInsertion = () => { setInsertionOpen(false) }
+
 
     let { category } = useParams()
 
@@ -30,7 +39,7 @@ const Category = () => {
         queryFn: () => getArticlesByCategoryId(catId?.id!)
     })
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!data) return
 
         setArticles(data)
@@ -43,37 +52,63 @@ const Category = () => {
         setPage(prev => value)
     }
 
-    const articlesToDisplay = useMemo(() => {
+    const insertionModalContent = (
+        <Box sx={style}>
+            <Typography>Category to insert: {category}</Typography>
+        </Box>
+    )
+
+    const articlesToDisplay = React.useMemo(() => {
         return paginate(articles, page, pageSize)
     }, [articles, page])
 
     if (isLoading || !categoriesData) return (<AppProgress />)
 
     return (
-        <div className='cat'>
+        <>
+            <div className='cat'>
 
-            <h2>{category}</h2>
+                <div>
+                    <h2>{category}</h2>
 
-            <div className='cat-actions'>
-                <p>Number of articles: {articles.length}</p>
+                    <AddCircleOutlineOutlinedIcon onClick={openInsertionModal} />
+                </div>
 
-                <AddCircleOutlineOutlinedIcon />
+                <div className='cat-actions'>
+                    <p>Number of articles: {articles.length}</p>
+
+                </div>
+
+                <div className='cards-container'>
+                    {articlesToDisplay.map((a: Article<ICategory>, index: number) => (
+                        <AppCard item={a} key={a.id} />
+                    ))}
+                </div>
+
+                <AppPagination
+                    paginate={handlePaginate}
+                    page={page}
+                    itemsCount={articles.length}
+                    pageSize={pageSize} />
+
             </div>
 
-            <div className='cards-container'>
-                {articlesToDisplay.map((a: Article<ICategory>, index: number) => (
-                    <AppCard item={a} key={a.id} />
-                ))}
-            </div>
+            <AppMenu openMenu={insertionOpen} close={closeInsertion} category={category} children={insertionModalContent} />
 
-            <AppPagination
-                paginate={handlePaginate}
-                page={page}
-                itemsCount={articles.length}
-                pageSize={pageSize} />
-
-        </div>
+        </>
     )
 }
 
 export default Category
+
+const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '0px',
+    transform: 'translate(-50%, -50%)',
+    width: 850,
+    height: '100%',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+}

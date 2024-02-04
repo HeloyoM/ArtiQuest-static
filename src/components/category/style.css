@@ -5,15 +5,22 @@
     padding: 15px;
 }
 
-.cat > *  {
+.cat> :first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cat>* {
     color: white;
 }
- 
-.cat-actions  {
+
+.cat-actions {
     display: flex;
     align-items: center;
-    gap:3%;
+    gap: 3%;
 }
+
 .cards-container {
     display: grid;
     grid-template-columns: auto auto;

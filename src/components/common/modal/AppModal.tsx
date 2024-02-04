@@ -4,21 +4,22 @@ import './style.css'
 type Props = {
     close: () => void
     open: boolean
-    popupModal: boolean
+    popupModal?: boolean
     children: JSX.Element
 }
 
 const AppModal = (props: Props) => {
+    const { children, close, open, popupModal = false } = props
     return (
         <Modal
-            sx={{ display: { md: 'flex', xs:'flex' } }}
-            className={props.popupModal ? 'popup-modal' : ''}
-            open={props.open}
-            onClose={props.close}
+            sx={{ display: { md: 'flex', xs: 'flex' } }}
+            className={popupModal ? 'popup-modal' : ''}
+            open={open}
+            onClose={close}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            {props.children}
+            {children}
         </Modal>
     )
 }

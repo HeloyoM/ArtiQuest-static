@@ -7,15 +7,13 @@ import PdfTemplate from './arti-pdf/PdfContent'
 import { Article as IArticle } from '../../interface/article.interface'
 import useExportPdf from '../../utils/useExportPdf'
 import './style.css'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { editArticleById } from '../../api/articles'
-import { EditArticleDto } from '../../api/dto/EditArticleDto.dto'
 
 type Props = {
     art: IArticle
     title: string
     toggleEdit: () => void
     editArticleMutate: () => void
+    category?: string
 }
 
 const ArtiTitle = (props: Props) => {
@@ -55,6 +53,7 @@ const ArtiTitle = (props: Props) => {
 
     const pdfViewer = (<div className='pdf-view' >
         <PdfReview>{instance}</PdfReview>
+
         <PdfDownloading art={instance} title={props.title} />
     </div>)
     return (
@@ -65,6 +64,8 @@ const ArtiTitle = (props: Props) => {
                     downloadArticle={openArticle}
                     toggleEdit={props.toggleEdit}
                 />
+
+                <p>{props.category}</p>
             </div>
 
             <AppModal
