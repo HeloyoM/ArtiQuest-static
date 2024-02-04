@@ -70,10 +70,10 @@ const UploadArticleToCategory = (props: Props) => {
             </div>
 
             {occueredError.includes(true) && <Typography className='error-upload' component='div'>
-                Errors
-
-                <Typography component='p'>{props.error.fileSizeInMB && 'file is too big'}</Typography>
-                <Typography component='p'>{props.error.fileExtension && 'type of file is not allowded yet'}</Typography>
+                <List>
+                    <ListItem >{props.error.fileSizeInMB && 'file is too big'}</ListItem>
+                    <ListItem >{props.error.fileExtension && 'type of file is not allowed yet'}</ListItem>
+                </List>
 
             </Typography>}
         </Box >
