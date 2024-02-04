@@ -98,7 +98,6 @@ const Article = () => {
             <ArtiBody
                 body={body}
                 isedit={isedit}
-                //startsEdit={startsEditOn}
                 handleEditParagraph={handleEditParagraph}
             />
 

@@ -1,13 +1,11 @@
 import RegExpUtil from '../../utils/RegExp.util'
 import { Typography } from '@mui/material'
 import './style.css'
-import CheckIcon from '@mui/icons-material/Check'
 
 type Props = {
     body: string
     isedit: boolean
     handleEditParagraph: (e: React.ChangeEvent<HTMLTextAreaElement>, index: number) => void
-    startsEdit?: number[]
 }
 
 const ArtiBody = (props: Props) => {
@@ -42,7 +40,6 @@ const ArtiBody = (props: Props) => {
                             >
                                 {paragraph}
                             </textarea>
-                            {/* {props.startsEdit.includes(index) && <CheckIcon className='check-icon'/>} */}
                         </div>
                     )
                 }
