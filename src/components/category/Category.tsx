@@ -10,7 +10,7 @@ import { Article } from '../../interface/article.interface'
 import AppPagination from '../common/AppPagination'
 import { useEffect, useMemo, useState } from 'react'
 import { paginate } from '../../utils/paginate'
-
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 const pageSize = 4
 
 const Category = () => {
@@ -47,14 +47,18 @@ const Category = () => {
         return paginate(articles, page, pageSize)
     }, [articles, page])
 
-    if (isLoading) return (<AppProgress />)
+    if (isLoading || !categoriesData) return (<AppProgress />)
 
     return (
         <div className='cat'>
 
             <h2>{category}</h2>
 
-            <p>Number of articles: {articles.length}</p>
+            <div className='cat-actions'>
+                <p>Number of articles: {articles.length}</p>
+
+                <AddCircleOutlineOutlinedIcon />
+            </div>
 
             <div className='cards-container'>
                 {articlesToDisplay.map((a: Article<ICategory>, index: number) => (

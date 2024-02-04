@@ -5,14 +5,15 @@
     padding: 15px;
 }
 
-.cat>h2 {
+.cat > *  {
     color: white;
 }
-
-.cat>p {
-    color: white;
+ 
+.cat-actions  {
+    display: flex;
+    align-items: center;
+    gap:3%;
 }
-
 .cards-container {
     display: grid;
     grid-template-columns: auto auto;

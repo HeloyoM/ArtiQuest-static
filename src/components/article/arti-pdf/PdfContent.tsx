@@ -1,6 +1,7 @@
 import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
 import { Article } from '../../../interface/article.interface'
 import FileHeader from './PdfFileHeader'
+import RegExpUtil from '../../../utils/RegExp.util'
 
 type Props = {
     art: Article
@@ -28,11 +29,23 @@ const PdfTemplate = ({ art }: Props) => {
                     {creatorName}
                 </Text>
 
-                {paragraphs.map((paragraph, index) => (
-                    <Text key={index} >
-                        {paragraph}
-                    </Text>
-                ))}
+                {paragraphs.map((paragraph, index) => {
+                    const isHeader: RegExpMatchArray | null = paragraph.match(RegExpUtil.headers)
+
+                    if (isHeader?.length) {
+                        const header = paragraph.slice(4, paragraph.length - 5)
+                        return (
+                            <Text style={{ fontSize: '22px', fontWeight: 'bold', margin: '2% 0px' }}>
+                                {header}
+                            </Text>
+                        )
+                    }
+                    else return (
+                        <Text key={index} >
+                            {paragraph}
+                        </Text>
+                    )
+                })}
 
                 <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
                     `${pageNumber} / ${totalPages}`
