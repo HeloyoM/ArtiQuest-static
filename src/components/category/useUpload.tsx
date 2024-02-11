@@ -21,30 +21,32 @@ const useUpload = (props: Props) => {
         const files = event.target.files
 
         try {
-            if (files === null) throw Error('error with file')
+            if (files !== null) {
+
+                const file = files[0]
+
+                const reader = new FileReader()
+
+                reader.readAsText(file);
 
 
-            const file = files[0]
+                reader.onload = (e) => {
+                    console.log(e.target?.result)
+                }
 
-            const reader = new FileReader()
+                reader.readAsDataURL(file)
 
-            reader.onload = (e) => {
-                console.log(typeof e.target?.result)
+                props.setDocxFile(file)
+
+                validateFile(file)
+
+                props.setIsUploading(false)
 
             }
-
-            reader.readAsDataURL(file)
-
-            props.setDocxFile(file)
-
-            validateFile(file)
-
-            props.setIsUploading(false)
 
         } catch (error) {
             throw Error('Unable to upload file')
         }
-
     }
 
     const validateFile = (file: File) => {
@@ -69,9 +71,11 @@ const useUpload = (props: Props) => {
         if (fileSizeInMB > constants.MAX_FILE_UPLOAD) {
             props.setError(prev => ({ ...prev, fileSizeInMB: true }))
         }
+
     }
 
     const isValidFileExtension = (name: string) => {
+
         const fileExtension = name.split('.')
 
 
@@ -84,6 +88,8 @@ const useUpload = (props: Props) => {
             }
         }
     }
+
+
     return { handleArtiFile }
 }
 

@@ -15,7 +15,6 @@ import AppMenu from '../common/AppMenu'
 import UploadArticleToCategory from './UploadArticleToCategory'
 import useUpload from './useUpload'
 import { UploadErrors } from './interface/fileErrors.interface'
-import { IDocument } from '@cyntler/react-doc-viewer'
 
 const pageSize = 4
 

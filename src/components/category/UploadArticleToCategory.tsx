@@ -42,7 +42,7 @@ const UploadArticleToCategory = (props: Props) => {
                 Here you can upload articles that stored in .docx files, in the future we'll enable to
                 upload more type of articles there. If you want to upload an pdf or any other file please convert
                 it to .docx using this free tool {' '}
-                <a href="https://www.youpdf.com/pdf-to-word.html?utm_source=google&utm_medium=CjwKCAiAiP2tBhBXEiwACslfnqzaEbW6d82OCRvNCX2eP7mYPt0b1vOhjnq4IlXlKLjb7ccFUMa0whoCgBsQAvD_BwE&cuid=CjwKCAiAiP2tBhBXEiwACslfnqzaEbW6d82OCRvNCX2eP7mYPt0b1vOhjnq4IlXlKLjb7ccFUMa0whoCgBsQAvD_BwE&gad_source=1&gclid=CjwKCAiAiP2tBhBXEiwACslfnqzaEbW6d82OCRvNCX2eP7mYPt0b1vOhjnq4IlXlKLjb7ccFUMa0whoCgBsQAvD_BwE">pdf converter</a>
+                <a href={pdfConverterURL}>pdf converter</a>
                 {' '}after converting you will can upload the article.
             </Typography>
 
@@ -70,6 +70,7 @@ const UploadArticleToCategory = (props: Props) => {
                         : <AppProgress type='Circular' />
                     }
                 </Button>
+
             </div>
 
             {review}
@@ -81,3 +82,5 @@ const UploadArticleToCategory = (props: Props) => {
 }
 
 export default UploadArticleToCategory
+
+const pdfConverterURL = 'https://www.youpdf.com/pdf-to-word.html?utm_source=google&utm_medium=CjwKCAiAiP2tBhBXEiwACslfnqzaEbW6d82OCRvNCX2eP7mYPt0b1vOhjnq4IlXlKLjb7ccFUMa0whoCgBsQAvD_BwE&cuid=CjwKCAiAiP2tBhBXEiwACslfnqzaEbW6d82OCRvNCX2eP7mYPt0b1vOhjnq4IlXlKLjb7ccFUMa0whoCgBsQAvD_BwE&gad_source=1&gclid=CjwKCAiAiP2tBhBXEiwACslfnqzaEbW6d82OCRvNCX2eP7mYPt0b1vOhjnq4IlXlKLjb7ccFUMa0whoCgBsQAvD_BwE'
