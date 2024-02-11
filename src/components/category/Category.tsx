@@ -15,6 +15,7 @@ import AppMenu from '../common/AppMenu'
 import UploadArticleToCategory from './UploadArticleToCategory'
 import useUpload from './useUpload'
 import { UploadErrors } from './interface/fileErrors.interface'
+import { IDocument } from '@cyntler/react-doc-viewer'
 
 const pageSize = 4
 
@@ -23,6 +24,7 @@ const Category = () => {
     const [articles, setArticles] = React.useState<any[]>([])
     const [insertionOpen, setInsertionOpen] = React.useState(false)
     const [uploading, setUploading] = React.useState(false)
+    const [selectedDocs, setSelectedDocs] = React.useState<File>()
     const [errorWithUpload, setErrorWithUpload] = React.useState<UploadErrors>({
         fileSizeInMB: false,
         fileExtension: false
@@ -32,7 +34,11 @@ const Category = () => {
 
     const closeInsertion = () => { setInsertionOpen(false) }
 
-    const { handleArtiFile } = useUpload({ setIsUploading: setUploading, setError: setErrorWithUpload })
+    const { handleArtiFile } = useUpload({
+        setIsUploading: setUploading,
+        setError: setErrorWithUpload,
+        setDocxFile: setSelectedDocs
+    })
 
     let { category } = useParams()
 
@@ -94,6 +100,7 @@ const Category = () => {
 
             <AppMenu
                 menuBody={<UploadArticleToCategory
+                    selectedDocs={selectedDocs}
                     error={errorWithUpload}
                     isUploading={uploading}
                     handleUploading={handleArtiFile}

@@ -5,6 +5,7 @@ import constants from './constants'
 type Props = {
     setIsUploading: React.Dispatch<React.SetStateAction<boolean>>
     setError: React.Dispatch<React.SetStateAction<UploadErrors>>
+    setDocxFile: React.Dispatch<React.SetStateAction<File | undefined>>
 }
 
 const useUpload = (props: Props) => {
@@ -15,7 +16,6 @@ const useUpload = (props: Props) => {
 
         props.setError({ fileExtension: false, fileSizeInMB: false })
 
-
         props.setIsUploading(true)
 
         const files = event.target.files
@@ -23,7 +23,19 @@ const useUpload = (props: Props) => {
         try {
             if (files === null) throw Error('error with file')
 
+
             const file = files[0]
+
+            const reader = new FileReader()
+
+            reader.onload = (e) => {
+                console.log(typeof e.target?.result)
+
+            }
+
+            reader.readAsDataURL(file)
+
+            props.setDocxFile(file)
 
             validateFile(file)
 

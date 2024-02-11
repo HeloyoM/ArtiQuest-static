@@ -1,30 +1,42 @@
 import React from 'react'
 import './style.css'
-import { Box, Button, Divider, List, ListItem, ListItemText, Typography } from '@mui/material'
+import { Box, Button, Divider, Typography } from '@mui/material'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import AppProgress from '../common/AppProgress'
 import { UploadErrors } from './interface/fileErrors.interface'
+import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer'
+import ErrorFile from './ErrorFile'
+import FileLimitations from './FileLimitations'
 
 type Props = {
     category?: string
     handleUploading: (e: React.ChangeEvent<HTMLInputElement>) => void
     isUploading: boolean
     error: UploadErrors
+    selectedDocs?: File
 }
 
 const UploadArticleToCategory = (props: Props) => {
-    const occueredError = Object.values(props.error)
+    const { error, handleUploading, isUploading, category, selectedDocs } = props
+
+    const review = React.useMemo(() => {
+        if (!selectedDocs) return
+
+        else return (
+            <DocViewer
+                documents={[{ uri: URL.createObjectURL(selectedDocs) }]}
+                pluginRenderers={DocViewerRenderers}
+            />
+        )
+    }, [selectedDocs])
 
     return (
-        <Box
-            sx={{ width: 850 }}
-            role="presentation"
-        >
-            <Typography sx={{ textAlign: 'center', fontSize: '22px', fontWeight: 'blod' }}>{props.category}</Typography>
+        <Box sx={{ width: 850 }} role="presentation" >
+            <Typography sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '22px' }}>{category}</Typography>
 
             <Divider />
 
-            <Typography sx={{ textAlign: 'center', fontWeight: 'bold' }}>insert new article to '{props.category}'</Typography>
+            <Typography sx={{ textAlign: 'center', fontWeight: 'bold' }}>insert new article to '{category}'</Typography>
 
             <Typography sx={{ textAlign: 'center', fontWeight: 'bold', margin: '5% 0px' }}>
                 Here you can upload articles that stored in .docx files, in the future we'll enable to
@@ -36,17 +48,7 @@ const UploadArticleToCategory = (props: Props) => {
 
             <Typography sx={{ textAlign: 'left', fontWeight: 'bold', margin: '5% 10%' }}>thank you.</Typography>
 
-            <List sx={{ textAlign: 'left', fontWeight: 'bold', margin: '5% 5%' }}>
-                limitations:
-                <ListItem>
-                    limit:
-                    <ListItemText primary={' 1MB file size'} />
-                </ListItem>
-                <ListItem>
-                    type:
-                    <ListItemText primary={' as we agree before, yet just .docx files '} />
-                </ListItem>
-            </List>
+            <FileLimitations />
 
             <div className='upload-arti'>
                 <Button
@@ -55,11 +57,12 @@ const UploadArticleToCategory = (props: Props) => {
                     className='upload-btn'
                     startIcon={<FileUploadOutlinedIcon />}
                 >
-                    {!props.isUploading ?
+                    {!isUploading ?
                         <label>
                             'Upload Article'
                             <input
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.handleUploading(e)}
+                                multiple
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleUploading(e)}
                                 type="file"
                                 hidden
                             />
@@ -69,14 +72,11 @@ const UploadArticleToCategory = (props: Props) => {
                 </Button>
             </div>
 
-            {occueredError.includes(true) && <Typography className='error-upload' component='div'>
-                <List>
-                    <ListItem >{props.error.fileSizeInMB && 'file is too big'}</ListItem>
-                    <ListItem >{props.error.fileExtension && 'type of file is not allowed yet'}</ListItem>
-                </List>
+            {review}
 
-            </Typography>}
-        </Box >
+            <ErrorFile error={error} />
+
+        </Box>
     )
 }
 
