@@ -10,7 +10,7 @@ import './style.css'
 const initialState: FormState = {
   email: '',
   password: '',
-  phoneNumber: '',
+  phone_number: '',
   firstName: '',
   lastName: ''
 }
@@ -23,7 +23,7 @@ type Props = {
 
 const RegisterForm = (props: Props) => {
   const [isLoginForm, setIsLoginFrom] = useState(false)
-  const [{ email, password, phoneNumber, firstName, lastName }, localDispatch] =
+  const [{ email, password, phone_number, firstName, lastName }, localDispatch] =
     useReducer(reducer, initialState)
   const [currentStep, setCurrentStep] = useState(0)
 
@@ -32,7 +32,7 @@ const RegisterForm = (props: Props) => {
   const fieldLabel = [
     { label: 'first_name', field: firstName },
     { label: 'last_name', field: lastName },
-    { label: 'phone_number', field: phoneNumber },
+    { label: 'phone_number', field: phone_number },
     { label: 'email', field: email },
     { label: 'password', field: password },
   ]
@@ -81,7 +81,7 @@ const RegisterForm = (props: Props) => {
 
   const submitForm = () => {
     if (!isLoginForm) {
-      const user = { first_name: firstName, last_name: lastName, email, phoneNumber, password }
+      const user = { first_name: firstName, last_name: lastName, email, phone_number, password }
       registerMutate.mutate(user)
 
 

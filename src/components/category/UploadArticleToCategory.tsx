@@ -1,12 +1,13 @@
 import React from 'react'
 import './style.css'
-import { Box, Button, Divider, Typography } from '@mui/material'
+import { Box, Button, Divider, FormControl, FormGroup, FormLabel, Input, InputLabel, Typography } from '@mui/material'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import AppProgress from '../common/AppProgress'
 import { UploadErrors } from './interface/fileErrors.interface'
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer'
 import ErrorFile from './ErrorFile'
 import FileLimitations from './FileLimitations'
+import { User } from '../../interface/user.interface'
 
 type Props = {
     category?: string
@@ -14,16 +15,20 @@ type Props = {
     isUploading: boolean
     error: UploadErrors
     selectedDocs?: File
+    uploadArticle: () => void
 }
 
 const UploadArticleToCategory = (props: Props) => {
-    const { error, handleUploading, isUploading, category, selectedDocs } = props
+    const [crrUser, setCrrUser] = React.useState<User>()
+
+    const { error, handleUploading, isUploading, category, selectedDocs, uploadArticle } = props
 
     const review = React.useMemo(() => {
         if (!selectedDocs) return
 
         else return (
             <DocViewer
+                config={{ header: { disableFileName: true } }}
                 documents={[{ uri: URL.createObjectURL(selectedDocs) }]}
                 pluginRenderers={DocViewerRenderers}
             />
@@ -48,33 +53,52 @@ const UploadArticleToCategory = (props: Props) => {
 
             <Typography sx={{ textAlign: 'left', fontWeight: 'bold', margin: '5% 10%' }}>thank you.</Typography>
 
-            <FileLimitations />
+            {!review && <React.Fragment> <FileLimitations />
 
-            <div className='upload-arti'>
-                <Button
-                    variant="contained"
-                    component="label"
-                    className='upload-btn'
-                    startIcon={<FileUploadOutlinedIcon />}
-                >
-                    {!isUploading ?
-                        <label>
-                            'Upload Article'
-                            <input
-                                multiple
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleUploading(e)}
-                                type="file"
-                                hidden
-                            />
-                        </label>
-                        : <AppProgress type='Circular' />
-                    }
-                </Button>
+                <div className='upload-arti'>
+                    <Button
+                        variant="contained"
+                        component="label"
+                        className='upload-btn'
+                        startIcon={<FileUploadOutlinedIcon />}
+                    >
+                        {!isUploading ?
+                            <label>
+                                'Upload Article'
+                                <input
+                                    multiple
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleUploading(e)}
+                                    type="file"
+                                    hidden
+                                />
+                            </label>
+                            : <AppProgress type='Circular' />
+                        }
+                    </Button>
 
-            </div>
+                </div>
+            </React.Fragment>}
 
-            {review}
+            {review && crrUser &&
+                <React.Fragment>
+                    <Button variant='contained' color='secondary' sx={{ width: '100%', height: '47px' }} onClick={uploadArticle}>Upload</Button>
 
+                    <Box sx={{ width: '80%', margin: '5%' }}>
+                        <FormControl variant="standard">
+                            <InputLabel htmlFor="component-simple">auther first name</InputLabel>
+                            <Input id="component-simple" />
+                        </FormControl>
+                        <FormControl variant="standard">
+                            <InputLabel htmlFor="component-simple">auther last name</InputLabel>
+                            <Input id="component-simple" />
+                        </FormControl>
+                    </Box>
+                    {review}
+
+
+                </React.Fragment>
+
+            }
             <ErrorFile error={error} />
 
         </Box>

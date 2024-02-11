@@ -21,28 +21,25 @@ const useUpload = (props: Props) => {
         const files = event.target.files
 
         try {
-            if (files !== null) {
-
-                const file = files[0]
-
-                const reader = new FileReader()
-
-                reader.readAsText(file);
+            if (files === null) throw Error('error with file')
 
 
-                reader.onload = (e) => {
-                    console.log(e.target?.result)
-                }
+            const file = files[0]
 
-                reader.readAsDataURL(file)
+            const reader = new FileReader()
 
-                props.setDocxFile(file)
-
-                validateFile(file)
-
-                props.setIsUploading(false)
+            reader.onload = (e) => {
+                console.log(typeof e.target?.result)
 
             }
+
+            reader.readAsDataURL(file)
+
+            props.setDocxFile(file)
+
+            validateFile(file)
+
+            props.setIsUploading(false)
 
         } catch (error) {
             throw Error('Unable to upload file')

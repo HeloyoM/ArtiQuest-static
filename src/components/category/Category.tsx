@@ -4,8 +4,8 @@ import AppProgress from '../common/AppProgress'
 import AppCard from '../common/AppCard'
 import './style.css'
 import { useQuery } from 'react-query'
-import { getArticlesByCategoryId } from '../../api/articles'
-import { useQueryClient } from '@tanstack/react-query'
+import { createArticle, getArticlesByCategoryId } from '../../api/articles'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ICategory } from '../../interface/category.interface'
 import { Article } from '../../interface/article.interface'
 import AppPagination from '../common/AppPagination'
@@ -51,6 +51,14 @@ const Category = () => {
         queryKey: ['categories'],
         queryFn: () => getArticlesByCategoryId(catId?.id!)
     })
+
+    // const uploadingArti = useMutation({
+    //     mutationFn: () => createArticle(selectedDocs),
+    //     mutationKey: ['create-article']
+    // })
+    const uploadArticle = () => {
+
+    }
 
     React.useEffect(() => {
         if (!data) return
@@ -99,6 +107,7 @@ const Category = () => {
 
             <AppMenu
                 menuBody={<UploadArticleToCategory
+                    uploadArticle={uploadArticle}
                     selectedDocs={selectedDocs}
                     error={errorWithUpload}
                     isUploading={uploading}

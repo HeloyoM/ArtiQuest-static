@@ -2,7 +2,7 @@ import { FormFields } from "./form.enum"
 
 export type FormState = {
     email: string
-    phoneNumber: string,
+    phone_number: string,
     firstName: string,
     lastName: string
     password: string
