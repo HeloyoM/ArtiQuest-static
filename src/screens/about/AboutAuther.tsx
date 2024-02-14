@@ -9,6 +9,12 @@ import AppProgress from '../../components/common/AppProgress'
 const AboutAuther = () => {
     const [cvContent, setCvContent] = React.useState<ICV>()
 
+    const rowRef = React.useRef<HTMLDivElement>(null)
+
+    React.useEffect(() => {
+        
+    }, [cvContent])
+
     const { isLoading, data } = useQuery({
         queryKey: ['cv'],
         queryFn: () => getAboutCV()
@@ -21,10 +27,10 @@ const AboutAuther = () => {
     if (!cvContent) return (<AppProgress type='Circular' />)
 
     return (
-        <div>
-            <AboutSection title='summary' description={cvContent.fields.summary} />
+        <div ref={rowRef}>
+            <AboutSection backgroundColor='#7395AE' title='summary' description={cvContent.fields.summary} />
 
-            <AboutSection title='experience' description={cvContent.fields.experience.map((ex) => (
+            <AboutSection backgroundColor='#AFD275' title='experience' description={cvContent.fields.experience.map((ex) => (
                 <div>
                     <p>{ex.title}</p>
                     <p>{ex.company}</p>
@@ -33,6 +39,11 @@ const AboutAuther = () => {
                     <p>{ex.end_date}</p>
                 </div>
             ))} />
+
+            <AboutSection backgroundColor='#ADADAD' title='skills' description={Object.values(cvContent.fields.skills).map((s) => (
+                <div key={s}>{s}</div>
+            ))} />
+
         </div>
     )
 }

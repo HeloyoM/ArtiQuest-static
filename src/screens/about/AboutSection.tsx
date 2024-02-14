@@ -3,6 +3,7 @@ import { Divider } from '@mui/material'
 type Props = {
     title: string
     description: string | JSX.Element | React.ReactElement[]
+    backgroundColor: string
 }
 
 const AboutSection = (props: Props) => {
@@ -10,6 +11,7 @@ const AboutSection = (props: Props) => {
 
     return (
         <div style={{
+            backgroundColor: props.backgroundColor,
             minWidth: '600px',
             minHeight: '43rem',
             width: '100%',
@@ -18,7 +20,7 @@ const AboutSection = (props: Props) => {
             alignItems: 'center',
             display: 'flex'
         }}>
-            <div style={{ width: '20%', fontSize: '3rem', margin: '5%', color: 'skyblue', height: '100%' }}>{toupper}</div>
+            <div style={{ width: '20%', fontSize: '2rem', margin: '5%', color: 'skyblue', height: '100%' }}>{toupper}</div>
 
             <Divider orientation="vertical" variant="middle" flexItem />
 
