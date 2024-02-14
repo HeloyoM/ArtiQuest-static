@@ -15,6 +15,8 @@ import { User } from '../../../interface/user.interface'
 import './style.css'
 import AppProgress from '../AppProgress'
 import useDemo from './useDemo'
+import { useNavigate } from 'react-router-dom'
+import { Paths } from '../../../utils/paths'
 
 type Props = {
   isdemo: boolean
@@ -28,6 +30,8 @@ const AppNav = (props: Props) => {
 
   const { popover } = useDemo({ endDemo: props.endDemo, isdemo: props.isdemo })
 
+  const navigate = useNavigate()
+
   const onLogin = () => {
     const userStorage = localStorage.getItem('user')
 
@@ -36,6 +40,7 @@ const AppNav = (props: Props) => {
     setCurrUser(user)
   }
 
+  const aboutPage = () => { navigate('/about') }
 
   useEffect(() => {
     if (!props.users) return
@@ -82,9 +87,12 @@ const AppNav = (props: Props) => {
         <AppBar position="static">
           <Toolbar sx={{ background: props.isdemo ? 'rgba(0, 0, 0, 0.5)' : 'default' }}>
 
+            <Button sx={{ color: 'white' }} onClick={aboutPage}>About auther</Button>
+
             <Box sx={{ flexGrow: 1 }} />
 
             <Box sx={{ display: { md: 'flex' } }}>
+
               <IconButton
                 size="large"
                 aria-label="show 4 new mails"

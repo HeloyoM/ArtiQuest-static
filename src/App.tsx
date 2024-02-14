@@ -10,6 +10,7 @@ import Article from "./components/article/Article"
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import NotFoundPage from "./screens/notFound/NotFoundPage"
 import SessionTimeout from "./utils/SessionTimeout"
+import AboutAuther from "./screens/about/AboutAuther"
 
 function App() {
 
@@ -19,8 +20,12 @@ function App() {
       element: (<ScreenContainer><LandPage /></ScreenContainer>)
     },
     {
-      path: "/home",
+      path: "home",
       element: (<HomePage />)
+    },
+    {
+      path: "about",
+      element: (<AboutAuther />)
     },
     {
       path: Paths.CAT,

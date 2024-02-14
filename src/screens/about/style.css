@@ -1,0 +1,7 @@
+.MuiDivider-root {
+    width: 2.5px;
+    background-color: green;
+    min-height: 60%;
+    height: 250px;
+    margin: auto 2%;
+}
