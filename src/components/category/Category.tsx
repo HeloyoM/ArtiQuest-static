@@ -52,13 +52,43 @@ const Category = () => {
         queryFn: () => getArticlesByCategoryId(catId?.id!)
     })
 
-    // const uploadingArti = useMutation({
-    //     mutationFn: () => createArticle(selectedDocs),
-    //     mutationKey: ['create-article']
-    // })
-    const uploadArticle = () => {
+    const uploadingArti = useMutation({
+        mutationFn: (art: Partial<Article>) => createArticle(art),
+        mutationKey: ['create-article']
+    })
 
+    const insertArticle = (sub_title: string) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader()
+
+            reader.readAsDataURL(selectedDocs!)
+
+            const fileExtension = selectedDocs?.name.split('.')!
+            reader.onload = () => {
+                const base64 = reader.result
+
+                const art: Partial<Article> = {
+                    cat: catId?.id,
+                    sub_title,
+                    body: base64 as any,
+                    title: fileExtension[0]
+                }
+
+                resolve(art)
+            }
+        })
     }
+
+    const handleInsertArticle = async (sub_title: string) => {
+        await insertArticle(sub_title)
+            .then(res => handleInsertToServer(res))
+            .catch((err) => console.log(err))
+    }
+
+
+    const handleInsertToServer = React.useCallback((artData: unknown) => {
+        uploadingArti.mutate(artData as Partial<Article>)
+    }, [])
 
     React.useEffect(() => {
         if (!data) return
@@ -107,7 +137,7 @@ const Category = () => {
 
             <AppMenu
                 menuBody={<UploadArticleToCategory
-                    uploadArticle={uploadArticle}
+                    uploadArticle={handleInsertArticle}
                     selectedDocs={selectedDocs}
                     error={errorWithUpload}
                     isUploading={uploading}

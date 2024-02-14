@@ -7,5 +7,5 @@ export interface Article<T = string> {
     auther: User
     created: Date
     cat: T
-    body: string
+    body: T
 }

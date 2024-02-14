@@ -33,7 +33,7 @@ const useUpload = (props: Props) => {
 
             }
 
-            reader.readAsDataURL(file)
+            reader.readAsArrayBuffer(file)
 
             props.setDocxFile(file)
 

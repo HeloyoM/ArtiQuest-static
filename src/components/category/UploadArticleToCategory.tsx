@@ -1,13 +1,12 @@
 import React from 'react'
 import './style.css'
-import { Box, Button, Divider, FormControl, FormGroup, FormLabel, Input, InputLabel, Typography } from '@mui/material'
+import { Box, Button, Divider, FormControl, Input, InputLabel, Typography } from '@mui/material'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import AppProgress from '../common/AppProgress'
 import { UploadErrors } from './interface/fileErrors.interface'
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer'
 import ErrorFile from './ErrorFile'
 import FileLimitations from './FileLimitations'
-import { User } from '../../interface/user.interface'
 
 type Props = {
     category?: string
@@ -15,13 +14,16 @@ type Props = {
     isUploading: boolean
     error: UploadErrors
     selectedDocs?: File
-    uploadArticle: () => void
+    uploadArticle: (sub_title: string) => void
 }
 
 const UploadArticleToCategory = (props: Props) => {
-    const [crrUser, setCrrUser] = React.useState<User>()
-
+    const [sub_title, setSubTitle] = React.useState('')
     const { error, handleUploading, isUploading, category, selectedDocs, uploadArticle } = props
+
+    const handleSubtitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSubTitle(e.target.value)
+    }
 
     const review = React.useMemo(() => {
         if (!selectedDocs) return
@@ -79,18 +81,18 @@ const UploadArticleToCategory = (props: Props) => {
                 </div>
             </React.Fragment>}
 
-            {review && crrUser &&
+            {review &&
                 <React.Fragment>
-                    <Button variant='contained' color='secondary' sx={{ width: '100%', height: '47px' }} onClick={uploadArticle}>Upload</Button>
+                    <Button
+                        variant='contained'
+                        color='secondary'
+                        sx={{ width: '100%', height: '47px' }}
+                        onClick={() => uploadArticle(sub_title)}>Upload</Button>
 
-                    <Box sx={{ width: '80%', margin: '5%' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <FormControl variant="standard">
-                            <InputLabel htmlFor="component-simple">auther first name</InputLabel>
-                            <Input id="component-simple" />
-                        </FormControl>
-                        <FormControl variant="standard">
-                            <InputLabel htmlFor="component-simple">auther last name</InputLabel>
-                            <Input id="component-simple" />
+                            <InputLabel htmlFor="component-simple">sub title(recomended)</InputLabel>
+                            <Input id="component-simple" name='sub_title' onChange={handleSubtitle} />
                         </FormControl>
                     </Box>
                     {review}
@@ -99,7 +101,7 @@ const UploadArticleToCategory = (props: Props) => {
                 </React.Fragment>
 
             }
-            <ErrorFile error={error} />
+            {/* <ErrorFile error={error} /> */}
 
         </Box>
     )

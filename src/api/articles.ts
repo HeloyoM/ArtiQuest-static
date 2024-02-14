@@ -41,7 +41,7 @@ export const editArticleById = async (id: string, payload: EditArticleDto) => {
     }
 }
 
-export const createArticle = async (art: Article) => {
+export const createArticle = async (art: Partial<Article>) => {
     try {
         const response = await axios.post(`${baseUrl}/${API}`, art)
         return response.data
