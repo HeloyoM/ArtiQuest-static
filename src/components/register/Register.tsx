@@ -86,7 +86,7 @@ const RegisterForm = (props: Props) => {
 
 
     } else {
-      const payload = { email, password }
+      const payload = { username: email, password }
 
       loginMutate.mutate(payload)
     }

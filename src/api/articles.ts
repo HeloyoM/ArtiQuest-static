@@ -1,14 +1,14 @@
-import axios from 'axios'
-import baseUrl from './base-url'
 import { EditArticleDto } from './dto/EditArticleDto.dto'
 import { Article } from '../interface/article.interface'
+import { GET, PATCH, POST } from './api-req'
 
 const API = 'art'
 
 export const getAllCategories = async () => {
     try {
-        const response = await axios.get(`${baseUrl}/${API}/cat`)
-        return response.data
+        const response = await GET(`${API}/cat`)
+
+        return response
     } catch (error) {
         throw new Error('Failed to fetch categories')
     }
@@ -16,8 +16,9 @@ export const getAllCategories = async () => {
 
 export const getArticlesByCategoryId = async (id: string) => {
     try {
-        const response = await axios.get(`${baseUrl}/${API}/findBy/${id}`)
-        return response.data
+        const response = await GET(`${API}/findBy/${id}`)
+
+        return response
     } catch (error) {
         throw new Error('Failed to fetch articles')
     }
@@ -25,8 +26,9 @@ export const getArticlesByCategoryId = async (id: string) => {
 
 export const getArticleById = async (id: string) => {
     try {
-        const response = await axios.get(`${baseUrl}/${API}/findOne/${id}`)
-        return response.data
+        const response = await GET(`${API}/findOne/${id}`)
+
+        return response
     } catch (error) {
         throw new Error(`Failed to fetch article with given id ${id}`)
     }
@@ -34,8 +36,9 @@ export const getArticleById = async (id: string) => {
 
 export const editArticleById = async (id: string, payload: EditArticleDto) => {
     try {
-        const response = await axios.patch(`${baseUrl}/${API}/${id}`, payload)
-        return response.data
+        const response = await PATCH(`${API}/${id}`, payload)
+
+        return response
     } catch (error) {
         throw new Error(`Failed to fetch article with given id ${id}`)
     }
@@ -43,8 +46,9 @@ export const editArticleById = async (id: string, payload: EditArticleDto) => {
 
 export const createArticle = async (art: Partial<Article>) => {
     try {
-        const response = await axios.post(`${baseUrl}/${API}`, art)
-        return response.data
+        const response = await POST(API, art)
+
+        return response
     } catch (error) {
         throw new Error(`Failed to create new article in category id ${art.cat}`)
     }

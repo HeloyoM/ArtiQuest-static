@@ -1,6 +1,7 @@
 import React from 'react'
 import { UploadErrors } from './interface/fileErrors.interface'
 import constants from './constants'
+import * as pdfjsLib from 'pdfjs-dist'
 
 type Props = {
     setIsUploading: React.Dispatch<React.SetStateAction<boolean>>

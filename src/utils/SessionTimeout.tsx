@@ -1,17 +1,14 @@
 import React from 'react'
 import moment from 'moment'
 import AppModal from '../components/common/modal/AppModal'
-// import { userActions } from 'redux/user/user-reducer'
-// import { useHistory } from 'react-router-dom'
 import { range } from '../utils/rangeOfNumbers'
-// import { useTranslation } from 'react-i18next'
 
 const SessionTimeout = () => {
     const [events, setEvents] = React.useState(['click', 'mousemove', 'keydown'])
     const [second, setSecond] = React.useState(0)
     const [isOpen, setIsOpen] = React.useState(false)
 
-    const text = (<div>"In order to protect your privacy <strong>Say=Do</strong> system will logged you out automatically in seconds"</div>)
+    const text = (<div>"In order to protect your privacy system will logged you out automatically in seconds"</div>)
 
 
     let timeStamp: any

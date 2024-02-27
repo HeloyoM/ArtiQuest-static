@@ -22,10 +22,14 @@ const AboutSection = (props: Props) => {
         }}>
             <div style={{ width: '20%', fontSize: '2rem', margin: '5%', color: 'skyblue', height: '100%' }}>{toupper}</div>
 
-            <Divider orientation="vertical" variant="middle" flexItem />
+            {/* <Divider orientation="vertical" variant="middle" flexItem /> */}
 
-            <div style={{ width: '80%', height: '100%' }}>{props.description}</div>
-        </div>
+            <div style={{
+                width: '80%', height: '100%',
+                fontSize: '22px', fontWeight: 'bold',
+                textAlign: 'center', padding: "8px"
+            }}>{props.description}</div>
+        </div >
     )
 }
 

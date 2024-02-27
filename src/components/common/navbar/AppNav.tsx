@@ -34,7 +34,7 @@ const AppNav = (props: Props) => {
 
   const onLogin = () => {
     const userStorage = localStorage.getItem('user')
-
+    
     const user = props.users.find(u => u.email === JSON.parse(userStorage!).email)
 
     setCurrUser(user)

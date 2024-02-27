@@ -11,12 +11,12 @@ const FileLimitations = () => {
     }))
 
     return (
-        <List style={{ textAlign: 'left', fontWeight: 'bold', margin: '5% 5%' }}>
+        <List sx={{ fontWeight: 'bold' }} >
             limitations:
 
             {limitationsArray.map((l: IFileLimitations) => (
                 <ListItem>
-                    {l.title}
+                    {l.title + ' '}
                     <ListItemText primary={l.description} />
                 </ListItem>
             ))}

@@ -24,9 +24,9 @@ const useQueries = (props: Props) => {
 
     const loginMutate = useMutation({
         mutationFn: (payload: LoginDto) => login(payload),
-        onSuccess: async (data: any, { email }) => {
+        onSuccess: async (data: any) => {
             if (data.token) {
-                const user = { token: data.token, email: email }
+                const user = { token: data.token }
                 localStorage.setItem('user', JSON.stringify(user))
                 props.onLogin()
             }

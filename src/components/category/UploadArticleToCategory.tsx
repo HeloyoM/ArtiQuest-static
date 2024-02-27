@@ -41,32 +41,24 @@ const UploadArticleToCategory = (props: Props) => {
         <Box sx={{ width: 850 }} role="presentation" >
             <Typography sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '22px' }}>{category}</Typography>
 
-            <Divider />
-
-            <Typography sx={{ textAlign: 'center', fontWeight: 'bold' }}>insert new article to '{category}'</Typography>
-
-            <Typography sx={{ textAlign: 'center', fontWeight: 'bold', margin: '5% 0px' }}>
-                Here you can upload articles that stored in .docx files, in the future we'll enable to
-                upload more type of articles there. If you want to upload an pdf or any other file please convert
-                it to .docx using this free tool {' '}
-                <a href={pdfConverterURL}>pdf converter</a>
-                {' '}after converting you will can upload the article.
+            <Typography sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+                you head to insert a article to "{category}"
             </Typography>
 
-            <Typography sx={{ textAlign: 'left', fontWeight: 'bold', margin: '5% 10%' }}>thank you.</Typography>
+            {!review &&
+                <React.Fragment>
+                    
+                    <FileLimitations />
 
-            {!review && <React.Fragment> <FileLimitations />
-
-                <div className='upload-arti'>
-                    <Button
-                        variant="contained"
-                        component="label"
-                        className='upload-btn'
-                        startIcon={<FileUploadOutlinedIcon />}
-                    >
-                        {!isUploading ?
+                    <div className='upload-arti'>
+                        <Button
+                            variant="contained"
+                            component="label"
+                            className='upload-btn'
+                            startIcon={!isUploading ? <FileUploadOutlinedIcon /> : <AppProgress type='Circular' />}
+                        >
                             <label>
-                                'Upload Article'
+                                Upload Article
                                 <input
                                     multiple
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleUploading(e)}
@@ -74,12 +66,10 @@ const UploadArticleToCategory = (props: Props) => {
                                     hidden
                                 />
                             </label>
-                            : <AppProgress type='Circular' />
-                        }
-                    </Button>
+                        </Button>
+                    </div>
 
-                </div>
-            </React.Fragment>}
+                </React.Fragment>}
 
             {review &&
                 <React.Fragment>

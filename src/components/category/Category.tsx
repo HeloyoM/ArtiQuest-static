@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import AppProgress from '../common/AppProgress'
 import AppCard from '../common/AppCard'
 import './style.css'
+import { Box } from '@mui/material'
 import { useQuery } from 'react-query'
 import { createArticle, getArticlesByCategoryId } from '../../api/articles'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -10,7 +11,7 @@ import { ICategory } from '../../interface/category.interface'
 import { Article } from '../../interface/article.interface'
 import AppPagination from '../common/AppPagination'
 import { paginate } from '../../utils/paginate'
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import AppMenu from '../common/AppMenu'
 import UploadArticleToCategory from './UploadArticleToCategory'
 import useUpload from './useUpload'
@@ -52,6 +53,13 @@ const Category = () => {
         queryFn: () => getArticlesByCategoryId(catId?.id!)
     })
 
+
+    React.useEffect(() => {
+        if (!data) return
+
+        setArticles(data)
+    }, [data])
+
     const uploadingArti = useMutation({
         mutationFn: (art: Partial<Article>) => createArticle(art),
         mutationKey: ['create-article']
@@ -90,11 +98,6 @@ const Category = () => {
         uploadingArti.mutate(artData as Partial<Article>)
     }, [])
 
-    React.useEffect(() => {
-        if (!data) return
-
-        setArticles(data)
-    }, [data])
 
     const handlePaginate = (
         e: React.ChangeEvent<unknown>,
@@ -103,15 +106,16 @@ const Category = () => {
         setPage(prev => value)
     }
 
-    const articlesToDisplay = React.useMemo(() => {
+    const articlesChunk = React.useMemo(() => {
         return paginate(articles, page, pageSize)
     }, [articles, page])
 
     if (isLoading || !categoriesData) return (<AppProgress />)
 
     return (
-        <>
-            <div className='cat'>
+        <React.Fragment>
+
+            <Box className='cat' component='div'>
 
                 <div>
                     <h2>{category}</h2>
@@ -123,7 +127,7 @@ const Category = () => {
 
 
                 <div className='cards-container'>
-                    {articlesToDisplay.map((a: Article<ICategory>, index: number) => (
+                    {articlesChunk.map((a: Article<ICategory>) => (
                         <AppCard item={a} key={a.id} />
                     ))}
                 </div>
@@ -133,7 +137,7 @@ const Category = () => {
                     page={page}
                     itemsCount={articles.length}
                     pageSize={pageSize} />
-            </div>
+            </Box>
 
             <AppMenu
                 menuBody={<UploadArticleToCategory
@@ -145,10 +149,9 @@ const Category = () => {
                     category={category} />}
                 openMenu={insertionOpen}
                 close={closeInsertion}
-                category={category}
-            />
+                category={category} />
 
-        </>
+        </React.Fragment>
     )
 }
 

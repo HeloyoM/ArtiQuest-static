@@ -3,6 +3,8 @@ import { Share as ShareIcon, Favorite as FavoriteIcon } from '@mui/icons-materia
 import { Article } from '../../interface/article.interface'
 import { useNavigate } from 'react-router-dom'
 import { ICategory } from '../../interface/category.interface'
+import { useContext } from 'react'
+import { AppParticipantsContext } from '../../contextes/participantsContext'
 
 type Props = {
     item: Article<ICategory>
@@ -10,15 +12,19 @@ type Props = {
 const AppCard = (props: Props) => {
     const navigate = useNavigate()
 
+    const { switchParticipant } = useContext(AppParticipantsContext)
     const openArticle = () => {
         const title = props.item.title.replace(/\s/g, '-')
 
         navigate(`/cat/${props.item.cat.name}/art/${title}/${props.item.id}`)
     }
+    console.log(props.item.auther)
+    const showParticipant = () => { switchParticipant(props.item.auther.id!) }
 
     return (
-        <Card sx={{ maxWidth: 345 }} onClick={openArticle}>
+        <Card sx={{ maxWidth: 345 }} >
             <CardHeader
+                onClick={openArticle}
                 title={props.item.title}
                 subheader={new Date(props.item.created).toLocaleDateString()}
             />
@@ -28,8 +34,8 @@ const AppCard = (props: Props) => {
                     {props.item.sub_title}
                 </Typography>
 
-                <Typography>
-                    {props.item.auther.first_name + ' ' + props.item.auther.last_name}
+                <Typography sx={{ textDecoration: 'underline' }} onClick={showParticipant}>
+                    by: {props.item.auther.first_name + ' ' + props.item.auther.last_name}
                 </Typography>
             </CardContent>
 
