@@ -80,15 +80,13 @@ function App() {
 
   const updateUserContext = (user: any) => { setUser(user) }
 
-  const onLogginOut = () => { setUser(null) }
-
   const toggleTheme = () => { setTheme(theme === 'light' ? 'dark' : 'light') }
-  console.log({ user })
+
   return (
     <React.Fragment>
       <ThemeContext.Provider value={{ theme, toggleTheme }}>
         {/* <AppParticipantsContext.Provider value={{ participant, switchParticipant }}> */}
-        <AppUserContext.Provider value={{ updateUserContext, onLogginOut, user }}>
+        <AppUserContext.Provider value={{ updateUserContext, user }}>
 
           <RouterProvider router={router} />
           <SessionTimeout />

@@ -12,7 +12,7 @@ const ArtActions = (props: Props) => {
     const [userLoggedIn, setUserLoggedIn] = React.useState(false)
 
     React.useEffect(() => {
-        const user = localStorage.getItem('user')
+        const user = localStorage.getItem('token')
 
         if (user)
             setUserLoggedIn(true)

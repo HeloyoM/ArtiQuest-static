@@ -6,12 +6,17 @@ import { register } from '../../api/user'
 import { User } from '../../interface/user.interface'
 import { LoginDto } from '../../api/dto/LoginDto.dto'
 import { login } from '../../api/auth'
+import React from 'react'
+import AppUserContext from '../../contextes/AppUserContext'
 
 type Props = {
     onLogin: () => void
+    closeRegisterModal: () => void
 }
 
 const useQueries = (props: Props) => {
+
+    const { updateUserContext } = React.useContext(AppUserContext)
 
     const queryClient = useQueryClient()
 
@@ -22,19 +27,27 @@ const useQueries = (props: Props) => {
         }
     })
 
+    const handleLogout = () => {
+        updateUserContext(null)
+
+        localStorage.removeItem('token')
+
+        props.closeRegisterModal()
+    }
+
     const loginMutate = useMutation({
         mutationFn: (payload: LoginDto) => login(payload),
         onSuccess: async (data: any) => {
             if (data.token) {
                 const user = { token: data.token }
-                localStorage.setItem('user', JSON.stringify(user))
+                localStorage.setItem('token', JSON.stringify(user))
                 props.onLogin()
             }
             else throw Error('unable to log in')
         }
     })
 
-    return { registerMutate, loginMutate }
+    return { registerMutate, loginMutate, handleLogout }
 }
 
 export default useQueries

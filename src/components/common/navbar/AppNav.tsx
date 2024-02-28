@@ -39,7 +39,7 @@ const AppNav = (props: Props) => {
   const navigate = useNavigate()
 
   const onLogin = () => {
-    const userStorage = localStorage.getItem('user')
+    const userStorage = localStorage.getItem('token')
 
     if (userStorage) {
       const userInfo = jwtDecode(userStorage)
@@ -58,7 +58,7 @@ const AppNav = (props: Props) => {
   useEffect(() => {
     if (!props.users) return
 
-    const userStorage = localStorage.getItem('user')
+    const userStorage = localStorage.getItem('token')
 
 
     if (userStorage !== null) {

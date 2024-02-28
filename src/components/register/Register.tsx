@@ -1,11 +1,12 @@
-import { ChangeEvent, useReducer, useState } from 'react'
+import React, { ChangeEvent, useReducer, useState } from 'react'
+import './style.css'
 import AppModal from '../common/modal/AppModal'
 import { Box, Typography, Input, FormLabel, FormControl, FormGroup, Button } from '@mui/material'
 import { ArrowForward, ArrowBack } from '@mui/icons-material'
 import { FormState, reducer } from './useReducer'
 import { FormFields } from './form.enum'
 import useQueries from './useQueries'
-import './style.css'
+import AppUserContext from '../../contextes/AppUserContext'
 
 const initialState: FormState = {
   email: '',
@@ -27,7 +28,9 @@ const RegisterForm = (props: Props) => {
     useReducer(reducer, initialState)
   const [currentStep, setCurrentStep] = useState(0)
 
-  const { loginMutate, registerMutate } = useQueries({ onLogin: props.onLogin })
+  const { user } = React.useContext(AppUserContext)
+
+  const { loginMutate, registerMutate, handleLogout } = useQueries({ onLogin: props.onLogin, closeRegisterModal: props.closeRegisterModal })
 
   const fieldLabel = [
     { label: 'first_name', field: firstName },
@@ -149,10 +152,16 @@ const RegisterForm = (props: Props) => {
     </Box>
   )
 
+  const logoutViewing = (
+    <Box sx={style}>
+      <Button onClick={handleLogout}>Logout</Button>
+    </Box>
+  )
+
   return (
     <div>
       <AppModal popupModal open={props.openRegisterForm} close={props.closeRegisterModal} >
-        {RegisterForm}
+        {!Boolean(user) ? RegisterForm : logoutViewing}
       </AppModal>
     </div>
   )
