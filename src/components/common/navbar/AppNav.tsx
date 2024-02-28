@@ -17,6 +17,9 @@ import AppProgress from '../AppProgress'
 import useDemo from './useDemo'
 import { useNavigate } from 'react-router-dom'
 import { Paths } from '../../../utils/paths'
+import AppUserContext from '../../../contextes/AppUserContext'
+import { ThemeContext } from '../../../contextes/ThemeContext'
+import { jwtDecode } from "jwt-decode"
 
 type Props = {
   isdemo: boolean
@@ -28,16 +31,26 @@ const AppNav = (props: Props) => {
   const [crrUser, setCurrUser] = useState<User | undefined>(undefined)
   const [openRegisterForm, setOpenRegister] = useState(false)
 
+  const { updateUserContext } = React.useContext(AppUserContext)
   const { popover } = useDemo({ endDemo: props.endDemo, isdemo: props.isdemo })
+
+  const { theme, toggleTheme } = React.useContext(ThemeContext)
 
   const navigate = useNavigate()
 
   const onLogin = () => {
     const userStorage = localStorage.getItem('user')
-    
-    const user = props.users.find(u => u.email === JSON.parse(userStorage!).email)
 
-    setCurrUser(user)
+    if (userStorage) {
+      const userInfo = jwtDecode(userStorage)
+
+      const userObj = props.users.find(u => u.id?.toString() === userInfo.sub?.toString())
+
+      updateUserContext(userObj)
+
+      setCurrUser(userObj)
+    }
+
   }
 
   const aboutPage = () => { navigate('/about') }
@@ -83,11 +96,12 @@ const AppNav = (props: Props) => {
 
   return (
     <React.Fragment>
+      <p onClick={toggleTheme}>Button with color: {theme}</p>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar sx={{ background: props.isdemo ? 'rgba(0, 0, 0, 0.5)' : 'default' }}>
 
-            <Button sx={{ color: 'white' }} onClick={aboutPage}>About auther</Button>
+            <Button sx={{ color: 'white' }} onClick={aboutPage}>About author</Button>
 
             <Box sx={{ flexGrow: 1 }} />
 

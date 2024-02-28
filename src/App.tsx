@@ -10,16 +10,20 @@ import Article from "./components/article/Article"
 import { QueryClientProvider, QueryClient, useQuery } from '@tanstack/react-query'
 import NotFoundPage from "./screens/notFound/NotFoundPage"
 import SessionTimeout from "./utils/SessionTimeout"
-import AboutAuther from "./screens/about/AboutAuther"
+import AboutAuthor from "./screens/about/AboutAuthor"
 import React from "react"
 import AppModal from "./components/common/modal/AppModal"
 import { AppParticipantsContext } from "./contextes/participantsContext"
 import { findAllUsers } from "./api/user"
 import { User } from "./interface/user.interface"
 import { Box, Typography } from "@mui/material"
+import AppUserContext from "./contextes/AppUserContext"
+import { ThemeContext } from "./contextes/ThemeContext"
 
 function App() {
   const [participant, setParticipant] = React.useState<User | null>(null)
+  const [user, setUser] = React.useState(null)
+  const [theme, setTheme] = React.useState('light')
 
   const { isLoading, data: users } = useQuery({
     queryKey: ['users'],
@@ -37,7 +41,7 @@ function App() {
     },
     {
       path: "about",
-      element: (<AboutAuther />)
+      element: (<AboutAuthor />)
     },
     {
       path: Paths.CAT,
@@ -54,14 +58,13 @@ function App() {
 
   ])
 
-
   const switchParticipant = (_id: string) => setParticipant(getSelectedParticipant(_id))
 
-  const getSelectedParticipant = (_id: string) => {
-    if (!_id) return
+  const getSelectedParticipant = (id: string) => {
+    if (!id) return
 
     else {
-      const participant = users.filter((u: User) => u.id === _id)
+      const participant = users.filter((u: User) => u.id === id)
 
       if (participant) return participant
     }
@@ -75,16 +78,26 @@ function App() {
     </Box>
   )
 
+  const updateUserContext = (user: any) => { setUser(user) }
+
+  const onLogginOut = () => { setUser(null) }
+
+  const toggleTheme = () => { setTheme(theme === 'light' ? 'dark' : 'light') }
+  console.log({ user })
   return (
     <React.Fragment>
-      <AppParticipantsContext.Provider value={{ participant: {}, switchParticipant }}>
+      <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        {/* <AppParticipantsContext.Provider value={{ participant, switchParticipant }}> */}
+        <AppUserContext.Provider value={{ updateUserContext, onLogginOut, user }}>
 
-        <RouterProvider router={router} />
-        <SessionTimeout />
+          <RouterProvider router={router} />
+          <SessionTimeout />
 
-      </AppParticipantsContext.Provider >
-      <AppModal open={participant !== null} close={closeModal} children={participantCOM} />
-    </React.Fragment>
+        </AppUserContext.Provider>
+        {/* </AppParticipantsContext.Provider> */}
+        <AppModal open={participant !== null} close={closeModal} children={participantCOM} />
+      </ThemeContext.Provider>
+    </React.Fragment >
   )
 }
 export default App

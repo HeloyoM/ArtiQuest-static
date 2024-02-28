@@ -8,6 +8,7 @@ import { Article as IArticle } from '../../interface/article.interface'
 import useExportPdf from '../../utils/useExportPdf'
 import './style.css'
 
+
 type Props = {
     art: IArticle
     title: string
@@ -19,8 +20,6 @@ type Props = {
 const ArtiTitle = (props: Props) => {
     const [isSticky, setSticky] = React.useState(false)
     const [artOpen, setArtOpen] = React.useState(false)
-
-
 
     const instance = (<PdfTemplate art={props.art!} />)
 

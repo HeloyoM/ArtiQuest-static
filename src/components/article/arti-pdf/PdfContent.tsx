@@ -7,7 +7,7 @@ type Props = {
     art: Article
 }
 const PdfTemplate = ({ art }: Props) => {
-    const creatorName = art.auther.first_name + ' ' + art.auther.last_name
+    const creatorName = art.author.first_name + ' ' + art.author.last_name
 
     const paragraphs = art.body.split(/[\n\r]+/)
 

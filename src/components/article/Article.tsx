@@ -10,11 +10,14 @@ import ArtiTitle from './ArtiTitle'
 import ArtiBody from './ArtiBody'
 import { EditArticleDto } from '../../api/dto/EditArticleDto.dto'
 import './style.css'
+import AppRating from '../common/AppRating'
+import AppUserContext from '../../contextes/AppUserContext'
 
 const Article = () => {
     const [art, setArt] = React.useState<IArticle>()
     const [isedit, setIsedit] = React.useState(false)
-    const [currentCategory, setCurrentCategory] = React.useState<ICategory>()
+
+    const { user } = React.useContext(AppUserContext)
 
     const queryClient = useQueryClient()
     const navigate = useNavigate()
@@ -70,21 +73,21 @@ const Article = () => {
 
     const editArticle = () => { editArticleMutate.mutate() }
 
-    const { auther, body, cat, created, id: artId, sub_title, title } = art
+    const { author, body, created, sub_title, title } = art
 
     return (
         <div className='art'>
 
-            <ArtiTitle title={title} category={category}art={art} toggleEdit={toggleEdit} editArticleMutate={editArticle} />
+            <ArtiTitle title={title} category={category} art={art} toggleEdit={toggleEdit} editArticleMutate={editArticle} />
 
             <h2>{sub_title}</h2>
             <p>
                 <strong>{new Date(created).toLocaleDateString()}</strong>
             </p>
 
-            <div className='auther'>
-                <p>{auther.first_name + ' ' + auther.last_name}</p>
-                <p><a href={`mailto:${auther.email}`}>{auther.email}</a></p>
+            <div className='author'>
+                <p>{author.first_name + ' ' + author.last_name}</p>
+                <p><a href={`mailto:${author.email}`}>{author.email}</a></p>
             </div>
 
             <ArtiBody
@@ -92,6 +95,20 @@ const Article = () => {
                 isedit={isedit}
                 handleEditParagraph={handleEditParagraph}
             />
+
+            <div style={{
+                margin: '0 15%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid lightgrey',
+                height: '100%',
+                minHeight: '74px',
+                borderBottom: 'none'
+            }}>
+                <AppRating value={art.rank.total} readonly={!Boolean(user)} />
+                <p>{art.rank.voters.length} people voted</p>
+            </div>
 
         </div>
     )

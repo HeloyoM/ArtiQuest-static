@@ -18,8 +18,8 @@ const AppCard = (props: Props) => {
 
         navigate(`/cat/${props.item.cat.name}/art/${title}/${props.item.id}`)
     }
-    console.log(props.item.auther)
-    const showParticipant = () => { switchParticipant(props.item.auther.id!) }
+
+    const showParticipant = () => { switchParticipant(props.item.author.id!) }
 
     return (
         <Card sx={{ maxWidth: 345 }} >
@@ -35,7 +35,7 @@ const AppCard = (props: Props) => {
                 </Typography>
 
                 <Typography sx={{ textDecoration: 'underline' }} onClick={showParticipant}>
-                    by: {props.item.auther.first_name + ' ' + props.item.auther.last_name}
+                    by: {props.item.author.first_name + ' ' + props.item.author.last_name}
                 </Typography>
             </CardContent>
 

@@ -6,7 +6,7 @@ import { getAboutCV } from '../../api/about'
 import { ICV } from '../../interface/icv.interface'
 import AppProgress from '../../components/common/AppProgress'
 
-const AboutAuther = () => {
+const AboutAuthor = () => {
     const [cvContent, setCvContent] = React.useState<ICV>()
 
     const rowRef = React.useRef<HTMLDivElement>(null)
@@ -48,4 +48,4 @@ const AboutAuther = () => {
     )
 }
 
-export default AboutAuther
+export default AboutAuthor
