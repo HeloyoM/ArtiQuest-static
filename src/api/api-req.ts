@@ -1,6 +1,6 @@
 import axios from 'axios'
 import baseUrl from './base-url'
-import getToken from './getToken'
+import getToken from './getDecodedUser'
 
 export async function POST(endpoint: string, body: any) {
     const config = getRequestConfiguration()

@@ -18,9 +18,10 @@ import { User } from "./interface/user.interface"
 import { Box, Typography } from "@mui/material"
 import AppUserContext from "./contextes/AppUserContext"
 import { ThemeContext } from "./contextes/ThemeContext"
-import getToken from "./api/getToken"
-import { jwtDecode } from "jwt-decode"
+import getToken from "./api/getDecodedUser"
+
 import useRoutes from "./utils/useRoutes"
+import getDecodedUser from "./api/getDecodedUser"
 
 function App() {
   const [crrUser, setUser] = React.useState(null)
@@ -31,14 +32,13 @@ function App() {
   })
 
   React.useEffect(() => {
-    const token = getToken()
+    const decodedUser = getDecodedUser()
 
 
-    if (token && sysUsers) {
-      const userInfo = jwtDecode(token)
+    if (decodedUser && sysUsers) {
 
 
-      const userObj = sysUsers.find((u: User) => u.id?.toString() === userInfo.sub?.toString())
+      const userObj = sysUsers.find((u: User) => u.id === decodedUser.sub)
 
 
       updateUserContext(userObj)

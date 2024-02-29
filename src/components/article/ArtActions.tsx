@@ -3,7 +3,7 @@ import fileUpload from '../../assets/fileUpload.svg'
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined'
 import AppTooltip from '../common/AppTooltip'
 import './style.css'
-import getToken from '../../api/getToken'
+import getToken from '../../api/getDecodedUser'
 import AppUserContext from '../../contextes/AppUserContext'
 
 type Props = {

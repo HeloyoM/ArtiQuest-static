@@ -1,21 +1,18 @@
 import AppBar from '@mui/material/AppBar'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { jwtDecode } from "jwt-decode"
-import { Badge, IconButton, Toolbar, Button, Box } from '@mui/material'
-import { Notifications, Mail, AccountCircle, Login as ConnectIcon } from '@mui/icons-material'
+import { Toolbar, Button, Box } from '@mui/material'
 
 import './style.css'
 
 import RegisterForm from '../../register/Register'
-import AppProgress from '../AppProgress'
-import NavBtnAction from './NavBtnAction'
 
 import useDemo from './useDemo'
-import getToken from '../../../api/getToken'
+import getDecodedUser from '../../../api/getDecodedUser'
 
 import AppUserContext from '../../../contextes/AppUserContext'
 import { User } from '../../../interface/user.interface'
+import NavbarButtons from './NavbarButtons'
 
 type Props = {
   isdemo: boolean
@@ -26,18 +23,20 @@ type Props = {
 const AppNav = (props: Props) => {
   const [openRegisterForm, setOpenRegister] = React.useState(false)
 
-  const { user: crrUser, updateUserContext } = React.useContext(AppUserContext)
-  const { popover } = useDemo({ endDemo: props.endDemo, isdemo: props.isdemo })
+  const { endDemo, isdemo, users } = props
+
+  const { updateUserContext } = React.useContext(AppUserContext)
+
+  const { popover } = useDemo({ endDemo: endDemo, isdemo: isdemo })
 
   const navigate = useNavigate()
 
-  const onLogin = () => {
-    const token = getToken()
+  const handleUpdateUserContext = () => {
+    const decodedUser = getDecodedUser()
 
-    if (token) {
-      const userInfo = jwtDecode(token)
+    if (decodedUser) {
 
-      const userObj = props.users.find(u => u.id?.toString() === userInfo.sub?.toString())
+      const userObj = users.find(u => u.id?.toString() === decodedUser.sub?.toString())
 
       updateUserContext(userObj)
     }
@@ -48,7 +47,6 @@ const AppNav = (props: Props) => {
     navigate('/about')
   }
 
-
   const openConnectionForm = () => {
     setOpenRegister(prev => true)
   }
@@ -56,13 +54,11 @@ const AppNav = (props: Props) => {
     setOpenRegister(prev => false)
   }
 
-  console.log({ crrUser })
-
   return (
     <React.Fragment>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
-          <Toolbar sx={{ background: props.isdemo ? 'rgba(0, 0, 0, 0.5)' : 'default' }}>
+          <Toolbar sx={{ background: isdemo ? 'rgba(0, 0, 0, 0.5)' : 'default' }}>
 
             <Button sx={{ color: 'white' }} onClick={goAboutPage}>About author</Button>
 
@@ -70,27 +66,7 @@ const AppNav = (props: Props) => {
 
             <Box sx={{ display: { md: 'flex' } }}>
 
-              <NavBtnAction
-                popover={{ elem: popover, id: 'mail' }}
-                btn={
-                  <Badge badgeContent={0} color="error">
-                    <Mail />
-                  </Badge>}
-              />
-
-              <NavBtnAction
-                popover={{ elem: popover, id: 'notifications' }}
-                btn={<Badge badgeContent={0} color="error"
-                >
-                  <Notifications />
-                </Badge>}
-              />
-
-              {crrUser
-                ? <NavBtnAction popover={{ elem: popover, id: 'account' }} btn={<AccountCircle onClick={openConnectionForm} />} />
-                : <AppProgress type='Circular' />}
-
-              <NavBtnAction popover={{ elem: popover, id: 'account' }} btn={<ConnectIcon onClick={openConnectionForm} />} />
+              <NavbarButtons popover={popover} openConnectionForm={openConnectionForm} />
 
             </Box>
           </Toolbar>
@@ -98,7 +74,7 @@ const AppNav = (props: Props) => {
       </Box>
 
       <RegisterForm
-        onLogin={onLogin}
+        onLogin={handleUpdateUserContext}
         openRegisterForm={openRegisterForm}
         closeRegisterModal={closeLoginModal}
       />
