@@ -1,5 +1,5 @@
 import React from 'react'
-import ArtActions from './ArtAtcions'
+import ArtActions from './ArtActions'
 import AppModal from '../common/modal/AppModal'
 import PdfReview from './arti-pdf/PdfReview'
 import PdfDownloading from './arti-pdf/PdfDownloading'

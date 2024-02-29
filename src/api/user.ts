@@ -15,7 +15,7 @@ export const register = async (user: User) => {
 
 export const findAllUsers = async () => {
     try {
-        const response = await GET(API)
+        const response= await GET(API)
 
         return response
     } catch (error) {

@@ -3,6 +3,8 @@ import fileUpload from '../../assets/fileUpload.svg'
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined'
 import AppTooltip from '../common/AppTooltip'
 import './style.css'
+import getToken from '../../api/getToken'
+import AppUserContext from '../../contextes/AppUserContext'
 
 type Props = {
     downloadArticle: () => void
@@ -11,15 +13,11 @@ type Props = {
 const ArtActions = (props: Props) => {
     const [userLoggedIn, setUserLoggedIn] = React.useState(false)
 
-    React.useEffect(() => {
-        const user = localStorage.getItem('token')
-
-        if (user)
-            setUserLoggedIn(true)
-    }, [])
+    const { user } = React.useContext(AppUserContext)
 
     return (
         <div className='art-actions'>
+
             <AppTooltip title='download'>
                 <img
                     src={fileUpload}
@@ -28,7 +26,7 @@ const ArtActions = (props: Props) => {
                 />
             </AppTooltip>
 
-            {userLoggedIn && <AppTooltip title='edit'>
+            {user && <AppTooltip title='edit'>
                 <CreateOutlinedIcon onClick={props.toggleEdit} />
             </AppTooltip>}
 

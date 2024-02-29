@@ -13,88 +13,52 @@ import SessionTimeout from "./utils/SessionTimeout"
 import AboutAuthor from "./screens/about/AboutAuthor"
 import React from "react"
 import AppModal from "./components/common/modal/AppModal"
-import { AppParticipantsContext } from "./contextes/participantsContext"
 import { findAllUsers } from "./api/user"
 import { User } from "./interface/user.interface"
 import { Box, Typography } from "@mui/material"
 import AppUserContext from "./contextes/AppUserContext"
 import { ThemeContext } from "./contextes/ThemeContext"
+import getToken from "./api/getToken"
+import { jwtDecode } from "jwt-decode"
+import useRoutes from "./utils/useRoutes"
 
 function App() {
-  const [participant, setParticipant] = React.useState<User | null>(null)
-  const [user, setUser] = React.useState(null)
-  const [theme, setTheme] = React.useState('light')
+  const [crrUser, setUser] = React.useState(null)
 
-  const { isLoading, data: users } = useQuery({
+  const { isLoading, data: sysUsers } = useQuery({
     queryKey: ['users'],
     queryFn: findAllUsers
   })
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: (<ScreenContainer><LandPage /></ScreenContainer>)
-    },
-    {
-      path: "home",
-      element: (<HomePage />)
-    },
-    {
-      path: "about",
-      element: (<AboutAuthor />)
-    },
-    {
-      path: Paths.CAT,
-      element: (<ScreenContainer><Category /></ScreenContainer>)
-    },
-    {
-      path: Paths.ART,
-      element: (<Article />)
-    },
-    {
-      path: Paths.NOT_FOUND,
-      element: (<NotFoundPage />)
-    },
+  React.useEffect(() => {
+    const token = getToken()
 
-  ])
 
-  const switchParticipant = (_id: string) => setParticipant(getSelectedParticipant(_id))
+    if (token && sysUsers) {
+      const userInfo = jwtDecode(token)
 
-  const getSelectedParticipant = (id: string) => {
-    if (!id) return
 
-    else {
-      const participant = users.filter((u: User) => u.id === id)
+      const userObj = sysUsers.find((u: User) => u.id?.toString() === userInfo.sub?.toString())
 
-      if (participant) return participant
+
+      updateUserContext(userObj)
+
     }
-  }
 
-  const closeModal = () => { setParticipant(null) }
+  }, [sysUsers])
 
-  const participantCOM = (
-    <Box sx={{ width: 850 }} role='presentation'>
-      <Typography>{participant?.first_name + ' ' + participant?.last_name}</Typography>
-    </Box>
-  )
+  const { router } = useRoutes()
 
   const updateUserContext = (user: any) => { setUser(user) }
 
-  const toggleTheme = () => { setTheme(theme === 'light' ? 'dark' : 'light') }
-
   return (
     <React.Fragment>
-      <ThemeContext.Provider value={{ theme, toggleTheme }}>
-        {/* <AppParticipantsContext.Provider value={{ participant, switchParticipant }}> */}
-        <AppUserContext.Provider value={{ updateUserContext, user }}>
+      <AppUserContext.Provider value={{ updateUserContext, user: crrUser }}>
 
-          <RouterProvider router={router} />
-          <SessionTimeout />
+        <RouterProvider router={router} />
+        <SessionTimeout />
 
-        </AppUserContext.Provider>
-        {/* </AppParticipantsContext.Provider> */}
-        <AppModal open={participant !== null} close={closeModal} children={participantCOM} />
-      </ThemeContext.Provider>
+      </AppUserContext.Provider>
     </React.Fragment >
   )
 }
