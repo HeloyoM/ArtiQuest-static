@@ -1,6 +1,7 @@
-import React, { createContext } from 'react'
+import { createContext } from 'react'
+import { User } from '../interface/user.interface'
 
 export default createContext({
-    user: null,
+    user: {} as User,
     updateUserContext: (user: any) => { },
 })

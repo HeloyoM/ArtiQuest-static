@@ -73,7 +73,7 @@ const Article = () => {
         onSuccess: async (data: any) => {
             if (!art) return
 
-           setArt(prev => ({...prev!, rank: data}))
+            setArt(prev => ({ ...prev!, rank: data }))
         }
     })
 
@@ -87,6 +87,8 @@ const Article = () => {
     const editArticle = () => { editArticleMutate.mutate() }
 
     const { author, body, created, sub_title, title } = art
+
+    const userAlreadyVote = (art.rank.voters.includes(user?.id!))
 
     return (
         <div className='art'>
@@ -119,7 +121,7 @@ const Article = () => {
                 minHeight: '74px',
                 borderBottom: 'none'
             }}>
-                <AppRating handleRate={handleRatingArticle} value={art.rank.total} readonly={!Boolean(user)} />
+                <AppRating handleRate={handleRatingArticle} value={art.rank.total} readonly={!Boolean(user) || userAlreadyVote} />
                 <p>{art.rank.voters.length} people voted</p>
             </div>
 
