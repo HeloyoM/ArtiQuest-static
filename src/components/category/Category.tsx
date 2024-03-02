@@ -98,7 +98,7 @@ const Category = () => {
         uploadingArti.mutate(artData as Partial<Article>)
     }, [])
 
-
+    console.log({ articles })
     const handlePaginate = (
         e: React.ChangeEvent<unknown>,
         value: number

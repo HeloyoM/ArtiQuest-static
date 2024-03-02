@@ -3,7 +3,7 @@ import React from 'react'
 
 type Props = {
     value: number | null | undefined
-    setRate?: (rate: number | null) => void
+    handleRate: (val: number) => void
     readonly: boolean
 }
 const AppRating = (props: Props) => {
@@ -13,9 +13,9 @@ const AppRating = (props: Props) => {
             value={props.value}
             readOnly={props.readonly}
             onChange={(event, newValue) => {
-                props.setRate!(newValue)
+                if(newValue)
+                    props.handleRate(newValue)
             }}
-        //readOnly 
         />
     )
 }

@@ -39,8 +39,7 @@ const useQueries = (props: Props) => {
         mutationFn: (payload: LoginDto) => login(payload),
         onSuccess: async (data: any) => {
             if (data.token) {
-                const user = { token: data.token }
-                localStorage.setItem('token', JSON.stringify(user))
+                localStorage.setItem('token', data.token)
                 props.onLogin()
             }
             else throw Error('unable to log in')

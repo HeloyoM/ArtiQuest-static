@@ -1,6 +1,6 @@
 import axios from 'axios'
 import baseUrl from './base-url'
-import getToken from './getDecodedUser'
+import { getToken } from './getDecodedUser'
 
 export async function POST(endpoint: string, body: any) {
     const config = getRequestConfiguration()
@@ -39,6 +39,7 @@ export async function DELETE(endpoint: string) {
 
 const getRequestConfiguration = () => {
     const tokenAccess = getToken()
+    console.log(tokenAccess)
     const token = tokenAccess ? tokenAccess : null
     const { token: cancelToken } = axios.CancelToken.source()
     const headers = token ? { Authorization: `Bearer ${tokenAccess}` } : { Authorization: null }

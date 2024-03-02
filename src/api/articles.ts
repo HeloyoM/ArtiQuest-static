@@ -44,6 +44,17 @@ export const editArticleById = async (id: string, payload: EditArticleDto) => {
     }
 }
 
+export const rateArticle = async (id: string, rate: number) => {
+    try {
+        const response = await PATCH(`${API}/rate/${id}`, { rate })
+
+        return response
+    } catch (error) {
+        throw new Error(`Failed to rate article with given id ${id}`)
+    }
+
+}
+
 export const createArticle = async (art: Partial<Article>) => {
     try {
         const response = await POST(API, art)
