@@ -33,11 +33,6 @@
     max-height: 250px;
 }
 
-.cards-container>div:hover {
-    box-shadow: 0px 4px 6px 0px white;
-    background-color: lightgrey;
-}
-
 .upload-arti {
     display: flex;
     align-items: center;

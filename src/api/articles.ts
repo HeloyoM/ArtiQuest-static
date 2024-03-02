@@ -1,6 +1,6 @@
 import { EditArticleDto } from './dto/EditArticleDto.dto'
 import { Article } from '../interface/article.interface'
-import { GET, PATCH, POST } from './api-req'
+import { GET, PATCH, POST, PUT } from './api-req'
 
 const API = 'art'
 
@@ -64,3 +64,14 @@ export const createArticle = async (art: Partial<Article>) => {
         throw new Error(`Failed to create new article in category id ${art.cat}`)
     }
 }
+
+export const increasArticleViewers = async (id: string) => {
+    try {
+        const response = await PATCH(`${API}/view/${id}`, {})
+
+        return response
+    } catch (error) {
+        throw new Error(`Failed to create new article in category id ${id}`)
+    }
+}
+

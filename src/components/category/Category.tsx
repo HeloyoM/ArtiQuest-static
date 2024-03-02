@@ -1,23 +1,27 @@
 import React from 'react'
+import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
+import { Box, Typography } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+
+import './style.css'
+
+import { createArticle, getArticlesByCategoryId } from '../../api/articles'
+
+import AppMenu from '../common/AppMenu'
 import AppProgress from '../common/AppProgress'
 import AppCard from '../common/AppCard'
-import './style.css'
-import { Box } from '@mui/material'
-import { useQuery } from 'react-query'
-import { createArticle, getArticlesByCategoryId } from '../../api/articles'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ICategory } from '../../interface/category.interface'
-import { Article } from '../../interface/article.interface'
+import AppRating from '../common/AppRating'
 import AppPagination from '../common/AppPagination'
-import { paginate } from '../../utils/paginate'
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
-import AppMenu from '../common/AppMenu'
 import UploadArticleToCategory from './UploadArticleToCategory'
 import useUpload from './useUpload'
-import { UploadErrors } from './interface/fileErrors.interface'
+import { paginate } from '../../utils/paginate'
 
-const pageSize = 4
+import { Article } from '../../interface/article.interface'
+import { UploadErrors } from './interface/fileErrors.interface'
+import { ICategory } from '../../interface/category.interface'
+import constants from './constants'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
@@ -98,7 +102,6 @@ const Category = () => {
         uploadingArti.mutate(artData as Partial<Article>)
     }, [])
 
-    console.log({ articles })
     const handlePaginate = (
         e: React.ChangeEvent<unknown>,
         value: number
@@ -107,7 +110,7 @@ const Category = () => {
     }
 
     const articlesChunk = React.useMemo(() => {
-        return paginate(articles, page, pageSize)
+        return paginate(articles, page, constants.pageSize)
     }, [articles, page])
 
     if (isLoading || !categoriesData) return (<AppProgress />)
@@ -128,7 +131,13 @@ const Category = () => {
 
                 <div className='cards-container'>
                     {articlesChunk.map((a: Article<ICategory>) => (
-                        <AppCard item={a} key={a.id} />
+                        <React.Fragment>
+                            <Typography sx={{ display: 'flex', flexDirection: 'column' }}>
+                                <AppRating readonly value={a.rank.total} handleRate={() => { }} />
+                                number of viewers: {a.viewers.length}
+                            </Typography>
+                            <AppCard item={a} key={a.id} />
+                        </React.Fragment>
                     ))}
                 </div>
 
@@ -136,7 +145,7 @@ const Category = () => {
                     paginate={handlePaginate}
                     page={page}
                     itemsCount={articles.length}
-                    pageSize={pageSize} />
+                    pageSize={constants.pageSize} />
             </Box>
 
             <AppMenu

@@ -10,4 +10,5 @@ export interface Article<T = string> {
     cat: T
     body: T
     rank: IArticleRank
+    viewers: string[]
 }

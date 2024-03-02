@@ -5,7 +5,7 @@ import { Article as IArticle } from '../../interface/article.interface'
 import { ICategory } from '../../interface/category.interface'
 import { Paths } from '../../utils/paths'
 import AppProgress from '../common/AppProgress'
-import { editArticleById, getAllCategories, rateArticle } from '../../api/articles'
+import { editArticleById, getAllCategories, increasArticleViewers, rateArticle } from '../../api/articles'
 import ArtiTitle from './ArtiTitle'
 import ArtiBody from './ArtiBody'
 import './style.css'
@@ -20,8 +20,13 @@ const Article = () => {
 
     const queryClient = useQueryClient()
     const navigate = useNavigate()
-    const { category, name, id } = useParams()
+    const { category, id } = useParams()
 
+    React.useEffect(() => {
+        if (art && user && !art.viewers.includes(user?.id!)) {
+            increasArticleViewers(art.id)
+        }
+    }, [user, art])
 
     const { isLoading, data: categoriesData } = useQuery({
         queryKey: ['categories'],

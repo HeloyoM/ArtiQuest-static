@@ -1,9 +1,8 @@
-import { Rating } from '@mui/material';
-import React from 'react'
+import { Rating } from '@mui/material'
 
 type Props = {
     value: number | null | undefined
-    handleRate: (val: number) => void
+    handleRate?: (val: number) => void
     readonly: boolean
 }
 const AppRating = (props: Props) => {
@@ -13,7 +12,7 @@ const AppRating = (props: Props) => {
             value={props.value}
             readOnly={props.readonly}
             onChange={(event, newValue) => {
-                if(newValue)
+                if (newValue && props.handleRate)
                     props.handleRate(newValue)
             }}
         />

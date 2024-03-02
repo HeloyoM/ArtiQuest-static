@@ -4,5 +4,6 @@ export default {
     limitations: {
         fileSizeInMB: { title: 'max file-size', description: '1MB' },
         fileExtension: { title: 'file-type', description: 'docx' }
-    }
+    },
+    pageSize: 4
 }
