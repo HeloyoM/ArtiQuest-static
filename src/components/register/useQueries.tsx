@@ -9,7 +9,6 @@ import { login } from '../../api/auth'
 import React from 'react'
 import AppUserContext from '../../contextes/AppUserContext'
 import { UpdateUserDto } from '../../api/dto/UpdateUser.dto'
-import getDecodedUser from '../../api/getDecodedUser'
 
 type Props = {
     onLogin?: () => void
@@ -21,17 +20,6 @@ const useQueries = (props: Props) => {
     const { updateUserContext } = React.useContext(AppUserContext)
 
     const queryClient = useQueryClient()
-
-    const handleUpdateUserContext = (users: User[]) => {
-        const decodedUser = getDecodedUser()
-
-        if (decodedUser) {
-            const userObj = users.find((u: User) => u.id?.toString() === decodedUser.sub?.toString())
-        
-            updateUserContext(userObj)
-        }
-
-    }
 
     const registerMutate = useMutation({
         mutationFn: (user: User) => register(user),
@@ -62,9 +50,7 @@ const useQueries = (props: Props) => {
     const updateUserMutate = useMutation({
         mutationFn: (payload: UpdateUserDto) => updateUser(payload),
         onSuccess: async (data: any) => {
-            const sysUsers = await queryClient.fetchQuery({ queryKey: ['users'] }) as User[]
-            console.log({ sysUsers })
-            handleUpdateUserContext(sysUsers)
+            updateUserContext(data)
         }
     })
 
