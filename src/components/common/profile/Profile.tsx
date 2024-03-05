@@ -11,14 +11,23 @@ import { Profile as ProfileEnum } from '../../../enum/Profile.enum'
 import useUserForm from '../useUserForm'
 import useQueries from '../../register/useQueries'
 import { UpdateUserDto } from '../../../api/dto/UpdateUser.dto'
-
+import getDecodedUser from '../../../api/getDecodedUser'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { User } from '../../../interface/user.interface'
+import { findAllUsers } from '../../../api/user'
 
 const Profile = () => {
 
     const [changePassword, setChangePassword] = React.useState(false)
     const [isEditProfile, setIsEditProifle] = React.useState(false)
 
-    const { first_name, email: crrEmail, last_name, phone_number: crrPhone } = React.useContext(AppUserContext).user
+    const queryClient = useQueryClient()
+
+    const sysUsers = queryClient.getQueryData(['users']) as User[]
+
+    const { user, updateUserContext } = React.useContext(AppUserContext)
+
+    const { first_name, email: crrEmail, last_name, phone_number: crrPhone } = user
 
     const { onFormChange, resetForm, email, password, repeatedPassword, phone_number, firstName, lastName } = useUserForm()
 
@@ -32,6 +41,8 @@ const Profile = () => {
         setIsEditProifle(prev => !prev)
     }
 
+
+
     const handleUpdateUserDetails = () => {
         try {
             const user: UpdateUserDto = { email, password, phone_number, first_name: firstName, last_name: lastName }
@@ -39,6 +50,8 @@ const Profile = () => {
             updateUserMutate.mutate(user)
 
             resetForm()
+
+            toggleEditProfile()
         } catch (error) {
             throw Error('Unable to update user details')
         }
