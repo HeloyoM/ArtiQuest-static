@@ -49,7 +49,6 @@ const Article = () => {
         currentCategory = categoriesData?.filter((c: ICategory) => c.name.trim() === category?.trim())
 
         if (!art) {
-            console.log('effect')
             const [crrArt] = currentCategory.map(c => {
                 return c.arts.find(a => a.id === id)
             })
@@ -107,6 +106,7 @@ const Article = () => {
 
             <div className='author'>
                 <p>{author.first_name + ' ' + author.last_name}</p>
+
                 <p><a href={`mailto:${author.email}`}>{author.email}</a></p>
             </div>
 
@@ -116,16 +116,7 @@ const Article = () => {
                 handleEditParagraph={handleEditParagraph}
             />
 
-            <div style={{
-                margin: '0 15%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid lightgrey',
-                height: '100%',
-                minHeight: '74px',
-                borderBottom: 'none'
-            }}>
+            <div style={style}>
                 <AppRating handleRate={handleRatingArticle} value={art.rank.total} readonly={!Boolean(user) || userAlreadyVote} />
                 <p>{art.rank.voters.length} people voted</p>
             </div>
@@ -135,3 +126,14 @@ const Article = () => {
 }
 
 export default Article
+
+const style = {
+    margin: '0 15%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: '1px solid lightgrey',
+    height: '100%',
+    minHeight: '74px',
+    borderBottom: 'none'
+}

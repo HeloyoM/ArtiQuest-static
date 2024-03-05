@@ -2,16 +2,17 @@ import {
     useMutation,
     useQueryClient,
 } from '@tanstack/react-query'
-import { register } from '../../api/user'
+import { register, updateUser } from '../../api/user'
 import { User } from '../../interface/user.interface'
 import { LoginDto } from '../../api/dto/LoginDto.dto'
 import { login } from '../../api/auth'
 import React from 'react'
 import AppUserContext from '../../contextes/AppUserContext'
+import { UpdateUserDto } from '../../api/dto/UpdateUser.dto'
 
 type Props = {
-    onLogin: () => void
-    closeRegisterModal: () => void
+    onLogin?: () => void
+    closeRegisterModal?: () => void
 }
 
 const useQueries = (props: Props) => {
@@ -32,7 +33,7 @@ const useQueries = (props: Props) => {
 
         localStorage.removeItem('token')
 
-        props.closeRegisterModal()
+        props.closeRegisterModal!()
     }
 
     const loginMutate = useMutation({
@@ -40,13 +41,20 @@ const useQueries = (props: Props) => {
         onSuccess: async (data: any) => {
             if (data.token) {
                 localStorage.setItem('token', data.token)
-                props.onLogin()
+                props.onLogin!()
             }
             else throw Error('unable to log in')
         }
     })
 
-    return { registerMutate, loginMutate, handleLogout }
+    const updateUserMutate = useMutation({
+        mutationFn: (payload: UpdateUserDto) => updateUser(payload),
+        onSuccess: async (data: any) => {
+            console.log(data)
+        }
+    })
+
+    return { registerMutate, loginMutate, updateUserMutate, handleLogout }
 }
 
 export default useQueries

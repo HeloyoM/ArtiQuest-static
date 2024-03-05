@@ -1,4 +1,4 @@
-import { Typography, CardContent, Card, CardHeader } from '@mui/material'
+import { Typography, Card, CardHeader } from '@mui/material'
 import { Article } from '../../interface/article.interface'
 import { useNavigate } from 'react-router-dom'
 import { ICategory } from '../../interface/category.interface'
@@ -8,6 +8,8 @@ type Props = {
 }
 const AppCard = (props: Props) => {
     const navigate = useNavigate()
+
+    const { author } = props.item
 
     const openArticle = () => {
         const title = props.item.title.replace(/\s/g, '-')
@@ -20,19 +22,13 @@ const AppCard = (props: Props) => {
             <CardHeader
                 onClick={openArticle}
                 title={props.item.title}
-                subheader={new Date(props.item.created).toLocaleDateString()}
+                subheader={
+                    <Typography>
+                        {new Date(props.item.created).toLocaleDateString()} {' '}
+                        {author.first_name + ' ' + author.last_name}
+                    </Typography>
+                }
             />
-
-            <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                    {props.item.sub_title}
-                </Typography>
-
-                <Typography sx={{ textDecoration: 'underline' }}>
-                    by: {props.item.author.first_name + ' ' + props.item.author.last_name}
-                </Typography>
-            </CardContent>
-
         </Card>
     )
 }

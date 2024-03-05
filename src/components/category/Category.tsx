@@ -120,6 +120,12 @@ const Category = () => {
 
             <Box className='cat' component='div'>
 
+                <AppPagination
+                    paginate={handlePaginate}
+                    page={page}
+                    itemsCount={articles.length}
+                    pageSize={constants.pageSize} />
+
                 <div>
                     <h2>{category}</h2>
 
@@ -134,18 +140,15 @@ const Category = () => {
                         <React.Fragment>
                             <Typography sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <AppRating readonly value={a.rank.total} handleRate={() => { }} />
-                                number of viewers: {a.viewers.length}
+                                <Typography>voters: {a.rank.voters.length}</Typography>
+                                <Typography>number of viewers: {a.viewers.length}</Typography>
                             </Typography>
                             <AppCard item={a} key={a.id} />
                         </React.Fragment>
                     ))}
                 </div>
 
-                <AppPagination
-                    paginate={handlePaginate}
-                    page={page}
-                    itemsCount={articles.length}
-                    pageSize={constants.pageSize} />
+
             </Box>
 
             <AppMenu

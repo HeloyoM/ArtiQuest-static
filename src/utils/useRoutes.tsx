@@ -6,6 +6,7 @@ import { Paths } from "./paths"
 import NotFoundPage from "../screens/notFound/NotFoundPage"
 import Category from "../components/category/Category"
 import Article from "../components/article/Article"
+import Profile from "../components/common/profile/Profile"
 
 const useRoutes = () => {
     const router = createBrowserRouter([
@@ -28,6 +29,10 @@ const useRoutes = () => {
         {
             path: Paths.ART,
             element: (<Article />)
+        },
+        {
+            path: Paths.PROFILE,
+            element: (<ScreenContainer><Profile /></ScreenContainer>)
         },
         {
             path: Paths.NOT_FOUND,

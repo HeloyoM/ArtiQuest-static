@@ -1,20 +1,12 @@
-import React, { ChangeEvent, useReducer, useState } from 'react'
+import React, { useState } from 'react'
+import { ArrowForward, ArrowBack } from '@mui/icons-material'
 import './style.css'
+
 import AppModal from '../common/modal/AppModal'
 import { Box, Typography, Input, FormLabel, FormControl, FormGroup, Button } from '@mui/material'
-import { ArrowForward, ArrowBack } from '@mui/icons-material'
-import { FormState, reducer } from './useReducer'
-import { FormFields } from './form.enum'
 import useQueries from './useQueries'
 import AppUserContext from '../../contextes/AppUserContext'
-
-const initialState: FormState = {
-  email: '',
-  password: '',
-  phone_number: '',
-  firstName: '',
-  lastName: ''
-}
+import useUserForm from '../common/useUserForm'
 
 type Props = {
   openRegisterForm: boolean
@@ -24,13 +16,18 @@ type Props = {
 
 const RegisterForm = (props: Props) => {
   const [isLoginForm, setIsLoginFrom] = useState(false)
-  const [{ email, password, phone_number, firstName, lastName }, localDispatch] =
-    useReducer(reducer, initialState)
+
   const [currentStep, setCurrentStep] = useState(0)
 
   const { user } = React.useContext(AppUserContext)
 
-  const { loginMutate, registerMutate, handleLogout } = useQueries({ onLogin: props.onLogin, closeRegisterModal: props.closeRegisterModal })
+  const { onFormChange, email, password, phone_number, firstName, lastName } = useUserForm()
+
+  const {
+    loginMutate,
+    registerMutate,
+    handleLogout
+  } = useQueries({ onLogin: props.onLogin, closeRegisterModal: props.closeRegisterModal })
 
   const fieldLabel = [
     { label: 'first_name', field: firstName },
@@ -56,31 +53,6 @@ const RegisterForm = (props: Props) => {
     else updateCurrentStep(currentStep - 1)
   }
 
-  const onFormChange = ({
-    target: { name, value },
-  }: ChangeEvent<HTMLInputElement>) => {
-
-    if (name === 'email') {
-      localDispatch({ type: FormFields.set_email, email: value })
-    }
-
-    if (name === 'password') {
-      localDispatch({ type: FormFields.set_password, password: value })
-    }
-
-    if (name === 'first_name') {
-      localDispatch({ type: FormFields.set_first_name, firstName: value })
-    }
-
-    if (name === 'last_name') {
-      localDispatch({ type: FormFields.set_last_name, lastName: value })
-    }
-
-    if (name === 'phone_number') {
-      localDispatch({ type: FormFields.set_phone_number, phoneNumber: value })
-    }
-
-  }
 
   const submitForm = () => {
     if (!isLoginForm) {

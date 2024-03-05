@@ -1,0 +1,34 @@
+.header {
+    position: relative;
+    top: 10%;
+    font-family: Sora, sens-serif;
+    font-size: 22px;
+}
+
+.profile-actions {
+    background-color: #135e76;
+    width: fit-content;
+    min-width: 100px;
+    border-radius: 15px;
+    position: absolute;
+    right: 15%;
+    top: 8%;
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-actions>* {
+    cursor: pointer;
+    color: white;
+}
+
+.profile-container {
+    gap: 20%;
+    display: grid;
+    grid-template-columns: auto auto;
+    min-height: 350px;
+}

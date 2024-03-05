@@ -7,29 +7,16 @@ import AppUserContext from '../../../contextes/AppUserContext'
 type Props = {
     popover: JSX.Element
     openConnectionForm: () => void
+    handleOpenProfile: () => void
 }
 const NavbarButtons = (props: Props) => {
     const { user: crrUser } = React.useContext(AppUserContext)
 
     const buttons = (<React.Fragment>
-        <NavBtnAction
-            popover={{ elem: props.popover, id: 'mail' }}
-            btn={
-                <Badge badgeContent={0} color="error">
-                    <Mail />
-                </Badge>}
-        />
-        <NavBtnAction
-            popover={{ elem: props.popover, id: 'notifications' }}
-            btn={<Badge badgeContent={0} color="error"
-            >
-                <Notifications />
-            </Badge>}
-        />
         {crrUser &&
             <NavBtnAction
                 popover={{ elem: props.popover, id: 'account' }}
-                btn={<AccountCircle onClick={props.openConnectionForm} />} />}
+                btn={<AccountCircle onClick={props.handleOpenProfile} />} />}
         <NavBtnAction
             popover={{ elem: props.popover, id: 'account' }}
             btn={<ConnectIcon onClick={props.openConnectionForm} />}

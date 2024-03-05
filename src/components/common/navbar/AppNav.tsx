@@ -1,5 +1,5 @@
-import AppBar from '@mui/material/AppBar'
 import React from 'react'
+import AppBar from '@mui/material/AppBar'
 import { useNavigate } from 'react-router-dom'
 import { Toolbar, Button, Box } from '@mui/material'
 
@@ -13,6 +13,9 @@ import getDecodedUser from '../../../api/getDecodedUser'
 import AppUserContext from '../../../contextes/AppUserContext'
 import { User } from '../../../interface/user.interface'
 import NavbarButtons from './NavbarButtons'
+import AppModal from '../modal/AppModal'
+import Profile from '../profile/Profile'
+import { Paths } from '../../../utils/paths'
 
 type Props = {
   isdemo: boolean
@@ -25,7 +28,7 @@ const AppNav = (props: Props) => {
 
   const { endDemo, isdemo, users } = props
 
-  const { updateUserContext } = React.useContext(AppUserContext)
+  const { updateUserContext, user } = React.useContext(AppUserContext)
 
   const { popover } = useDemo({ endDemo: endDemo, isdemo: isdemo })
 
@@ -41,6 +44,11 @@ const AppNav = (props: Props) => {
       updateUserContext(userObj)
     }
 
+  }
+
+  const handleOpenProfile = () => {
+    if (user)
+      navigate(`/profile/${user.first_name}-${user.last_name}/${user.id}`)
   }
 
   const goAboutPage = () => {
@@ -66,7 +74,7 @@ const AppNav = (props: Props) => {
 
             <Box sx={{ display: { md: 'flex' } }}>
 
-              <NavbarButtons popover={popover} openConnectionForm={openConnectionForm} />
+              <NavbarButtons popover={popover} openConnectionForm={openConnectionForm} handleOpenProfile={handleOpenProfile} />
 
             </Box>
           </Toolbar>
@@ -78,6 +86,7 @@ const AppNav = (props: Props) => {
         openRegisterForm={openRegisterForm}
         closeRegisterModal={closeLoginModal}
       />
+
     </React.Fragment>
   )
 }
