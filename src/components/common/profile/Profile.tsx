@@ -8,10 +8,11 @@ import ProfileField from './ProfileField'
 import AppTooltip from '../../common/AppTooltip'
 
 import { Profile as ProfileEnum } from '../../../enum/Profile.enum'
-import useUserForm from '../useUserForm'
+import useUserForm from '../form/useUserForm'
 import useQueries from '../../register/useQueries'
 import { UpdateUserDto } from '../../../api/dto/UpdateUser.dto'
 import AppModal from '../modal/AppModal'
+import langsFile from '../../../utils/langs-file.json'
 
 const Profile = () => {
 
@@ -21,11 +22,24 @@ const Profile = () => {
 
     const { first_name, email: crrEmail, last_name, phone_number: crrPhone } = React.useContext(AppUserContext).user
 
-    const { onFormChange, resetForm, email, password, repeatedPassword, phone_number, firstName, lastName } = useUserForm()
+    const {
+        onFormChange,
+        resetForm,
+        passwordDontMatch,
+        email,
+        error,
+        password,
+        repeatedPassword,
+        phone_number,
+        firstName,
+        lastName
+    } = useUserForm()
 
     const { updateUserMutate } = useQueries({})
 
     const toggleEditPass = () => {
+        if (isEditProfile) setIsEditProifle(false)
+
         setChangePassword(prev => !prev)
     }
 
@@ -37,8 +51,12 @@ const Profile = () => {
     }
 
     const toggleEditProfile = () => {
+        if (changePassword) setChangePassword(false)
+
         setIsEditProifle(prev => !prev)
     }
+
+
 
     const checkChanges = () => {
         openApproval()
@@ -57,26 +75,24 @@ const Profile = () => {
         }
     }
 
-    const hasChanges = Boolean(email.trim() || password.trim() || repeatedPassword.trim() || phone_number.trim() || firstName.trim() || lastName.trim())
+    const correctPasswordPattern = Object.values(error).every((value) => {
+        return value === false
+    })
+
+    const hasChanges = Boolean(email.trim() || phone_number.trim() || firstName.trim() || lastName.trim())
+
+    const hasPassChange = Boolean(password.trim() || repeatedPassword.trim())
 
     const approvalChanges = (
-        <Box sx={{
-            position: 'absolute' as 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            border: '2px solid #000',
-            boxShadow: 24,
-            p: 4,
-        }}>
-            Save changes ?
-
-            <Button onClick={handleUpdateUserDetails}>Yes</Button>
-            <Button onClick={closeApprovModal}>No</Button>
+        <Box sx={modalStyle}>
+            {langsFile.system.profile.approval}
+            <Button onClick={handleUpdateUserDetails}>{langsFile.casual.yes}</Button>
+            <Button onClick={closeApprovModal}>{langsFile.casual.no}</Button>
         </Box >
     )
+    const disabledChangePassowrd = !correctPasswordPattern || passwordDontMatch || !repeatedPassword.trim().length
+
+    const saveBtn = (<Button variant='outlined' color='success' onClick={checkChanges} disabled={changePassword ? disabledChangePassowrd : false} >Save</Button>)
 
     return (
         <React.Fragment>
@@ -92,8 +108,7 @@ const Profile = () => {
 
             </div>
 
-
-            <Box sx={style}>
+            <Box sx={style} style={{ borderTop: '20px solid green', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px' }}>
 
                 <Box component='div' className='profile-container'>
 
@@ -123,32 +138,41 @@ const Profile = () => {
 
                     <Button variant='outlined' color='success' onClick={toggleEditPass}>Change password</Button>
 
-                    {hasChanges && <Button variant='outlined' color='success' onClick={checkChanges}>Save</Button>}
+                    {hasChanges ? saveBtn : <></>}
 
                 </Box>
             </Box>
 
-            {changePassword &&
-                <Box sx={{ ...style, marginTop: '5%' }}>
-                    <Box component='div' className='profile-container'>
+            {
+                changePassword &&
+                <Box sx={{ ...style, marginTop: '5%', borderTop: '20px solid green', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px' }}>
+
+                    {passwordDontMatch && <Typography sx={{ textAlign: 'center' }}>passwords don't match</Typography>}
+
+                    <Box component='div' className='profile-password-container' >
                         <ProfileField
                             handleChange={onFormChange}
                             isEditProfile
                             label={ProfileEnum.PASS}
-                            value='' />
+                            helperText={error}
+                        />
 
                         <ProfileField
                             handleChange={onFormChange}
                             isEditProfile
                             label={ProfileEnum.REPEAT_PASS}
-                            value='' />
+                        />
+
 
                     </Box>
+
+                    {hasPassChange ? saveBtn : <></>}
+
                 </Box>
             }
 
             <AppModal open={openApprovModal} close={closeApprovModal} children={approvalChanges} />
-        </React.Fragment>
+        </React.Fragment >
     )
 }
 
@@ -161,4 +185,16 @@ const style = {
     p: 4,
     position: 'relative',
     top: '20%'
+}
+
+const modalStyle = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
 }

@@ -6,7 +6,7 @@ import AppModal from '../common/modal/AppModal'
 import { Box, Typography, Input, FormLabel, FormControl, FormGroup, Button } from '@mui/material'
 import useQueries from './useQueries'
 import AppUserContext from '../../contextes/AppUserContext'
-import useUserForm from '../common/useUserForm'
+import useUserForm from '../common/form/useUserForm'
 
 type Props = {
   openRegisterForm: boolean

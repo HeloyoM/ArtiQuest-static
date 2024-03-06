@@ -1,16 +1,20 @@
 import React from 'react'
+import './style.css'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Article as IArticle } from '../../interface/article.interface'
-import { ICategory } from '../../interface/category.interface'
-import { Paths } from '../../utils/paths'
-import AppProgress from '../common/AppProgress'
+
 import { editArticleById, getAllCategories, increasArticleViewers, rateArticle } from '../../api/articles'
+
+import AppProgress from '../common/AppProgress'
 import ArtiTitle from './ArtiTitle'
 import ArtiBody from './ArtiBody'
-import './style.css'
 import AppRating from '../common/AppRating'
 import AppUserContext from '../../contextes/AppUserContext'
+
+import { Paths } from '../../utils/paths'
+
+import { ICategory } from '../../interface/category.interface'
+import { Article as IArticle } from '../../interface/article.interface'
 
 const Article = () => {
     const [art, setArt] = React.useState<IArticle>()

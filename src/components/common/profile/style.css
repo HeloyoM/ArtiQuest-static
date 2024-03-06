@@ -32,3 +32,10 @@
     grid-template-columns: auto auto;
     min-height: 350px;
 }
+
+.profile-password-container {
+    gap: 20%;
+    display: grid;
+    grid-template-columns: auto auto;
+    min-height: 130px;
+}

@@ -5,7 +5,7 @@ import { IFileLimitations } from './interface/fileErrors.interface'
 
 const FileLimitations = () => {
 
-    const limitationsArray: IFileLimitations[] = Object.values(constants.limitations).map(obj => ({
+    const limitationsArray: IFileLimitations[] = Object.values(constants.LIMITITIONS).map(obj => ({
         title: obj.title,
         description: obj.description
     }))

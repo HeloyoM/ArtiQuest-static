@@ -1,4 +1,14 @@
 import React from 'react'
+import constants from '../../category/constants'
+import langsFile from '../../../utils/langs-file.json'
+import RegExpUtil from '../../../utils/RegExp.util'
+import useFormError from './useFormError'
+
+export type PasswordRules = {
+    NUM_OF_CHART: boolean,
+    SPECIAL_CHART: boolean,
+    INTGERS: boolean
+}
 
 export type FormState = {
     email: string
@@ -65,6 +75,8 @@ const useUserForm = () => {
     const [{ email, password, repeatedPassword, phone_number, firstName, lastName }, localDispatch] =
         React.useReducer(reducer, initialState)
 
+    const { validatePassword, checkPasswords, passwordDontMatch, error } = useFormError()
+
     const resetForm = () => {
         localDispatch({ type: FormFields.reset_form })
     }
@@ -78,6 +90,7 @@ const useUserForm = () => {
         }
 
         if (name === 'password') {
+            validatePassword(value)
             localDispatch({ type: FormFields.set_password, password: value })
         }
 
@@ -94,6 +107,7 @@ const useUserForm = () => {
         }
 
         if (name === 'repeat_password') {
+            checkPasswords(password, value)
             localDispatch({ type: FormFields.set_repeat_password, repeatedPassword: value })
         }
 
@@ -103,7 +117,9 @@ const useUserForm = () => {
 
     }
 
-    return { onFormChange, resetForm, email, password, repeatedPassword, phone_number, firstName, lastName }
+
+
+    return { onFormChange, resetForm, passwordDontMatch, error, email, password, repeatedPassword, phone_number, firstName, lastName }
 }
 
 export default useUserForm

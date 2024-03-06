@@ -110,7 +110,7 @@ const Category = () => {
     }
 
     const articlesChunk = React.useMemo(() => {
-        return paginate(articles, page, constants.pageSize)
+        return paginate(articles, page, constants.PAGE_SIZE)
     }, [articles, page])
 
     if (isLoading || !categoriesData) return (<AppProgress />)
@@ -124,7 +124,7 @@ const Category = () => {
                     paginate={handlePaginate}
                     page={page}
                     itemsCount={articles.length}
-                    pageSize={constants.pageSize} />
+                    pageSize={constants.PAGE_SIZE} />
 
                 <div>
                     <h2>{category}</h2>

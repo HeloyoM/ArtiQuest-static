@@ -1,0 +1,18 @@
+{
+    "system": {
+        "profile": {
+            "approval": "Are you sure do you want to save changes?"
+        },
+        "registeration": {
+            "passwordRules": {
+                "not_enough_chart": " characters are required",
+                "not_special_chart": " special character/s required",
+                "not_integer": " integer is required"
+            }
+        }
+    },
+    "casual": {
+        "yes": "Yes",
+        "no": "No"
+    }
+}
