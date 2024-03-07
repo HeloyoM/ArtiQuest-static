@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material'
 import { Profile } from '../../../enum/Profile.enum'
-import { PasswordRules } from '../form/useUserForm'
+import { FormRules } from '../form/useUserForm'
 import constants from '../../category/constants'
 import langsFile from '../../../utils/langs-file.json'
 
@@ -9,7 +9,7 @@ type Props = {
     value?: string
     label: Profile
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-    helperText?: PasswordRules
+    helperText?: FormRules | boolean
 }
 
 const ProfileField = (props: Props) => {
@@ -18,6 +18,12 @@ const ProfileField = (props: Props) => {
     const requiredFileds = [Profile.FIRST_NAME, Profile.LAST_NAME, Profile.EMAIL]
 
     const validateError = () => {
+        if (typeof helperText === 'boolean') {
+            if (helperText) return <ul><li>{langsFile.system.registeration.email.invalid}</li></ul>
+
+            else return
+        }
+
         const errorUl = []
         if (helperText?.NUM_OF_CHART) {
             errorUl.push(`${constants.PASSWORD_RULES.NUM_OF_CHART} ${langsFile.system.registeration.passwordRules.not_enough_chart} `)

@@ -11,7 +11,7 @@ type Props = {
 }
 const NavbarButtons = (props: Props) => {
     const { user: crrUser } = React.useContext(AppUserContext)
-
+    console.log({ crrUser })
     const buttons = (<React.Fragment>
         {crrUser &&
             <NavBtnAction

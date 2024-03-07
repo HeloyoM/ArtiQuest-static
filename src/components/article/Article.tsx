@@ -15,6 +15,7 @@ import { Paths } from '../../utils/paths'
 
 import { ICategory } from '../../interface/category.interface'
 import { Article as IArticle } from '../../interface/article.interface'
+import useArticleQueries from './useArticleQueries'
 
 const Article = () => {
     const [art, setArt] = React.useState<IArticle>()
@@ -22,29 +23,21 @@ const Article = () => {
 
     const { user } = React.useContext(AppUserContext)
 
-    const queryClient = useQueryClient()
+    const { editArticleMutate, handleIncreasViewers, rateArt } = useArticleQueries({ setArt, art })
+
     const navigate = useNavigate()
     const { category, id } = useParams()
-
-    React.useEffect(() => {
-        if (art && user && !art.viewers.includes(user?.id!)) {
-            increasArticleViewers(art.id)
-        }
-    }, [user, art])
 
     const { isLoading, data: categoriesData } = useQuery({
         queryKey: ['categories'],
         queryFn: getAllCategories
     })
 
-    const handleEditParagraph = (
-        { target: { value } }: React.ChangeEvent<HTMLTextAreaElement>,
-        index: number
-    ) => {
-
-    }
-
-    const toggleEdit = () => { setIsedit(prev => !prev) }
+    React.useEffect(() => {
+        if (art && user && !art.viewers.includes(user?.id!)) {
+            handleIncreasViewers.mutate()
+        }
+    }, [user, art])
 
     React.useEffect(() => {
         let currentCategory: ICategory[] = []
@@ -67,36 +60,28 @@ const Article = () => {
         }
     }, [art, categoriesData])
 
-    const editArticleMutate = useMutation({
-        mutationFn: () => editArticleById(art?.id!, { body: [], location: [] }),
 
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['edit-article'] })
-        }
-    })
+    const handleEditParagraph = (
+        { target: { value } }: React.ChangeEvent<HTMLTextAreaElement>,
+        index: number
+    ) => {
 
-    const rateArt = useMutation({
-        mutationFn: (val: number) => rateArticle(art?.id!, val),
+    }
 
-        onSuccess: async (data: any) => {
-            if (!art) return
-
-            setArt(prev => ({ ...prev!, rank: data }))
-        }
-    })
+    const toggleEdit = () => { setIsedit(prev => !prev) }
 
     const handleRatingArticle = React.useCallback((val: number) => {
         rateArt.mutate(val)
     }, [])
 
 
-    if (!art) return (<AppProgress />)
+    if (!art || isLoading || handleIncreasViewers.isPending) return (<AppProgress />)
+
+    const userAlreadyVote = (art.rank.voters.includes(user?.id!))
 
     const editArticle = () => { editArticleMutate.mutate() }
 
     const { author, body, created, sub_title, title } = art
-
-    const userAlreadyVote = (art.rank.voters.includes(user?.id!))
 
     return (
         <div className='art'>
@@ -121,7 +106,10 @@ const Article = () => {
             />
 
             <div style={style}>
-                <AppRating handleRate={handleRatingArticle} value={art.rank.total} readonly={!Boolean(user) || userAlreadyVote} />
+                <AppRating
+                    handleRate={handleRatingArticle}
+                    value={art.rank.total}
+                    readonly={!Boolean(user) || userAlreadyVote} />
                 <p>{art.rank.voters.length} people voted</p>
             </div>
 

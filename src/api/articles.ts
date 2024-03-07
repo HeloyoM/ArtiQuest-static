@@ -71,7 +71,7 @@ export const increasArticleViewers = async (id: string) => {
 
         return response
     } catch (error) {
-        throw new Error(`Failed to create new article in category id ${id}`)
+        throw new Error(`Failed to update viewers list of article with given id ${id}`)
     }
 }
 

@@ -16,6 +16,7 @@ type Props = {
 }
 
 const useQueries = (props: Props) => {
+    const [serverMessage, setServerMessage] = React.useState('')
 
     const { updateUserContext } = React.useContext(AppUserContext)
 
@@ -33,7 +34,8 @@ const useQueries = (props: Props) => {
 
         localStorage.removeItem('token')
 
-        props.closeRegisterModal!()
+        if(props.closeRegisterModal)
+            props.closeRegisterModal()
     }
 
     const loginMutate = useMutation({
@@ -50,11 +52,17 @@ const useQueries = (props: Props) => {
     const updateUserMutate = useMutation({
         mutationFn: (payload: UpdateUserDto) => updateUser(payload),
         onSuccess: async (data: any) => {
-            updateUserContext(data)
+            if (typeof data === 'string')
+                setServerMessage(data)
+            else {
+                setServerMessage('updated!')
+
+                updateUserContext(data)
+            }
         }
     })
 
-    return { registerMutate, loginMutate, updateUserMutate, handleLogout }
+    return { registerMutate, loginMutate, updateUserMutate, serverMessage, setServerMessage, handleLogout }
 }
 
 export default useQueries

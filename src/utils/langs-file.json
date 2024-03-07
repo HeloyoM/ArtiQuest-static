@@ -1,5 +1,8 @@
 {
     "system": {
+        "common":{
+            "save": "Save"
+        },
         "profile": {
             "approval": "Are you sure do you want to save changes?"
         },
@@ -7,7 +10,11 @@
             "passwordRules": {
                 "not_enough_chart": " characters are required",
                 "not_special_chart": " special character/s required",
-                "not_integer": " integer is required"
+                "not_integer": " integer is required",
+                "passwords_not_match": "passwords don't match"
+            },
+            "email": {
+                "invalid": "email pattern is required"
             }
         }
     },

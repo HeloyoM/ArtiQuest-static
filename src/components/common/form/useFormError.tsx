@@ -5,7 +5,8 @@ import RegExpUtil from '../../../utils/RegExp.util'
 const initialState = {
     NUM_OF_CHART: false,
     SPECIAL_CHART: false,
-    INTGERS: false
+    INTGERS: false,
+    EMAIL: false
 }
 
 const useFormError = () => {
@@ -16,6 +17,18 @@ const useFormError = () => {
         if (pass.trim() !== repeatedPassword.trim())
             setPasswordsDontMatch(true)
         else setPasswordsDontMatch(false)
+    }
+
+    const onResetForm = () => {
+        setPasswordsDontMatch(false)
+    }
+
+    const validateEmail = (val: string) => {
+        if (!RegExpUtil.email.test(val)) {
+            setError(prev => ({ ...prev, EMAIL: true }))
+        } else {
+            setError(prev => ({ ...prev, EMAIL: false }))
+        }
     }
 
     const validatePassword = (val: string) => {
@@ -52,7 +65,7 @@ const useFormError = () => {
         }
     }
 
-    return { validatePassword, checkPasswords, passwordDontMatch, error }
+    return { validatePassword, onResetForm, checkPasswords, validateEmail, passwordDontMatch, error }
 }
 
 export default useFormError

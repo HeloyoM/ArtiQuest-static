@@ -13,6 +13,9 @@ import useQueries from '../../register/useQueries'
 import { UpdateUserDto } from '../../../api/dto/UpdateUser.dto'
 import AppModal from '../modal/AppModal'
 import langsFile from '../../../utils/langs-file.json'
+import SaveButton from '../SaveButton'
+import AppProgress from '../AppProgress'
+import ChangePassword from './ChangePassword'
 
 const Profile = () => {
 
@@ -35,9 +38,13 @@ const Profile = () => {
         lastName
     } = useUserForm()
 
-    const { updateUserMutate } = useQueries({})
+    const { updateUserMutate, serverMessage, setServerMessage } = useQueries({})
 
     const toggleEditPass = () => {
+        resetForm()
+        
+        setServerMessage('')
+
         if (isEditProfile) setIsEditProifle(false)
 
         setChangePassword(prev => !prev)
@@ -56,13 +63,9 @@ const Profile = () => {
         setIsEditProifle(prev => !prev)
     }
 
-
-
-    const checkChanges = () => {
-        openApproval()
-    }
-
     const handleUpdateUserDetails = () => {
+        setServerMessage('')
+
         closeApprovModal()
         try {
             const user: UpdateUserDto = { email, password, phone_number, first_name: firstName, last_name: lastName }
@@ -90,9 +93,8 @@ const Profile = () => {
             <Button onClick={closeApprovModal}>{langsFile.casual.no}</Button>
         </Box >
     )
-    const disabledChangePassowrd = !correctPasswordPattern || passwordDontMatch || !repeatedPassword.trim().length
 
-    const saveBtn = (<Button variant='outlined' color='success' onClick={checkChanges} disabled={changePassword ? disabledChangePassowrd : false} >Save</Button>)
+    const disabledChangePassowrd = !correctPasswordPattern || passwordDontMatch || !repeatedPassword.trim().length
 
     return (
         <React.Fragment>
@@ -128,7 +130,8 @@ const Profile = () => {
                         handleChange={onFormChange}
                         isEditProfile={isEditProfile}
                         label={ProfileEnum.EMAIL}
-                        value={crrEmail} />
+                        value={crrEmail}
+                        helperText={error.EMAIL} />
 
                     <ProfileField
                         handleChange={onFormChange}
@@ -138,37 +141,22 @@ const Profile = () => {
 
                     <Button variant='outlined' color='success' onClick={toggleEditPass}>Change password</Button>
 
-                    {hasChanges ? saveBtn : <></>}
+                    {hasChanges ? <SaveButton handleSave={handleUpdateUserDetails} /> : <></>}
 
                 </Box>
             </Box>
 
             {
-                changePassword &&
-                <Box sx={{ ...style, marginTop: '5%', borderTop: '20px solid green', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px' }}>
-
-                    {passwordDontMatch && <Typography sx={{ textAlign: 'center' }}>passwords don't match</Typography>}
-
-                    <Box component='div' className='profile-password-container' >
-                        <ProfileField
-                            handleChange={onFormChange}
-                            isEditProfile
-                            label={ProfileEnum.PASS}
-                            helperText={error}
-                        />
-
-                        <ProfileField
-                            handleChange={onFormChange}
-                            isEditProfile
-                            label={ProfileEnum.REPEAT_PASS}
-                        />
-
-
-                    </Box>
-
-                    {hasPassChange ? saveBtn : <></>}
-
-                </Box>
+                changePassword && <ChangePassword
+                    disabledChangePassowrd={disabledChangePassowrd}
+                    error={error}
+                    hasPassChange={hasPassChange}
+                    isUpdatePending={updateUserMutate.isPending}
+                    onFormChange={onFormChange}
+                    openApproval={openApproval}
+                    passwordDontMatch={passwordDontMatch}
+                    serverMessage={serverMessage}
+                />
             }
 
             <AppModal open={openApprovModal} close={closeApprovModal} children={approvalChanges} />

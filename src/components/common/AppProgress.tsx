@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material';
+import { CircularProgress } from '@mui/material'
 import Box from '@mui/material/Box'
 import LinearProgress from '@mui/material/LinearProgress'
 

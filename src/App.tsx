@@ -7,6 +7,7 @@ import { User } from "./interface/user.interface"
 import AppUserContext from "./contextes/AppUserContext"
 import useRoutes from "./utils/useRoutes"
 import getDecodedUser from "./api/getDecodedUser"
+import useQueries from "./components/register/useQueries"
 
 function App() {
   const [crrUser, setUser] = React.useState<any>(null)
@@ -15,16 +16,24 @@ function App() {
     queryKey: ['users'],
     queryFn: findAllUsers
   })
+  const { handleLogout } = useQueries({})
 
   React.useEffect(() => {
     const decodedUser = getDecodedUser()
 
-
     if (decodedUser && sysUsers) {
 
+      const currentTime = Math.floor(Date.now() / 1000)
+
+      const expirationTime = decodedUser.exp || 0
+
+      if (currentTime >= expirationTime) {
+        handleLogout()
+
+        return
+      }
 
       const userObj = sysUsers.find((u: User) => u.id === decodedUser.sub)
-
 
       updateUserContext(userObj)
 
