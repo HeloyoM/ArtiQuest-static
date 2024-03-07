@@ -1,13 +1,11 @@
 import React from 'react'
-import { useQuery } from 'react-query'
+
 import { useParams } from 'react-router-dom'
 import { Box, Typography } from '@mui/material'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 
 import './style.css'
-
-import { createArticle, getArticlesByCategoryId } from '../../api/articles'
 
 import AppMenu from '../common/AppMenu'
 import AppProgress from '../common/AppProgress'
@@ -22,6 +20,7 @@ import { Article } from '../../interface/article.interface'
 import { UploadErrors } from './interface/fileErrors.interface'
 import { ICategory } from '../../interface/category.interface'
 import constants from './constants'
+import useCategoryQueries from './useCategoryQueries'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
@@ -34,8 +33,27 @@ const Category = () => {
         fileExtension: false
     })
 
-    const openInsertionModal = () => { setInsertionOpen(true) }
+    let { category, id } = useParams()
 
+    const { categoryArticles, uploadingArti } = useCategoryQueries({ id })
+
+    React.useEffect(() => {
+        if (!categoryArticles.data) return
+
+        setArticles(categoryArticles.data)
+    }, [categoryArticles.data])
+
+    React.useEffect(() => {
+        const prevPage = localStorage.getItem(`category-${id}`)
+
+        if (prevPage) {
+            setPage(JSON.parse(prevPage))
+
+            clearStorageCateroy()
+        }
+    }, [])
+
+    const openInsertionModal = () => { setInsertionOpen(true) }
     const closeInsertion = () => { setInsertionOpen(false) }
 
     const { handleArtiFile } = useUpload({
@@ -44,30 +62,13 @@ const Category = () => {
         setDocxFile: setSelectedDocs
     })
 
-    let { category } = useParams()
+    const handleSaceLastPage = () => {
+        localStorage.setItem(`category-${id}`, page.toString())
+    }
 
-    const queryClient = useQueryClient()
-
-    const categoriesData = queryClient.getQueryData(['categories']) as ICategory[]
-
-    const catId = categoriesData.find((c: ICategory) => c.name.trim() === category?.trim())
-
-    const { isLoading, data } = useQuery({
-        queryKey: ['categories'],
-        queryFn: () => getArticlesByCategoryId(catId?.id!)
-    })
-
-
-    React.useEffect(() => {
-        if (!data) return
-
-        setArticles(data)
-    }, [data])
-
-    const uploadingArti = useMutation({
-        mutationFn: (art: Partial<Article>) => createArticle(art),
-        mutationKey: ['create-article']
-    })
+    const clearStorageCateroy = () => {
+        localStorage.removeItem(`category-${id}`)
+    }
 
     const insertArticle = (sub_title: string) => {
         return new Promise((resolve, reject) => {
@@ -80,7 +81,7 @@ const Category = () => {
                 const base64 = reader.result
 
                 const art: Partial<Article> = {
-                    cat: catId?.id,
+                    cat: id,
                     sub_title,
                     body: base64 as any,
                     title: fileExtension[0]
@@ -97,7 +98,6 @@ const Category = () => {
             .catch((err) => console.log(err))
     }
 
-
     const handleInsertToServer = React.useCallback((artData: unknown) => {
         uploadingArti.mutate(artData as Partial<Article>)
     }, [])
@@ -113,7 +113,7 @@ const Category = () => {
         return paginate(articles, page, constants.PAGE_SIZE)
     }, [articles, page])
 
-    if (isLoading || !categoriesData) return (<AppProgress />)
+    if (categoryArticles.isLoading) return (<AppProgress />)
 
     return (
         <React.Fragment>
@@ -143,7 +143,7 @@ const Category = () => {
                                 <Typography>voters: {a.rank.voters.length}</Typography>
                                 <Typography>number of viewers: {a.viewers.length}</Typography>
                             </Typography>
-                            <AppCard item={a} key={a.id} />
+                            <AppCard item={a} key={a.id} handleSaveLastPage={handleSaceLastPage} />
                         </React.Fragment>
                     ))}
                 </div>

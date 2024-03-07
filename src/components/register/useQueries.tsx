@@ -32,9 +32,9 @@ const useQueries = (props: Props) => {
     const handleLogout = () => {
         updateUserContext(null)
 
-        localStorage.removeItem('token')
+        localStorage.clear()
 
-        if(props.closeRegisterModal)
+        if (props.closeRegisterModal)
             props.closeRegisterModal()
     }
 

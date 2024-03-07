@@ -2,7 +2,7 @@ export enum Paths {
     HOME = 'home',
     ABOUT = 'about',
     LOGIN = 'login',
-    CAT = 'cat/:category',
+    CAT = 'cat/:category/:id',
     ART = 'cat/:category/art/:name/:id',
     PROFILE = 'profile/:first_name-last_name/:id',
     NOT_FOUND = 'not_found'

@@ -30,7 +30,6 @@ const ArtiTitle = (props: Props) => {
     const openArticle = () => { setArtOpen(true) }
 
 
-
     React.useEffect(() => {
 
         const handleScroll = () => {

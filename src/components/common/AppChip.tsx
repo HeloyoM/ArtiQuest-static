@@ -1,9 +1,10 @@
 import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import { useNavigate } from 'react-router-dom'
+import { ICategory } from '../../interface/category.interface'
 
 type Props = {
-    cat: any
+    cat: Partial<ICategory>
     isdemo: boolean
 }
 
@@ -11,7 +12,7 @@ const AppChip = (props: Props) => {
     const navigate = useNavigate()
 
     const toCategory = () => {
-        navigate(`/cat/${props.cat.name}`)
+        navigate(`/cat/${props.cat.name}/${props.cat.id}`)
     }
 
     return (

@@ -1,9 +1,9 @@
 import React from 'react'
 import './style.css'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
-import { editArticleById, getAllCategories, increasArticleViewers, rateArticle } from '../../api/articles'
+import { getAllCategories } from '../../api/articles'
 
 import AppProgress from '../common/AppProgress'
 import ArtiTitle from './ArtiTitle'
@@ -60,6 +60,9 @@ const Article = () => {
         }
     }, [art, categoriesData])
 
+    const handleAuthorArticles = () => {
+        navigate(`/cat/${author.first_name}-${author.last_name}/${author.id}`)
+    }
 
     const handleEditParagraph = (
         { target: { value } }: React.ChangeEvent<HTMLTextAreaElement>,
@@ -94,7 +97,7 @@ const Article = () => {
             </p>
 
             <div className='author'>
-                <p>{author.first_name + ' ' + author.last_name}</p>
+                <p onClick={handleAuthorArticles}>{author.first_name + ' ' + author.last_name}</p>
 
                 <p><a href={`mailto:${author.email}`}>{author.email}</a></p>
             </div>

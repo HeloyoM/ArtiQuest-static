@@ -61,6 +61,11 @@
     text-align: left;
 }
 
+.author * {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .art-container {
     margin: 0 15%;
 }
