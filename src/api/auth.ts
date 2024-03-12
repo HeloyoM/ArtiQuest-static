@@ -23,3 +23,13 @@ export const logout = async () => {
     }
 }
 
+export const refreshToken = async () => {
+    try {
+        const response = await POST(`${API}/refresh-token`, {})
+
+        return response
+    } catch (error) {
+        throw new Error('falied to refresh login, please log in again.')
+    }
+}
+
