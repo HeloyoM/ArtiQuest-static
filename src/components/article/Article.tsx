@@ -43,7 +43,7 @@ const Article = () => {
         let currentCategory: ICategory[] = []
 
         if (!categoriesData) return
-        currentCategory = categoriesData?.filter((c: ICategory) => c.name.trim() === category?.trim())
+        currentCategory = categoriesData?.filter((c: ICategory) => c.name?.trim() === category?.trim())
 
         if (!art) {
             const [crrArt] = currentCategory.map(c => {
@@ -111,7 +111,7 @@ const Article = () => {
             <div style={style}>
                 <AppRating
                     handleRate={handleRatingArticle}
-                    value={art.rank.total}
+                    value={art?.rank?.total}
                     readonly={!Boolean(user) || userAlreadyVote} />
                 <p>{art.rank.voters.length} people voted</p>
             </div>

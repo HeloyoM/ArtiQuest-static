@@ -39,7 +39,7 @@ const Category = () => {
 
     React.useEffect(() => {
         if (!categoryArticles.data) return
-
+        console.log({ categoryArticles })
         setArticles(categoryArticles.data)
     }, [categoryArticles.data])
 
@@ -62,7 +62,7 @@ const Category = () => {
         setDocxFile: setSelectedDocs
     })
 
-    const handleSaceLastPage = () => {
+    const handleSaveLastPage = () => {
         localStorage.setItem(`category-${id}`, page.toString())
     }
 
@@ -139,11 +139,11 @@ const Category = () => {
                     {articlesChunk.map((a: Article<ICategory>) => (
                         <React.Fragment>
                             <Typography sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <AppRating readonly value={a.rank.total} handleRate={() => { }} />
-                                <Typography>voters: {a.rank.voters.length}</Typography>
-                                <Typography>number of viewers: {a.viewers.length}</Typography>
+                                <AppRating readonly value={a?.rank?.total} handleRate={() => { }} />
+                                <Typography>voters: {a.rank.voters.length ? a.rank.voters.length : 0}</Typography>
+                                <Typography>number of viewers: {a.viewers.length ? a.viewers.length : 0}</Typography>
                             </Typography>
-                            <AppCard item={a} key={a.id} handleSaveLastPage={handleSaceLastPage} />
+                            <AppCard item={a} key={a.id} handleSaveLastPage={handleSaveLastPage} />
                         </React.Fragment>
                     ))}
                 </div>

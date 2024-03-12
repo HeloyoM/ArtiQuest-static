@@ -1,6 +1,6 @@
-import { useMutation } from '@tanstack/react-query'
-import { useQuery } from 'react-query'
-import { createArticle, getArticlesByCategoryId } from '../../api/articles'
+import { useMutation, useQuery } from '@tanstack/react-query'
+// import { useQuery } from 'react-query'
+import { createArticle, getArticlesByCategoryId, getCategoriesList } from '../../api/articles'
 import { Article as IArticle } from '../../interface/article.interface'
 
 type Props = {
@@ -11,7 +11,7 @@ const useCategoryQueries = (props: Props) => {
     const { id } = props
 
     const categoryArticles = useQuery({
-        queryKey: ['categories'],
+        queryKey: ['categories-articles'],
         queryFn: () => getArticlesByCategoryId(id!)
     })
 
@@ -20,7 +20,12 @@ const useCategoryQueries = (props: Props) => {
         mutationKey: ['create-article']
     })
 
-    return { uploadingArti, categoryArticles }
+    // const getCategoriesInfo = useQuery({
+    //     queryKey: ['categories-list'],
+    //     queryFn: getCategoriesList
+    // })
+
+    return { uploadingArti, categoryArticles, /*getCategoriesInfo*/ }
 }
 
 export default useCategoryQueries

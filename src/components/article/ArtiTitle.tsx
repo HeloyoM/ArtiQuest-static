@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import ArtActions from './ArtActions'
 import AppModal from '../common/modal/AppModal'
 import PdfReview from './arti-pdf/PdfReview'
@@ -7,6 +8,8 @@ import PdfTemplate from './arti-pdf/PdfContent'
 import { Article as IArticle } from '../../interface/article.interface'
 import useExportPdf from '../../utils/useExportPdf'
 import './style.css'
+import useCategoryQueries from '../category/useCategoryQueries'
+import { ICategory } from '../../interface/category.interface'
 
 
 type Props = {
@@ -20,6 +23,10 @@ type Props = {
 const ArtiTitle = (props: Props) => {
     const [isSticky, setSticky] = React.useState(false)
     const [artOpen, setArtOpen] = React.useState(false)
+
+    const navigate = useNavigate()
+
+    // const { getCategoriesInfo } = useCategoryQueries({})
 
     const instance = (<PdfTemplate art={props.art!} />)
 
@@ -54,6 +61,12 @@ const ArtiTitle = (props: Props) => {
 
         <PdfDownloading art={instance} title={props.title} />
     </div>)
+
+    const handleShowCategory = () => {
+        // const categoryId = getCategoriesInfo.data.filter((cat: ICategory) => cat.name?.trim() === props.category?.trim())
+        // console.log({ categoryId })
+        // navigate(`/cat/${props.category}/${props.category?.id}`)
+    }
     return (
         <>
             <div className={isSticky ? 'title sticky' : 'title'} >
@@ -63,7 +76,7 @@ const ArtiTitle = (props: Props) => {
                     toggleEdit={props.toggleEdit}
                 />
 
-                <p>{props.category}</p>
+                <p onClick={handleShowCategory}>{props.category}</p>
             </div>
 
             <AppModal

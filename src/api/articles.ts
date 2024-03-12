@@ -17,7 +17,7 @@ export const getAllCategories = async () => {
 export const getArticlesByCategoryId = async (id: string) => {
     try {
         const response = await GET(`${API}/findBy/${id}`)
-
+console.log({response})
         return response
     } catch (error) {
         throw new Error('Failed to fetch articles')
@@ -31,6 +31,16 @@ export const getArticleById = async (id: string) => {
         return response
     } catch (error) {
         throw new Error(`Failed to fetch article with given id ${id}`)
+    }
+}
+
+export const getCategoriesList = async () => {
+    try {
+        const response = await GET(`${API}/cat`)
+
+        return response
+    } catch (error) {
+        throw new Error(`Failed to fetch categories information, it's not should interrupt you watch categories`)
     }
 }
 

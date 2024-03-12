@@ -5,7 +5,7 @@ import {
 import { register, updateUser } from '../../api/user'
 import { User } from '../../interface/user.interface'
 import { LoginDto } from '../../api/dto/LoginDto.dto'
-import { login } from '../../api/auth'
+import { login, logout } from '../../api/auth'
 import React from 'react'
 import AppUserContext from '../../contextes/AppUserContext'
 import { UpdateUserDto } from '../../api/dto/UpdateUser.dto'
@@ -28,15 +28,9 @@ const useQueries = (props: Props) => {
             queryClient.invalidateQueries({ queryKey: ['register'] })
         }
     })
-
-    const handleLogout = () => {
-        updateUserContext(null)
-
-        localStorage.clear()
-
-        if (props.closeRegisterModal)
-            props.closeRegisterModal()
-    }
+    const logoutMutate = useMutation({
+        mutationFn: () => logout(),
+    })
 
     const loginMutate = useMutation({
         mutationFn: (payload: LoginDto) => login(payload),
@@ -62,7 +56,21 @@ const useQueries = (props: Props) => {
         }
     })
 
-    return { registerMutate, loginMutate, updateUserMutate, serverMessage, setServerMessage, handleLogout }
+    const handleLogout = () => {
+        logoutMutate.mutate()
+
+        setTimeout(() => {
+            updateUserContext(null)
+
+            localStorage.clear()
+        }, 1500)
+
+
+        if (props.closeRegisterModal)
+            props.closeRegisterModal()
+    }
+
+    return { registerMutate, loginMutate, logoutMutate, updateUserMutate, serverMessage, setServerMessage, handleLogout }
 }
 
 export default useQueries

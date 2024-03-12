@@ -1,5 +1,5 @@
 import { LoginDto } from "./dto/LoginDto.dto"
-import { POST } from "./api-req"
+import { PATCH, POST } from "./api-req"
 
 const API = 'auth'
 
@@ -12,3 +12,14 @@ export const login = async (payload: LoginDto) => {
         throw new Error('Failed to login')
     }
 }
+
+export const logout = async () => {
+    try {
+        const response = await PATCH(`${API}/logout`, {})
+
+        return response
+    } catch (error) {
+        throw new Error('Failed to login')
+    }
+}
+
