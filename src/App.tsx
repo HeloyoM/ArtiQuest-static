@@ -16,22 +16,22 @@ function App() {
     queryKey: ['users'],
     queryFn: findAllUsers
   })
-  const { handleLogout, refrshTokenMutate } = useQueries({})
 
+  const { refrshTokenMutate } = useQueries({})
 
   React.useEffect(() => {
-    refrshTokenMutate.mutate()
+    if (getDecodedUser())
+      refrshTokenMutate.mutate()
   }, [])
 
   React.useEffect(() => {
     const decodedUser = getDecodedUser()
-
+    console.log({ decodedUser })
     if (decodedUser && sysUsers) {
 
       const userObj = sysUsers.find((u: User) => u.id === decodedUser.sub)
 
       updateUserContext(userObj)
-
     }
 
   }, [sysUsers])

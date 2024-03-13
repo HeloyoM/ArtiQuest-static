@@ -31,6 +31,13 @@ const useQueries = (props: Props) => {
 
     const logoutMutate = useMutation({
         mutationFn: () => logout(),
+        onSuccess: () => {
+            setTimeout(() => {
+                updateUserContext(null)
+
+                localStorage.clear()
+            }, 1500)
+        }
     })
 
     const loginMutate = useMutation({
@@ -47,10 +54,10 @@ const useQueries = (props: Props) => {
     const refrshTokenMutate = useMutation({
         mutationFn: refreshToken,
         onSuccess: async (data: any) => {
-            if (data.token) {
-                localStorage.setItem('token', data.token)
-            }
-            else throw Error('unable to log in')
+            if (!data.trim())
+                handleLogout()
+
+            else localStorage.setItem('token', data)
         }
     })
 
@@ -70,15 +77,10 @@ const useQueries = (props: Props) => {
     const handleLogout = () => {
         logoutMutate.mutate()
 
-        setTimeout(() => {
-            updateUserContext(null)
-
-            localStorage.clear()
-        }, 1500)
-
-
-        if (props.closeRegisterModal)
+        if (props.closeRegisterModal) {
             props.closeRegisterModal()
+        }
+
     }
 
     return { registerMutate, loginMutate, logoutMutate, refrshTokenMutate, updateUserMutate, serverMessage, setServerMessage, handleLogout }

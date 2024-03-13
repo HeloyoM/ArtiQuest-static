@@ -9,7 +9,8 @@ export const getToken = () => {
 export default function getDecodedUser() {
     const token = getToken()
 
-    if (token) {
+    if (token) 
         return jwtDecode(token)
-    }
+    
+    else return null
 }

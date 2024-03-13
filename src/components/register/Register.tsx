@@ -3,7 +3,7 @@ import { ArrowForward, ArrowBack } from '@mui/icons-material'
 import './style.css'
 
 import AppModal from '../common/modal/AppModal'
-import { Box, Typography, Input, FormLabel, FormControl, FormGroup, Button } from '@mui/material'
+import { Box, Typography, Input, FormLabel, FormControl, FormGroup, Button, Checkbox, FormControlLabel } from '@mui/material'
 import useQueries from './useQueries'
 import AppUserContext from '../../contextes/AppUserContext'
 import useUserForm from '../common/form/useUserForm'
@@ -15,9 +15,14 @@ type Props = {
 }
 
 const RegisterForm = (props: Props) => {
-  const [isLoginForm, setIsLoginFrom] = useState(false)
+  const [isLoginForm, setIsLoginFrom] = React.useState(false)
+  const [rememberMe, setRememberMe] = React.useState(false)
 
-  const [currentStep, setCurrentStep] = useState(0)
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(event.target.checked)
+  }
+
+  const [currentStep, setCurrentStep] = React.useState(0)
 
   const { user } = React.useContext(AppUserContext)
 
@@ -61,7 +66,7 @@ const RegisterForm = (props: Props) => {
 
 
     } else {
-      const payload = { username: email, password }
+      const payload = { username: email, password, rememberUser: rememberMe }
 
       loginMutate.mutate(payload)
     }
@@ -120,6 +125,13 @@ const RegisterForm = (props: Props) => {
         }
 
       </Typography>
+
+      {currentStep === fieldLabel.length - 1 && isLoginForm ? <FormControlLabel
+        control={
+          <Checkbox checked={rememberMe} onChange={handleChange} name="remember-me" />
+        }
+        label="remember me for other connections"
+      /> : <></>}
 
     </Box>
   )
