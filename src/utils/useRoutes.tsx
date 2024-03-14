@@ -7,6 +7,7 @@ import NotFoundPage from "../screens/notFound/NotFoundPage"
 import Category from "../components/category/Category"
 import Article from "../components/article/Article"
 import Profile from "../components/common/profile/Profile"
+import ControlScreen from "../screens/controlScreen/ControlScreen"
 
 const useRoutes = () => {
     const router = createBrowserRouter([
@@ -21,6 +22,10 @@ const useRoutes = () => {
         {
             path: "about",
             element: (<AboutAuthor />)
+        },
+        {
+            path: "control",
+            element: (<ControlScreen />)
         },
         {
             path: Paths.CAT,

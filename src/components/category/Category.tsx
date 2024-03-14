@@ -39,7 +39,7 @@ const Category = () => {
 
     React.useEffect(() => {
         if (!categoryArticles.data) return
-        console.log({ categoryArticles })
+    
         setArticles(categoryArticles.data)
     }, [categoryArticles.data])
 

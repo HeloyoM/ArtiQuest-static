@@ -1,7 +1,7 @@
 import { Text, StyleSheet, View } from '@react-pdf/renderer'
 
 type Props = {
-    date: Date
+    date: Date | string
 }
 const FileHeader = (props: Props) => {
     return (

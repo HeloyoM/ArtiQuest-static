@@ -4,7 +4,7 @@ import {
 } from '@tanstack/react-query'
 import { register, updateUser } from '../../api/user'
 import { User } from '../../interface/user.interface'
-import { LoginDto } from '../../api/dto/LoginDto.dto'
+import { LoginDto } from '../../api/dto/Login.dto'
 import { login, logout, refreshToken } from '../../api/auth'
 import React from 'react'
 import AppUserContext from '../../contextes/AppUserContext'
@@ -32,11 +32,9 @@ const useQueries = (props: Props) => {
     const logoutMutate = useMutation({
         mutationFn: () => logout(),
         onSuccess: () => {
-            setTimeout(() => {
-                updateUserContext(null)
+            updateUserContext(null)
 
-                localStorage.clear()
-            }, 1500)
+            localStorage.clear()
         }
     })
 
@@ -54,8 +52,11 @@ const useQueries = (props: Props) => {
     const refrshTokenMutate = useMutation({
         mutationFn: refreshToken,
         onSuccess: async (data: any) => {
-            if (!data.trim())
-                handleLogout()
+            if (!data) {
+                updateUserContext(null)
+
+                localStorage.removeItem('token')
+            }
 
             else localStorage.setItem('token', data)
         }

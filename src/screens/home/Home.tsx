@@ -8,6 +8,7 @@ import ArtiQuest from '../../components/artiQuest/ArtiQuest'
 import { findAllUsers } from '../../api/user'
 
 import './style.css'
+import SysadminAppNav from '../../components/common/navbar/SysadminAppNav'
 
 const HomePage = () => {
   const [demo, setDemo] = useState(false)
@@ -31,14 +32,16 @@ const HomePage = () => {
 
   return (
     <div className={!demo ? 'home' : 'home demo'}>
-      <AppNav isdemo={demo} endDemo={endDemo} users={users} />
-
+      {/* <AppNav isdemo={demo} endDemo={endDemo} users={users} /> */}
+      <SysadminAppNav />
+      
       <ArtiQuest isdemo={demo} />
 
       <Typography component='p' className='arti-quest-header'>
         <h1>Arti-Quest</h1>
         <p className="transform-text">Discover programming world right under your hands</p>
       </Typography>
+
 
     </div>
   )

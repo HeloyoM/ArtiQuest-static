@@ -1,4 +1,4 @@
-import { LoginDto } from "./dto/LoginDto.dto"
+import { LoginDto } from "./dto/Login.dto"
 import { PATCH, POST } from "./api-req"
 
 const API = 'auth'

@@ -1,6 +1,7 @@
-import { EditArticleDto } from './dto/EditArticleDto.dto'
+import { EditArticleDto } from './dto/EditArticle.dto'
 import { Article } from '../interface/article.interface'
 import { GET, PATCH, POST, PUT } from './api-req'
+import { CreateCatDto } from './dto/CreateCat.dto'
 
 const API = 'art'
 
@@ -17,7 +18,7 @@ export const getAllCategories = async () => {
 export const getArticlesByCategoryId = async (id: string) => {
     try {
         const response = await GET(`${API}/findBy/${id}`)
-console.log({response})
+        console.log({ response })
         return response
     } catch (error) {
         throw new Error('Failed to fetch articles')
@@ -85,3 +86,12 @@ export const increasArticleViewers = async (id: string) => {
     }
 }
 
+export const createNewCategory = async (cat: CreateCatDto) => {
+    try {
+        const response = await POST(`${API}/cat`, cat)
+
+        return response
+    } catch (error) {
+        throw new Error(`Failed to create new category by sysadmin at [${new Date().toLocaleDateString()}]`)
+    }
+}

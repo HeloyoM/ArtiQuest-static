@@ -6,7 +6,7 @@ export interface Article<T = string> {
     title: string
     sub_title: string
     author: User
-    created: Date
+    created: string
     cat: T
     body: T
     rank: IArticleRank
