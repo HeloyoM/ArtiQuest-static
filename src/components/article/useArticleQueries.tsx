@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { editArticleById, increasArticleViewers, rateArticle } from '../../api/articles'
+import { deleteArticle, editArticleById, increasArticleViewers, rateArticle } from '../../api/articles'
 import { Article } from '../../interface/article.interface'
 
 type Props = {
-    setArt: React.Dispatch<React.SetStateAction<Article<string> | undefined>>
+    setArt?: React.Dispatch<React.SetStateAction<Article<string> | undefined>>
     art?: Article
 }
 const useArticleQueries = (props: Props) => {
@@ -26,11 +26,11 @@ const useArticleQueries = (props: Props) => {
         onSuccess: async (data: any) => {
             if (!art) return
 
-            setArt(prev => ({ ...prev!, rank: data }))
+            setArt!(prev => ({ ...prev!, rank: data }))
         }
     })
 
-    const handleIncreasViewers = useMutation({
+    const increasViewers = useMutation({
         mutationFn: () => increasArticleViewers(art?.id!),
 
         onSuccess: () => {
@@ -38,7 +38,24 @@ const useArticleQueries = (props: Props) => {
         }
     })
 
-    return { editArticleMutate, rateArt, handleIncreasViewers }
+    const handleIncreasViewers = () => {
+        increasViewers.mutate()
+    }
+
+    const deleteArticleMutate = useMutation({
+        mutationFn: (id: string) => deleteArticle(id),
+
+        onSuccess: () => {
+
+        }
+    })
+
+
+    const handleDeleteArticle = (id: string) => {
+        deleteArticleMutate.mutate(id)
+    }
+
+    return { editArticleMutate, rateArt, handleDeleteArticle, handleIncreasViewers }
 }
 
 export default useArticleQueries

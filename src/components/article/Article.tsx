@@ -35,7 +35,7 @@ const Article = () => {
 
     React.useEffect(() => {
         if (art && user && !art.viewers.includes(user?.id!)) {
-            handleIncreasViewers.mutate()
+            handleIncreasViewers()
         }
     }, [user, art])
 
@@ -78,7 +78,7 @@ const Article = () => {
     }, [])
 
 
-    if (!art || isLoading || handleIncreasViewers.isPending) return (<AppProgress />)
+    if (!art || isLoading) return (<AppProgress />)
 
     const userAlreadyVote = (art.rank.voters.includes(user?.id!))
 

@@ -1,6 +1,6 @@
 import { EditArticleDto } from './dto/EditArticle.dto'
 import { Article } from '../interface/article.interface'
-import { GET, PATCH, POST, PUT } from './api-req'
+import { DELETE, GET, PATCH, POST, PUT } from './api-req'
 import { CreateCatDto } from './dto/CreateCat.dto'
 
 const API = 'art'
@@ -79,6 +79,16 @@ export const createArticle = async (art: Partial<Article>) => {
 export const increasArticleViewers = async (id: string) => {
     try {
         const response = await PATCH(`${API}/view/${id}`, {})
+
+        return response
+    } catch (error) {
+        throw new Error(`Failed to update viewers list of article with given id ${id}`)
+    }
+}
+
+export const deleteArticle = async (id: string) => {
+    try {
+        const response = await DELETE(`${API}/${id}`)
 
         return response
     } catch (error) {

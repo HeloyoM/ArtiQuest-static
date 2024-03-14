@@ -88,7 +88,7 @@ const Profile = () => {
 
     const approvalChanges = (
         <Box sx={modalStyle}>
-            {langsFile.system.profile.approval}
+            {langsFile.system.common.approval}
             <Button onClick={handleUpdateUserDetails}>{langsFile.casual.yes}</Button>
             <Button onClick={closeApprovModal}>{langsFile.casual.no}</Button>
         </Box >

@@ -1,13 +1,15 @@
 import React from 'react'
 import AppBar from '@mui/material/AppBar'
 import { useNavigate } from 'react-router-dom'
-import { Toolbar, Button, Box, Menu } from '@mui/material'
+import { Toolbar, Button, Box, Menu, useMediaQuery } from '@mui/material'
 import NavBtnAction from './NavBtnAction'
 import { AccountCircle, Login as ConnectIcon } from '@mui/icons-material'
 
 
 const SysadminAppNav = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+
+    const matches = useMediaQuery('(min-width:600px)')
 
     const navigate = useNavigate()
 
@@ -23,6 +25,8 @@ const SysadminAppNav = () => {
     const openControlScreen = () => {
         navigate('/control')
     }
+
+    console.log({ matches })
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -60,11 +64,11 @@ const SysadminAppNav = () => {
                             }}
                             style={{ display: 'inline-grid' }}
                         >
-                            <Button onClick={openControlScreen}>NEW</Button>
+                            <Button disabled={!matches} onClick={openControlScreen}>NEW</Button>
 
-                            <Button onClick={openControlScreen}>UPDATE</Button>
+                            <Button disabled={!matches} onClick={openControlScreen}>UPDATE</Button>
 
-                            <Button onClick={openControlScreen}>DELETE</Button>
+                            <Button disabled={!matches} onClick={openControlScreen}>DELETE</Button>
                         </Menu>
                     </Box>
                 </Toolbar>

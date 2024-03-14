@@ -1,9 +1,7 @@
 {
     "system": {
         "common":{
-            "save": "Save"
-        },
-        "profile": {
+            "save": "Save",
             "approval": "Are you sure do you want to save changes?"
         },
         "registeration": {
