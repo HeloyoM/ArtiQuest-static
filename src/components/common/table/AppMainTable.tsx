@@ -1,18 +1,17 @@
-import { Paper, Table, TableContainer } from '@mui/material'
+import { Table } from '@mui/material'
+import TableWrapper from './TableWrapper'
 
-type Props = {
-    children: JSX.Element
+interface AppMainTableProps {
+    children: React.ReactNode
 }
 
-const AppMainTable = (props: Props) => {
+const AppMainTable: React.FC<AppMainTableProps> = ({ children }) => {
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label="sticky table">
-                    {props.children}
-                </Table>
-            </TableContainer>
-        </Paper>
+        <TableWrapper>
+            <Table stickyHeader aria-label="sticky table">
+                {children}
+            </Table>
+        </TableWrapper>
     )
 }
 

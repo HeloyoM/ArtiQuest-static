@@ -11,7 +11,7 @@ export default function AppTableHeader(props: Props) {
                 {props.columns.map((column) => (
                     <TableCell
                         key={column.id}
-                        align={column.align ?? 'right'}
+                        align={column.align}
                         style={{ minWidth: column.minWidth }}
                     >
                         {column.label}
