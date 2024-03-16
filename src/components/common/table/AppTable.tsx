@@ -32,7 +32,7 @@ export const AppTable = (props: Props) => {
 
         <React.Fragment>
 
-            <Typography style={{ fontWeight: 'bold' }}>{props.tableTitle}</Typography>
+            <Typography style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 32 }}>{props.tableTitle}</Typography>
 
             <AppMainTable>
                 <AppTableHeader columns={props.columns} />

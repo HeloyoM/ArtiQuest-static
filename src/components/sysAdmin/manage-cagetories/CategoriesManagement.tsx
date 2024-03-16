@@ -1,8 +1,7 @@
 import React from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Box, Button, IconButton } from '@mui/material'
-import { Delete as DeleteIcon, TurnedIn as TurnedIcon, Image as ImageIcon, Edit as UpdateIcon } from '@mui/icons-material'
-
+import { Box, Button, IconButton, Typography } from '@mui/material'
+import { Person as PersonIcon, Info as InfoIcon, Delete as DeleteIcon, TurnedIn as TurnedIcon, Image as ImageIcon, Edit as UpdateIcon } from '@mui/icons-material'
 import { getAllCategories } from '../../../api/articles'
 
 import AppTable from '../../../components/common/table/AppTable'
@@ -16,6 +15,8 @@ import langsFile from '../../../utils/langs-file.json'
 import { paginate } from '../../../utils/paginate'
 import useArticleQueries from '../../article/useArticleQueries'
 import { categoriesColumns } from './columns-definition'
+import getPopularAuthor from '../utils/getMostPopularAuthor'
+import getToalViewers from '../utils/getTotalArticles'
 
 const CategoriesManagement = () => {
     const [rows, setRows] = React.useState<any[]>([])
@@ -84,40 +85,10 @@ const CategoriesManagement = () => {
         </Box >
     )
 
-    const getToalViewers = () => {
-        let counter = 0
-        for (const a of categoriesChunk[0].arts) {
-            counter = counter + a.viewers.length
-        }
-
-        return counter
-    }
-
-    const getPopularAuthor = () => {
-        const authorCounts = categoriesChunk[0].arts.reduce((counts: any, article: Article) => {
-            const { id } = article.author
-            counts[id!] = (counts[id!] || 0) + 1
-            return counts
-        }, {})
-
-        let mostPopularAuthorId = ''
-        let maxCount = 0
-        for (const authorId in authorCounts) {
-            if (authorCounts[authorId] > maxCount) {
-                mostPopularAuthorId = authorId
-                maxCount = authorCounts[authorId]
-            }
-        }
-
-        const { author } = categoriesChunk[0].arts.find((a: Article) => a.author.id === mostPopularAuthorId)
-
-        return author.first_name + ' ' + author.last_name
-    }
-
     const items = [
         { primary: 'Total articles', secondary: categoriesChunk[0].len, icon: <TurnedIcon /> },
-        { primary: 'Viewers', secondary: getToalViewers(), icon: <ImageIcon /> },
-        { primary: 'Most popular author', secondary: getPopularAuthor(), icon: <ImageIcon /> },
+        { primary: 'Viewers', secondary: getToalViewers(categoriesChunk[0].arts), icon: <ImageIcon /> },
+        { primary: 'Most popular author', secondary: getPopularAuthor(categoriesChunk[0].arts), icon: <PersonIcon /> },
     ]
 
     return (
@@ -135,6 +106,11 @@ const CategoriesManagement = () => {
                 page={page}
                 itemsCount={categoriesData.length}
                 pageSize={1} />
+
+            <Typography component='div' sx={{ display: 'flex', p: 2 }}>
+                <InfoIcon sx={{ mr: 4, color: 'lightgreen' }} />
+                <Typography component='p'>Addtional information about category</Typography>
+            </Typography>
 
             <AppList items={items} />
 

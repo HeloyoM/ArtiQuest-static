@@ -4,21 +4,12 @@ import './style.css'
 
 import { ArrowBack } from '@mui/icons-material'
 
-
-import { paginate } from '../../utils/paginate'
 import { Box, Typography } from '@mui/material'
 
-import AppModal from '../../components/common/modal/AppModal'
 import CategoriesManagement from '../../components/sysAdmin/manage-cagetories/CategoriesManagement'
 
-
 const ControlScreen = () => {
-
     const [editArticle, setEditArticle] = React.useState(false)
-
-
-
-
 
     const onEditArticle = (id: string) => {
         setEditArticle(prev => !prev)
@@ -33,7 +24,9 @@ const ControlScreen = () => {
     return (
         <React.Fragment>
             {!editArticle ?
+                
                 <CategoriesManagement />
+                
                 :
                 <Box sx={style} className='edit-container'>
                     <ArrowBack onClick={closeEditArticle} />
@@ -41,10 +34,6 @@ const ControlScreen = () => {
                     <Typography>Edit article</Typography>
                 </Box>
             }
-
-            {/* <AppModal open={open} close={closeModal} children={approvalChanges} /> */}
-
-
 
         </React.Fragment>
     )
