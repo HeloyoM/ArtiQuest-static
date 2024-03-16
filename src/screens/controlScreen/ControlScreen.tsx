@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import './style.css'
 import { ArrowBack } from '@mui/icons-material'
 import { getAllCategories } from '../../api/articles'
-import AppTable from '../../components/AppTable'
+import AppTable from '../../components/common/table/AppTable'
 import AppPagination from '../../components/common/AppPagination'
 import { paginate } from '../../utils/paginate'
 import useArticleQueries from '../../components/article/useArticleQueries'
@@ -65,7 +65,7 @@ const ControlScreen = () => {
                 </Box>
             }
 
-            
+
         </React.Fragment>
     )
 }

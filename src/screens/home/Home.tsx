@@ -8,7 +8,7 @@ import ArtiQuest from '../../components/artiQuest/ArtiQuest'
 import { findAllUsers } from '../../api/user'
 
 import './style.css'
-import SysadminAppNav from '../../components/common/navbar/SysadminAppNav'
+import SysadminAppNav from '../../components/common/navbar/sysAdminPanel/SysadminAppNav'
 
 const HomePage = () => {
   const [demo, setDemo] = useState(false)

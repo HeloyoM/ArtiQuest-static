@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { Typography, TableRow, TablePagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, IconButton, Box, Button } from '@mui/material'
-import { Article } from '../interface/article.interface'
+import { Article } from '../../../interface/article.interface'
 import { Delete as DeleteIcon, Edit as UpdateIcon } from '@mui/icons-material'
-import AppModal from '../components/common/modal/AppModal'
-import langsFile from '../utils/langs-file.json'
+import AppModal from '../modal/AppModal'
+import langsFile from '../../../utils/langs-file.json'
 
 interface Column {
     id: 'title' | 'author' | 'createdAt' | 'viewers' | 'rate' | 'operations'
@@ -73,7 +73,6 @@ export const AppTable = (props: Props) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [rows, setRows] = React.useState<Data[]>([])
 
-
     const confirmationBeforeDeletion = (id: string) => {
         setArtToEditOrDelete(id)
         setOpen(true)
@@ -134,6 +133,7 @@ export const AppTable = (props: Props) => {
 
             <TableContainer sx={{ maxHeight: 440 }}>
                 <Table stickyHeader aria-label="sticky table">
+                   
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
@@ -147,6 +147,7 @@ export const AppTable = (props: Props) => {
                             ))}
                         </TableRow>
                     </TableHead>
+                   
                     <TableBody>
                         {rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
