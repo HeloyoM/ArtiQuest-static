@@ -1,29 +1,29 @@
 import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Box, Button, IconButton, Typography } from '@mui/material'
-import { Person as PersonIcon, Info as InfoIcon, Delete as DeleteIcon, TurnedIn as TurnedIcon, Image as ImageIcon, Edit as UpdateIcon } from '@mui/icons-material'
-import { getAllCategories } from '../../../api/articles'
+import { VisibilityOff as VisibilityOffIcon, Person as PersonIcon, Info as InfoIcon, Delete as DeleteIcon, TurnedIn as TurnedIcon, Image as ImageIcon, Edit as UpdateIcon } from '@mui/icons-material'
+import { getAllCategories } from '../../../../api/articles'
 
-import AppTable from '../../../components/common/table/AppTable'
-import AppPagination from '../../../components/common/AppPagination'
-import AppList from '../../../components/common/list/AppList'
+import AppTable from '../../../../components/common/table/AppTable'
+import AppPagination from '../../../../components/common/AppPagination'
+import AppList from '../../../../components/common/list/AppList'
 
-import { Article } from '../../../interface/article.interface'
+import { Article } from '../../../../interface/article.interface'
 
 import computRows from './rowDataMapping'
-import langsFile from '../../../utils/langs-file.json'
-import { paginate } from '../../../utils/paginate'
-import useArticleQueries from '../../article/useArticleQueries'
+import langsFile from '../../../../utils/langs-file.json'
+import { paginate } from '../../../../utils/paginate'
+import useArticleQueries from '../../../article/useArticleQueries'
 import { categoriesColumns } from './columns-definition'
-import getPopularAuthor from '../utils/getMostPopularAuthor'
-import getToalViewers from '../utils/getTotalArticles'
+import getPopularAuthor from '../../utils/getMostPopularAuthor'
+import getToalViewers from '../../utils/getTotalArticles'
 
 const CategoriesManagement = () => {
     const [rows, setRows] = React.useState<any[]>([])
     const [open, setOpen] = React.useState(false)
     const [page, setPage] = React.useState(1)
 
-    const { handleDeleteArticle } = useArticleQueries({})
+    const { handleDeleteArticle, handleDisabledArticle } = useArticleQueries({})
 
     const { isLoading, data: categoriesData } = useQuery({
         queryKey: ['categories'],
@@ -33,7 +33,6 @@ const CategoriesManagement = () => {
     const categoriesChunk = React.useMemo(() => {
         return paginate(categoriesData, page, 1)
     }, [categoriesData, page])
-
 
     React.useEffect(() => {
         if (!categoriesChunk.length) return
@@ -59,10 +58,16 @@ const CategoriesManagement = () => {
         setOpen(true)
     }
 
+    const disabledArticle = (id: string) => {
+        handleDisabledArticle.mutate(id)
+    }
+
     const closeModal = () => {
         setOpen(false)
     }
-
+    const isDisabledArticle = (id: string) => {
+        return Boolean(categoriesChunk[0].arts.find((a: Article) => (a.id === id)).active)
+    }
     const tableOptions = (id: string) => (
         <React.Fragment>
 
@@ -71,7 +76,7 @@ const CategoriesManagement = () => {
             </IconButton>
 
             <IconButton>
-                <UpdateIcon sx={{ color: 'green', cursor: 'pointer' }} /*onClick={() => handleUpdateArticle(id)}*/ />
+                <VisibilityOffIcon sx={{ color: isDisabledArticle(id) ? 'black' : 'red', cursor: 'pointer' }} onClick={() => disabledArticle(id)} />
             </IconButton>
 
         </React.Fragment>

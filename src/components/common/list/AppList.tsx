@@ -1,11 +1,6 @@
 import { List } from '@mui/material'
 import AppListItem from './AppListItem'
-
-interface IListItem {
-    primary: React.ReactNode
-    secondary: React.ReactNode
-    icon: any
-}
+import { IListItem } from '../../../interface/IListItem.interface'
 
 type Props = {
     items: IListItem[]

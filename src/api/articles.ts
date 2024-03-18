@@ -105,3 +105,15 @@ export const createNewCategory = async (cat: CreateCatDto) => {
         throw new Error(`Failed to create new category by sysadmin at [${new Date().toLocaleDateString()}]`)
     }
 }
+
+export const disabledArticle = async (id: string) => {
+    try {
+        const response = await PATCH(`${API}/disabled/${id}`, {})
+
+        return response
+    } catch (error) {
+        throw new Error(`Failed to disabled article by sysadmin at [${new Date().toLocaleDateString()}] with the given article id [${id}]`)
+    }
+}
+
+

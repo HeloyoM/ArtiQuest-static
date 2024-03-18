@@ -39,7 +39,7 @@ const Category = () => {
 
     React.useEffect(() => {
         if (!categoryArticles.data) return
-    
+
         setArticles(categoryArticles.data)
     }, [categoryArticles.data])
 
@@ -134,9 +134,8 @@ const Category = () => {
 
                 <p>Number of articles: {articles.length}</p>
 
-
                 <div className='cards-container'>
-                    {articlesChunk.map((a: Article<ICategory>) => (
+                    {articlesChunk.filter((a: Article<ICategory>) => a.active).map((a: Article<ICategory>) => (
                         <React.Fragment>
                             <Typography sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <AppRating readonly value={a?.rank?.total} handleRate={() => { }} />

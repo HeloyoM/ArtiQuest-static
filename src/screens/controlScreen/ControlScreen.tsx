@@ -6,7 +6,7 @@ import { ArrowBack } from '@mui/icons-material'
 
 import { Box, Typography } from '@mui/material'
 
-import CategoriesManagement from '../../components/sysAdmin/manage-cagetories/CategoriesManagement'
+import CategoriesManagement from '../../components/entities/sysAdmin/manage-cagetories/CategoriesManagement'
 
 const ControlScreen = () => {
     const [editArticle, setEditArticle] = React.useState(false)
@@ -15,11 +15,9 @@ const ControlScreen = () => {
         setEditArticle(prev => !prev)
     }
 
-
     const closeEditArticle = () => {
         setEditArticle(false)
     }
-
 
     return (
         <React.Fragment>

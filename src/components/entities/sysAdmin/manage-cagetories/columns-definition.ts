@@ -1,4 +1,4 @@
-import { ITableColumn } from "../../../interface/table-columns.interface"
+import { ITableColumn } from "../../../../interface/table-columns.interface"
 
 export const categoriesColumns: ITableColumn[] = [
     {

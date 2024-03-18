@@ -8,6 +8,7 @@ import Category from "../components/category/Category"
 import Article from "../components/article/Article"
 import Profile from "../components/common/profile/Profile"
 import ControlScreen from "../screens/controlScreen/ControlScreen"
+import AuthorControl from "../components/entities/author/AuthorControl"
 
 const useRoutes = () => {
     const router = createBrowserRouter([
@@ -26,6 +27,10 @@ const useRoutes = () => {
         {
             path: "control",
             element: (<ControlScreen />)
+        },
+        {
+            path: Paths.AUTHOR,
+            element: (<AuthorControl />)
         },
         {
             path: Paths.CAT,

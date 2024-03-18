@@ -11,4 +11,5 @@ export interface Article<T = string> {
     body: T
     rank: IArticleRank
     viewers: string[]
+    active: boolean
 }

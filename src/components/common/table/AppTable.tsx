@@ -10,8 +10,8 @@ type Props = {
     tableTitle: string
     rows: any[]
     columns: any[]
-    handleDeleteArticle: (id: string) => void
-    handleUpdateArticle: (id: string) => void
+    handleDeleteArticle?: (id: string) => void
+    handleUpdateArticle?: (id: string) => void
 }
 
 export const AppTable = (props: Props) => {

@@ -58,8 +58,13 @@ const AppNav = (props: Props) => {
   const openConnectionForm = () => {
     setOpenRegister(prev => true)
   }
+
   const closeLoginModal = () => {
     setOpenRegister(prev => false)
+  }
+
+  const handleOpenAuthorControl = () => {
+    navigate(`/author/${user.id}`)
   }
 
   return (
@@ -74,7 +79,12 @@ const AppNav = (props: Props) => {
 
             <Box sx={{ display: { md: 'flex' } }}>
 
-              <NavbarButtons popover={popover} openConnectionForm={openConnectionForm} handleOpenProfile={handleOpenProfile} />
+              <NavbarButtons
+                popover={popover}
+                openConnectionForm={openConnectionForm}
+                handleOpenProfile={handleOpenProfile}
+                handleOpenAuthorControl={handleOpenAuthorControl}
+              />
 
             </Box>
           </Toolbar>
