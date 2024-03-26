@@ -93,7 +93,7 @@ const Article = () => {
 
             <h2>{sub_title}</h2>
             <p>
-                <strong>{new Date(created).toLocaleDateString()}</strong>
+                <strong>{created}</strong>
             </p>
 
             <div className='author'>

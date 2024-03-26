@@ -35,7 +35,7 @@ const PostsContainer = (props: Props) => {
 
     return (
         <Typography>{authorArticles.map((a: PostResultDto<User>) => (
-            <Typography component='div' sx={{ border: '1px solid lightgrey' }}>
+            <Typography component='div' sx={{ border: '1px solid lightgrey', width: '20%' }}>
                 <Typography component='p'>{a.title}</Typography>
 
                 <Typography component='div'>

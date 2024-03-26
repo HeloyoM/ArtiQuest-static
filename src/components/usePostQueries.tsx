@@ -21,7 +21,7 @@ const usePostQueries = (props: Props) => {
 
         else {
 
-            const arts: PostResultDto<User>[] = data.data.map((a: PostResultDto<string>) => {
+            const arts: PostResultDto<User>[] = data.map((a: PostResultDto<string>) => {
 
                 let posts: IPost<User>[] = []
 
