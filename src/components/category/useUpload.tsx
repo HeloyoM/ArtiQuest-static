@@ -10,7 +10,7 @@ type Props = {
 const useUpload = (props: Props) => {
     let fileSizeInMB: number = 0
     let exe
-    
+
 
     const handleArtiFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         props.setError({ fileExtension: false, fileSizeInMB: false })
@@ -24,10 +24,6 @@ const useUpload = (props: Props) => {
 
 
             const file = files[0]
-
-            // props.setFormData({ file })
-
-            // props.setFile(file)
 
             validateFile(file)
 

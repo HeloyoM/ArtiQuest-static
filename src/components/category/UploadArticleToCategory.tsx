@@ -9,21 +9,21 @@ import ErrorFile from './ErrorFile'
 import FileLimitations from './FileLimitations'
 import { useForm } from 'react-hook-form'
 import FileReviewer from '../common/FileReviewer'
+import { ICategory } from '../../interface/category.interface'
 
 type Props = {
-    category?: string
-    handleUploading: (e: React.ChangeEvent<HTMLInputElement>) => void
+    category: Partial<ICategory>
     isUploading: boolean
     error: UploadErrors
-    uploadArticle: (sub_title: string, title: string, file: FormData) => void
+    uploadArticle: (file: FormData) => void
 }
 
 const UploadArticleToCategory = (props: Props) => {
-    const [file, setFile] = React.useState<File>()
-    const [sub_title, setSubTitle] = React.useState('')
-    const { error, handleUploading, isUploading, category, uploadArticle } = props
 
-    const { register, handleSubmit } = useForm();
+    const [sub_title, setSubTitle] = React.useState('')
+    const { error, isUploading, category, uploadArticle } = props
+
+    const { register, handleSubmit } = useForm()
 
     const handleSubtitle = (
         { target }: React.ChangeEvent<HTMLInputElement>
@@ -34,20 +34,18 @@ const UploadArticleToCategory = (props: Props) => {
     const onSubmit = async (data: any) => {
         const formData = new FormData()
         formData.append("file", data.file[0])
-        console.log(Object.fromEntries(formData))
-        const title = file?.name.split('.')[0]!
-        
-        formData.append('sub_title', sub_title);
-        formData.append('title', title);
-        uploadArticle(sub_title, title, formData)
+        const title = data.file[0].name.split('.')[0]!
+
+        formData.append('art', JSON.stringify({ title, sub_title, cat: category.id }))
+        uploadArticle(formData)
     }
 
     return (
         <Box sx={{ width: 850 }} role="presentation" >
-            <Typography sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '22px' }}>{category}</Typography>
+            <Typography sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '22px' }}>{category.name}</Typography>
 
             <Typography sx={{ textAlign: 'center', fontWeight: 'bold' }}>
-                you head to insert a article to "{category}"
+                you head to insert a article to "{category.name}"
             </Typography>
 
             <React.Fragment>
@@ -95,7 +93,7 @@ const UploadArticleToCategory = (props: Props) => {
                     </FormControl>
                 </Box>
 
-                <FileReviewer file={file} />
+                {/* <FileReviewer file={file} /> */}
 
 
             </React.Fragment>

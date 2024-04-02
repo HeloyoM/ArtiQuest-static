@@ -35,7 +35,7 @@ const Category = () => {
 
     let { category, id } = useParams()
 
-    const { categoryArticles, uploadingArti } = useCategoryQueries({ id })
+    const { categoryArticles } = useCategoryQueries({ id })
 
     React.useEffect(() => {
         if (!categoryArticles.data) return
@@ -69,24 +69,8 @@ const Category = () => {
         localStorage.removeItem(`category-${id}`)
     }
 
-    const insertArticle = (sub_title: string) => {
-        return new Promise((resolve, reject) => {
-
-            const fileExtension = `file?.name.split('.')[0]!`
-
-            const art = {
-                cat: id,
-                sub_title,
-                body: 'formData',
-                title: fileExtension
-            }
-
-            resolve(art)
-        })
-    }
-
-    const handleInsertArticle = async (sub_title: string, title: string, file: FormData) => {
-        file.append('cat', id!)
+    const handleInsertArticle = async (file: FormData) => {
+        console.log({file})
 
         axios.post(
             'http://localhost:3001/api/art',
@@ -98,26 +82,7 @@ const Category = () => {
                 },
             }
         ).then((res) => console.log({ res }))
-        // await insertArticle(sub_title)
-        //     .then(res => handleInsertToServer(res))
-        //     .catch((err) => console.log(err))
     }
-
-    const handleInsertToServer = React.useCallback((formData: unknown) => {
-        console.log({ formData })
-        // axios.post(
-        //     'http://localhost:3001/api/art',
-        //     formData,
-        //     {
-        //         headers: {
-        //             "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3YjU0ZjdiNi02ZTkxLTRhMGItYWE1Ni0wOGY3MDU2NmU5MmMiLCJyZW1lbWJlck1lIjp0cnVlLCJpYXQiOjE3MTE0NzcxODcsImV4cCI6MTcxMTQ3NzE5Mn0.gMOfBfTGtY_fFe1yqHWhVoXMkZg0uP8f8gs49N_W5Po",
-        //             "Content-type": "multipart/form-data",
-        //         },
-        //     }
-        // ).then((res) => console.log({ res }))
-
-        // uploadingArti.mutate(artData as Partial<Article>)
-    }, [])
 
     const handlePaginate = (
         e: React.ChangeEvent<unknown>,
@@ -172,8 +137,7 @@ const Category = () => {
                     uploadArticle={handleInsertArticle}
                     error={errorWithUpload}
                     isUploading={uploading}
-                    handleUploading={handleArtiFile}
-                    category={category} />}
+                    category={{ name: category, id }} />}
                 openMenu={insertionOpen}
                 close={closeInsertion}
                 category={category} />
