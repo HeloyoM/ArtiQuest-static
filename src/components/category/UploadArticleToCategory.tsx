@@ -1,41 +1,46 @@
 import React from 'react'
 import './style.css'
-import { Box, Button, Divider, FormControl, Input, InputLabel, Typography } from '@mui/material'
+import { Box, Button, FormControl, Input, InputLabel, Typography } from '@mui/material'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import AppProgress from '../common/AppProgress'
 import { UploadErrors } from './interface/fileErrors.interface'
-import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer'
+
 import ErrorFile from './ErrorFile'
 import FileLimitations from './FileLimitations'
+import { useForm } from 'react-hook-form'
+import FileReviewer from '../common/FileReviewer'
 
 type Props = {
     category?: string
     handleUploading: (e: React.ChangeEvent<HTMLInputElement>) => void
     isUploading: boolean
     error: UploadErrors
-    selectedDocs?: File
-    uploadArticle: (sub_title: string) => void
+    uploadArticle: (sub_title: string, title: string, file: FormData) => void
 }
 
 const UploadArticleToCategory = (props: Props) => {
+    const [file, setFile] = React.useState<File>()
     const [sub_title, setSubTitle] = React.useState('')
-    const { error, handleUploading, isUploading, category, selectedDocs, uploadArticle } = props
+    const { error, handleUploading, isUploading, category, uploadArticle } = props
 
-    const handleSubtitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSubTitle(e.target.value)
+    const { register, handleSubmit } = useForm();
+
+    const handleSubtitle = (
+        { target }: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setSubTitle(target.value)
     }
 
-    const review = React.useMemo(() => {
-        if (!selectedDocs) return
-
-        else return (
-            <DocViewer
-                config={{ header: { disableFileName: true } }}
-                documents={[{ uri: URL.createObjectURL(selectedDocs) }]}
-                pluginRenderers={DocViewerRenderers}
-            />
-        )
-    }, [selectedDocs])
+    const onSubmit = async (data: any) => {
+        const formData = new FormData()
+        formData.append("file", data.file[0])
+        console.log(Object.fromEntries(formData))
+        const title = file?.name.split('.')[0]!
+        
+        formData.append('sub_title', sub_title);
+        formData.append('title', title);
+        uploadArticle(sub_title, title, formData)
+    }
 
     return (
         <Box sx={{ width: 850 }} role="presentation" >
@@ -45,12 +50,19 @@ const UploadArticleToCategory = (props: Props) => {
                 you head to insert a article to "{category}"
             </Typography>
 
-            {!review &&
-                <React.Fragment>
-                    
-                    <FileLimitations />
+            <React.Fragment>
 
-                    <div className='upload-arti'>
+                <FileLimitations />
+
+                <div className='upload-arti'>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+
+                        <Button
+                            variant='contained'
+                            color='secondary'
+                            sx={{ width: '100%', height: '47px' }}
+                            type="submit">Upload</Button>
+
                         <Button
                             variant="contained"
                             component="label"
@@ -58,39 +70,37 @@ const UploadArticleToCategory = (props: Props) => {
                             startIcon={!isUploading ? <FileUploadOutlinedIcon /> : <AppProgress type='Circular' />}
                         >
                             <label>
-                                Upload Article
+                                upload article
                                 <input
-                                    multiple
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleUploading(e)}
+                                    multiple {...register("file")}
                                     type="file"
                                     hidden
                                 />
                             </label>
+
                         </Button>
-                    </div>
 
-                </React.Fragment>}
+                    </form>
+                </div>
 
-            {review &&
-                <React.Fragment>
-                    <Button
-                        variant='contained'
-                        color='secondary'
-                        sx={{ width: '100%', height: '47px' }}
-                        onClick={() => uploadArticle(sub_title)}>Upload</Button>
+            </React.Fragment>
 
-                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <FormControl variant="standard">
-                            <InputLabel htmlFor="component-simple">sub title(recomended)</InputLabel>
-                            <Input id="component-simple" name='sub_title' onChange={handleSubtitle} />
-                        </FormControl>
-                    </Box>
-                    {review}
+            <React.Fragment>
 
 
-                </React.Fragment>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <FormControl variant="standard">
+                        <InputLabel htmlFor="component-simple">sub title(recomended)</InputLabel>
+                        <Input id="component-simple" name='sub_title' onChange={handleSubtitle} />
+                    </FormControl>
+                </Box>
 
-            }
+                <FileReviewer file={file} />
+
+
+            </React.Fragment>
+
+
             {/* <ErrorFile error={error} /> */}
 
         </Box>
@@ -98,5 +108,3 @@ const UploadArticleToCategory = (props: Props) => {
 }
 
 export default UploadArticleToCategory
-
-const pdfConverterURL = 'https://www.youpdf.com/pdf-to-word.html?utm_source=google&utm_medium=CjwKCAiAiP2tBhBXEiwACslfnqzaEbW6d82OCRvNCX2eP7mYPt0b1vOhjnq4IlXlKLjb7ccFUMa0whoCgBsQAvD_BwE&cuid=CjwKCAiAiP2tBhBXEiwACslfnqzaEbW6d82OCRvNCX2eP7mYPt0b1vOhjnq4IlXlKLjb7ccFUMa0whoCgBsQAvD_BwE&gad_source=1&gclid=CjwKCAiAiP2tBhBXEiwACslfnqzaEbW6d82OCRvNCX2eP7mYPt0b1vOhjnq4IlXlKLjb7ccFUMa0whoCgBsQAvD_BwE'

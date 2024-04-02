@@ -30,7 +30,7 @@ const ArtiBody = (props: Props) => {
                             {header}
                         </Typography>)
                 } else if (!props.isedit) {
-                    return (<Typography component='p' key={index} className='body-paragraph'>{paragraph}</Typography>)
+                    return (<Typography component='p' style={{ direction: RegExpUtil.rtl.test(paragraph) ? 'rtl' : 'ltr' }} key={index} className='body-paragraph'>{paragraph}</Typography>)
                 } else {
                     return (
                         <div className='textarea-p'>

@@ -1,20 +1,18 @@
 import React from 'react'
 import { UploadErrors } from './interface/fileErrors.interface'
 import constants from './constants'
-import * as pdfjsLib from 'pdfjs-dist'
 
 type Props = {
     setIsUploading: React.Dispatch<React.SetStateAction<boolean>>
     setError: React.Dispatch<React.SetStateAction<UploadErrors>>
-    setDocxFile: React.Dispatch<React.SetStateAction<File | undefined>>
 }
 
 const useUpload = (props: Props) => {
     let fileSizeInMB: number = 0
     let exe
+    
 
     const handleArtiFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-
         props.setError({ fileExtension: false, fileSizeInMB: false })
 
         props.setIsUploading(true)
@@ -27,16 +25,9 @@ const useUpload = (props: Props) => {
 
             const file = files[0]
 
-            const reader = new FileReader()
+            // props.setFormData({ file })
 
-            reader.onload = (e) => {
-                console.log(typeof e.target?.result)
-
-            }
-
-            reader.readAsArrayBuffer(file)
-
-            props.setDocxFile(file)
+            // props.setFile(file)
 
             validateFile(file)
 

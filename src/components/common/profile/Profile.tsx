@@ -42,7 +42,7 @@ const Profile = () => {
 
     const toggleEditPass = () => {
         resetForm()
-        
+
         setServerMessage('')
 
         if (isEditProfile) setIsEditProifle(false)

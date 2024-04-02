@@ -21,13 +21,13 @@ import { UploadErrors } from './interface/fileErrors.interface'
 import { ICategory } from '../../interface/category.interface'
 import constants from './constants'
 import useCategoryQueries from './useCategoryQueries'
+import axios from 'axios'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
     const [articles, setArticles] = React.useState<any[]>([])
     const [insertionOpen, setInsertionOpen] = React.useState(false)
     const [uploading, setUploading] = React.useState(false)
-    const [selectedDocs, setSelectedDocs] = React.useState<File>()
     const [errorWithUpload, setErrorWithUpload] = React.useState<UploadErrors>({
         fileSizeInMB: false,
         fileExtension: false
@@ -58,8 +58,7 @@ const Category = () => {
 
     const { handleArtiFile } = useUpload({
         setIsUploading: setUploading,
-        setError: setErrorWithUpload,
-        setDocxFile: setSelectedDocs
+        setError: setErrorWithUpload
     })
 
     const handleSaveLastPage = () => {
@@ -72,34 +71,52 @@ const Category = () => {
 
     const insertArticle = (sub_title: string) => {
         return new Promise((resolve, reject) => {
-            const reader = new FileReader()
 
-            reader.readAsDataURL(selectedDocs!)
+            const fileExtension = `file?.name.split('.')[0]!`
 
-            const fileExtension = selectedDocs?.name.split('.')!
-            reader.onload = () => {
-                const base64 = reader.result
-
-                const art: Partial<Article> = {
-                    cat: id,
-                    sub_title,
-                    body: base64 as any,
-                    title: fileExtension[0]
-                }
-
-                resolve(art)
+            const art = {
+                cat: id,
+                sub_title,
+                body: 'formData',
+                title: fileExtension
             }
+
+            resolve(art)
         })
     }
 
-    const handleInsertArticle = async (sub_title: string) => {
-        await insertArticle(sub_title)
-            .then(res => handleInsertToServer(res))
-            .catch((err) => console.log(err))
+    const handleInsertArticle = async (sub_title: string, title: string, file: FormData) => {
+        file.append('cat', id!)
+
+        axios.post(
+            'http://localhost:3001/api/art',
+            file,
+            {
+                headers: {
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3YjU0ZjdiNi02ZTkxLTRhMGItYWE1Ni0wOGY3MDU2NmU5MmMiLCJyZW1lbWJlck1lIjp0cnVlLCJpYXQiOjE3MTIwMDU1ODgsImV4cCI6MTcxMjAwNTU5M30.YbKG-u-vfFRQtpWlTzbwZNAziTssFQ50d8ij2nO2a_0",
+                    "Content-type": "multipart/form-data",
+                },
+            }
+        ).then((res) => console.log({ res }))
+        // await insertArticle(sub_title)
+        //     .then(res => handleInsertToServer(res))
+        //     .catch((err) => console.log(err))
     }
 
-    const handleInsertToServer = React.useCallback((artData: unknown) => {
-        uploadingArti.mutate(artData as Partial<Article>)
+    const handleInsertToServer = React.useCallback((formData: unknown) => {
+        console.log({ formData })
+        // axios.post(
+        //     'http://localhost:3001/api/art',
+        //     formData,
+        //     {
+        //         headers: {
+        //             "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3YjU0ZjdiNi02ZTkxLTRhMGItYWE1Ni0wOGY3MDU2NmU5MmMiLCJyZW1lbWJlck1lIjp0cnVlLCJpYXQiOjE3MTE0NzcxODcsImV4cCI6MTcxMTQ3NzE5Mn0.gMOfBfTGtY_fFe1yqHWhVoXMkZg0uP8f8gs49N_W5Po",
+        //             "Content-type": "multipart/form-data",
+        //         },
+        //     }
+        // ).then((res) => console.log({ res }))
+
+        // uploadingArti.mutate(artData as Partial<Article>)
     }, [])
 
     const handlePaginate = (
@@ -153,7 +170,6 @@ const Category = () => {
             <AppMenu
                 menuBody={<UploadArticleToCategory
                     uploadArticle={handleInsertArticle}
-                    selectedDocs={selectedDocs}
                     error={errorWithUpload}
                     isUploading={uploading}
                     handleUploading={handleArtiFile}
