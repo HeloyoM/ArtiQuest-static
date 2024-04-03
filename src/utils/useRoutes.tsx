@@ -9,6 +9,7 @@ import Article from "../components/article/Article"
 import Profile from "../components/common/profile/Profile"
 import ControlScreen from "../screens/controlScreen/ControlScreen"
 import AuthorControl from "../components/entities/author/AuthorControl"
+import AcceptanceScreen from "../screens/acceptance/AcceptanceScreen"
 
 const useRoutes = () => {
     const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const useRoutes = () => {
         {
             path: "control",
             element: (<ControlScreen />)
+        },
+        {
+            path: "pending-articles",
+            element: (<AcceptanceScreen />)
         },
         {
             path: Paths.AUTHOR,

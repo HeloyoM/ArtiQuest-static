@@ -70,7 +70,7 @@ const Category = () => {
     }
 
     const handleInsertArticle = async (file: FormData) => {
-        console.log({file})
+        console.log({ file })
 
         axios.post(
             'http://localhost:3001/api/art',
@@ -139,8 +139,7 @@ const Category = () => {
                     isUploading={uploading}
                     category={{ name: category, id }} />}
                 openMenu={insertionOpen}
-                close={closeInsertion}
-                category={category} />
+                close={closeInsertion} />
 
         </React.Fragment>
     )

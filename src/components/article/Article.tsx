@@ -16,6 +16,7 @@ import { Paths } from '../../utils/paths'
 import { ICategory } from '../../interface/category.interface'
 import { Article as IArticle } from '../../interface/article.interface'
 import useArticleQueries from './useArticleQueries'
+import useCategoryQueries from '../category/useCategoryQueries'
 
 const Article = () => {
     const [art, setArt] = React.useState<IArticle>()
@@ -28,10 +29,7 @@ const Article = () => {
     const navigate = useNavigate()
     const { category, id } = useParams()
 
-    const { isLoading, data: categoriesData } = useQuery({
-        queryKey: ['categories'],
-        queryFn: getAllCategories
-    })
+    const { categories } = useCategoryQueries({})
 
     React.useEffect(() => {
         if (art && user && !art.viewers.includes(user?.id!)) {
@@ -42,8 +40,8 @@ const Article = () => {
     React.useEffect(() => {
         let currentCategory: ICategory[] = []
 
-        if (!categoriesData) return
-        currentCategory = categoriesData?.filter((c: ICategory) => c.name?.trim() === category?.trim())
+        if (!categories.data) return
+        currentCategory = categories.data?.filter((c: ICategory) => c.name?.trim() === category?.trim())
 
         if (!art) {
             const [crrArt] = currentCategory.map(c => {
@@ -58,7 +56,7 @@ const Article = () => {
                 }
             }, 1500)
         }
-    }, [art, categoriesData])
+    }, [art, categories.data])
 
     const handleAuthorArticles = () => {
         navigate(`/cat/${author.first_name}-${author.last_name}/${author.id}`)
@@ -78,7 +76,7 @@ const Article = () => {
     }, [])
 
 
-    if (!art || isLoading) return (<AppProgress />)
+    if (!art || categories.isLoading) return (<AppProgress />)
 
     const userAlreadyVote = (art.rank.voters.includes(user?.id!))
 
