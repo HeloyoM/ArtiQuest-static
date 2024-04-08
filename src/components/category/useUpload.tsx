@@ -1,6 +1,7 @@
 import React from 'react'
 import { UploadErrors } from './interface/fileErrors.interface'
 import constants from './constants'
+import axios from 'axios'
 
 type Props = {
     setIsUploading: React.Dispatch<React.SetStateAction<boolean>>
@@ -17,15 +18,14 @@ const useUpload = (props: Props) => {
 
         props.setIsUploading(true)
 
-        const files = event.target.files
+        // const files = event.target.files
 
         try {
-            if (files === null) throw Error('error with file')
+            // if (files === null) throw Error('error with file')
 
+            // const file = files[0]
 
-            const file = files[0]
-
-            validateFile(file)
+            // validateFile(file)
 
             props.setIsUploading(false)
 

@@ -70,8 +70,6 @@ const Category = () => {
     }
 
     const handleInsertArticle = async (file: FormData) => {
-        console.log({ file })
-
         axios.post(
             'http://localhost:3001/api/art',
             file,

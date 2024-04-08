@@ -10,6 +10,8 @@ import FileLimitations from './FileLimitations'
 import { useForm } from 'react-hook-form'
 import FileReviewer from '../common/FileReviewer'
 import { ICategory } from '../../interface/category.interface'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 type Props = {
     category: Partial<ICategory>
@@ -19,11 +21,12 @@ type Props = {
 }
 
 const UploadArticleToCategory = (props: Props) => {
-
     const [sub_title, setSubTitle] = React.useState('')
     const { error, isUploading, category, uploadArticle } = props
 
-    const { register, handleSubmit } = useForm()
+    const navigate = useNavigate()
+
+    const { register, handleSubmit, watch } = useForm()
 
     const handleSubtitle = (
         { target }: React.ChangeEvent<HTMLInputElement>
@@ -39,6 +42,32 @@ const UploadArticleToCategory = (props: Props) => {
         formData.append('art', JSON.stringify({ title, sub_title, cat: category.id }))
         uploadArticle(formData)
     }
+
+    React.useEffect(() => {
+        if (!watch("file").length) return
+
+        const formData = new FormData()
+        formData.append("file", watch("file")[0])
+
+        const title = watch("file")[0].name.split('.')[0]!
+
+        formData.append('art', JSON.stringify({ title, sub_title, cat: category.id }))
+
+        axios.post(
+            'http://localhost:3001/api/art/init-art',
+            formData,
+            {
+                headers: {
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3YjU0ZjdiNi02ZTkxLTRhMGItYWE1Ni0wOGY3MDU2NmU5MmMiLCJyZW1lbWJlck1lIjp0cnVlLCJpYXQiOjE3MTI1NzQwNTUsImV4cCI6MTcxMjU3NDA2MH0.EgMGlNgl34Ygna-l1GzVO7_RC6Wu3KSiLQ07myCg2Uk",
+                    "Content-type": "multipart/form-data",
+                },
+            }
+        ).then((res) => {
+            localStorage.setItem(`init-${res.data.id}`, JSON.stringify(res.data))
+
+            navigate(`/art-editor/${res.data.id}`)
+        })
+    }, watch("file"))
 
     return (
         <Box sx={{ width: 850 }} role="presentation" >
@@ -70,7 +99,8 @@ const UploadArticleToCategory = (props: Props) => {
                             <label>
                                 upload article
                                 <input
-                                    multiple {...register("file")}
+                                    multiple
+                                    {...register("file")}
                                     type="file"
                                     hidden
                                 />
