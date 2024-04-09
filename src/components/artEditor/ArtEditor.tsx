@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import AppSteper from '../common/AppSteper'
+import AppProgress from '../common/AppProgress'
+import { Article } from '../../interface/article.interface'
 
 const ArtEditor = () => {
-    const [article, setArticle] = useState(undefined)
+    const [article, setArticle] = useState<Article | undefined>(undefined)
 
     const { id } = useParams()
 
@@ -14,9 +17,13 @@ const ArtEditor = () => {
                 setArticle(JSON.parse(preUploadArticle))
         }
     }, [id])
-    console.log({ article })
+
+    if (!article) return (<AppProgress />)
+
+
     return (
         <div>
+            <AppSteper article={article} />
         </div>
     )
 }

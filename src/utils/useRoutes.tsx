@@ -36,7 +36,7 @@ const useRoutes = () => {
         },
         {
             path: Paths.EDITOR,
-            element: (<ArtEditor />)
+            element: (<ScreenContainer><ArtEditor /></ScreenContainer>)
         },
         {
             path: Paths.AUTHOR,

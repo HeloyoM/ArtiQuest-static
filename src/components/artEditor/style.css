@@ -1,0 +1,14 @@
+.editor-menu {
+    width: 100%;
+    display: flex;
+    flex: 1;
+    margin-bottom: auto;
+}
+
+.steps-btns {
+    position: fixed;
+    top:50%;
+    color: #fff;
+    width:fit-content;
+    width: 56%;
+}
