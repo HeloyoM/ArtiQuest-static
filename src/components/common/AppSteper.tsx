@@ -9,7 +9,7 @@ import Menu from '../artEditor/Menu'
 import { Article } from '../../interface/article.interface'
 import '../artEditor/style.css'
 
-type Props ={
+type Props = {
     article: Article | undefined
 }
 export default function AppSteper(props: Props) {
@@ -102,12 +102,10 @@ export default function AppSteper(props: Props) {
 
                 <React.Fragment>
 
-                    {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
-
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 
-                        <Menu index={activeStep} />
-                        
+                        <Menu index={activeStep} handleNext={handleNext} />
+
                     </Box>
 
                     <Box className="steps-btns" sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

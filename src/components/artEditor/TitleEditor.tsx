@@ -5,14 +5,19 @@ type Props = {
   placeholder: string
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   name: string
+  value?: string
+  handleKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void
 }
 
 const TitleEditor = (props: Props) => {
   return (
     <Input
+      onKeyDown={props.handleKeyDown}
+      defaultValue={props.value ? props.value : ''}
       type="text"
+      sx={{ width: '100%' }}
       name={props.name}
-      onChange={props.handleChange}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.handleChange(e)}
       placeholder={props.placeholder}
     />
   )
