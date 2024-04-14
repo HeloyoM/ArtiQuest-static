@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography'
 import Menu from '../artEditor/Menu'
 import { Article } from '../../interface/article.interface'
 import '../artEditor/style.css'
+import PdfReview from '../article/arti-pdf/PdfReview'
+import PdfTemplate from '../article/arti-pdf/PdfContent'
 
 type Props = {
     article: Article | undefined
@@ -58,7 +60,12 @@ export default function AppSteper(props: Props) {
     const handleReset = () => {
         setActiveStep(0)
     }
+    const instance = (<PdfTemplate art={props.article!} />)
 
+    const pdfViewer = (<div className='pdf-view' >
+        <PdfReview>{instance}</PdfReview>
+
+    </div>)
     return (
         <Box sx={{ width: '100%' }}>
 
@@ -90,9 +97,9 @@ export default function AppSteper(props: Props) {
 
             {activeStep === steps.length ? (
                 <React.Fragment>
-                    <Typography sx={{ mt: 2, mb: 1 }}>
-                        All steps completed - you&aposre finished
-                    </Typography>
+
+                    {pdfViewer}
+
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Box sx={{ flex: '1 1 auto' }} />
                         <Button onClick={handleReset}>Reset</Button>
@@ -128,7 +135,7 @@ export default function AppSteper(props: Props) {
                         )}
 
                         <Button onClick={handleNext}>
-                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                            {activeStep === steps.length - 1 ? 'Preview' : 'Next'}
                         </Button>
 
                     </Box>

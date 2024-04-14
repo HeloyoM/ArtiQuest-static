@@ -1,7 +1,7 @@
 import AppChip from '../common/AppChip'
 import './style.css'
 import { useQuery } from '@tanstack/react-query'
-import { getAllCategories } from '../../api/articles'
+import { getAllCategories } from '../../api/article'
 import { ICategory } from '../../interface/category.interface'
 import AppProgress from '../common/AppProgress'
 

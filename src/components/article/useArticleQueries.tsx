@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { deleteArticle, disabledArticle, editArticleById, increasArticleViewers, rateArticle } from '../../api/articles'
+import { deleteArticle, disabledArticle, editArticleById, increasArticleViewers, rateArticle } from '../../api/article'
 import { Article } from '../../interface/article.interface'
 
 type Props = {

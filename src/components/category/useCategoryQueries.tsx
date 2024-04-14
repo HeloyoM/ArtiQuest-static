@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 // import { useQuery } from 'react-query'
-import { createArticle, getAllCategories, getArticlesByCategoryId, getCategoriesList } from '../../api/articles'
+import { createArticle, getAllCategories, getArticlesByCategoryId, getCategoriesList } from '../../api/article'
 import { Article as IArticle } from '../../interface/article.interface'
 
 type Props = {

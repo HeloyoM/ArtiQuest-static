@@ -1,5 +1,5 @@
 import React from 'react'
-import { getAllCategories } from '../../api/articles'
+import { getAllCategories } from '../../api/article'
 import { useQuery } from '@tanstack/react-query'
 import useCategoryQueries from '../../components/category/useCategoryQueries'
 import AppMenu from '../../components/common/AppMenu'

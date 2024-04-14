@@ -3,7 +3,7 @@ import './style.css'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
-import { getAllCategories } from '../../api/articles'
+import { getAllCategories } from '../../api/article'
 
 import AppProgress from '../common/AppProgress'
 import ArtiTitle from './ArtiTitle'

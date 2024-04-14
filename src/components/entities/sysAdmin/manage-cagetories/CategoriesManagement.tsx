@@ -2,7 +2,7 @@ import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Box, Button, IconButton, Typography } from '@mui/material'
 import { VisibilityOff as VisibilityOffIcon, Person as PersonIcon, Info as InfoIcon, Delete as DeleteIcon, TurnedIn as TurnedIcon, Image as ImageIcon, Edit as UpdateIcon } from '@mui/icons-material'
-import { getAllCategories } from '../../../../api/articles'
+import { getAllCategories } from '../../../../api/article'
 
 import AppTable from '../../../../components/common/table/AppTable'
 import AppPagination from '../../../../components/common/AppPagination'

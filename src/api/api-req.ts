@@ -4,6 +4,11 @@ import { getToken } from './getDecodedUser'
 
 export async function POST(endpoint: string, body: any) {
     const config = getRequestConfiguration()
+    
+    if(body instanceof FormData)
+        config.headers['Content-type'] = "multipart/form-data"
+
+    console.log({config})
     return await (
         await axios.post(`${baseUrl}/${endpoint}`, body, config)
     ).data
@@ -32,6 +37,7 @@ export async function PATCH(endpoint: string, body: any) {
 
 export async function DELETE(endpoint: string) {
     const config = getRequestConfiguration()
+
     return await (
         await axios.delete(`${baseUrl}/${endpoint}`, config)
     ).data
@@ -39,13 +45,11 @@ export async function DELETE(endpoint: string) {
 
 const getRequestConfiguration = () => {
     const tokenAccess = getToken()
-    console.log(tokenAccess)
+
     const token = tokenAccess ? tokenAccess : null
-    const { token: cancelToken } = axios.CancelToken.source()
-    const headers = token ? { Authorization: `Bearer ${tokenAccess}` } : { Authorization: null }
+    const headers = token ? { Authorization: `Bearer ${tokenAccess}`, 'Content-type': "application/json" } : { Authorization: null, 'Content-type': "application/json" }
 
     return {
-        headers,
-        cancelToken
+        headers
     }
 }

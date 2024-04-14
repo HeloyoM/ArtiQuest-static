@@ -12,6 +12,7 @@ import FileReviewer from '../common/FileReviewer'
 import { ICategory } from '../../interface/category.interface'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { initArticleBeforeUpload } from '../../api/article'
 
 type Props = {
     category: Partial<ICategory>
@@ -53,21 +54,19 @@ const UploadArticleToCategory = (props: Props) => {
 
         formData.append('art', JSON.stringify({ title, sub_title, cat: category.id }))
 
-        axios.post(
-            'http://localhost:3001/api/art/init-art',
-            formData,
-            {
-                headers: {
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3YjU0ZjdiNi02ZTkxLTRhMGItYWE1Ni0wOGY3MDU2NmU5MmMiLCJyZW1lbWJlck1lIjp0cnVlLCJpYXQiOjE3MTI1NzQwNTUsImV4cCI6MTcxMjU3NDA2MH0.EgMGlNgl34Ygna-l1GzVO7_RC6Wu3KSiLQ07myCg2Uk",
-                    "Content-type": "multipart/form-data",
-                },
-            }
-        ).then((res) => {
-            localStorage.setItem(`init-${res.data.id}`, JSON.stringify(res.data))
+        initNewArticle(formData)
 
-            navigate(`/art-editor/${res.data.id}`)
-        })
     }, watch("file"))
+
+    const initNewArticle = async (formData: FormData) => {
+        const res = await initArticleBeforeUpload(formData)
+
+        if (Object.keys(res).length) {
+            localStorage.setItem(`init-${res.id}`, JSON.stringify(res))
+
+            navigate(`/art-editor/${res.id}`)
+        }
+    }
 
     return (
         <Box sx={{ width: 850 }} role="presentation" >
