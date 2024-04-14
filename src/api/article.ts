@@ -66,25 +66,23 @@ export const rateArticle = async (id: string, rate: number) => {
 
 }
 
-
-
 export const initArticleBeforeUpload = async (art: FormData) => {
     try {
         const response = await POST(`${API}/init-art`, art)
 
         return response
     } catch (error) {
-        throw new Error(`Failed to create new article in category id ${art}`)
+        throw new Error(`Failed to create new article in category`)
     }
 }
 
-export const createArticle = async (art: Partial<Article>) => {
+export const createArticle = async (art: FormData) => {
     try {
         const response = await POST(API, art)
 
         return response
     } catch (error) {
-        throw new Error(`Failed to create new article in category id ${art.cat}`)
+        throw new Error(`Failed to create new article in category`)
     }
 }
 

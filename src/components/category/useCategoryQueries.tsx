@@ -1,7 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-// import { useQuery } from 'react-query'
-import { createArticle, getAllCategories, getArticlesByCategoryId, getCategoriesList } from '../../api/article'
-import { Article as IArticle } from '../../interface/article.interface'
+import { createArticle, getAllCategories, getArticlesByCategoryId } from '../../api/article'
 
 type Props = {
     id?: string
@@ -21,16 +19,11 @@ const useCategoryQueries = (props: Props) => {
     })
 
     const uploadingArti = useMutation({
-        mutationFn: (art: Partial<IArticle>) => createArticle(art),
+        mutationFn: (art: FormData) => createArticle(art),
         mutationKey: ['create-article']
     })
 
-    // const getCategoriesInfo = useQuery({
-    //     queryKey: ['categories-list'],
-    //     queryFn: getCategoriesList
-    // })
-
-    return { uploadingArti, categoryArticles, categories/*getCategoriesInfo*/ }
+    return { uploadingArti, categoryArticles, categories }
 }
 
 export default useCategoryQueries

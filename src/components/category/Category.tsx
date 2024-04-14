@@ -21,7 +21,6 @@ import { UploadErrors } from './interface/fileErrors.interface'
 import { ICategory } from '../../interface/category.interface'
 import constants from './constants'
 import useCategoryQueries from './useCategoryQueries'
-import axios from 'axios'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
@@ -35,7 +34,7 @@ const Category = () => {
 
     let { category, id } = useParams()
 
-    const { categoryArticles } = useCategoryQueries({ id })
+    const { categoryArticles, uploadingArti } = useCategoryQueries({ id })
 
     React.useEffect(() => {
         if (!categoryArticles.data) return
@@ -69,17 +68,8 @@ const Category = () => {
         localStorage.removeItem(`category-${id}`)
     }
 
-    const handleInsertArticle = async (file: FormData) => {
-        axios.post(
-            'http://localhost:3001/api/art',
-            file,
-            {
-                headers: {
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3YjU0ZjdiNi02ZTkxLTRhMGItYWE1Ni0wOGY3MDU2NmU5MmMiLCJyZW1lbWJlck1lIjp0cnVlLCJpYXQiOjE3MTIwMDU1ODgsImV4cCI6MTcxMjAwNTU5M30.YbKG-u-vfFRQtpWlTzbwZNAziTssFQ50d8ij2nO2a_0",
-                    "Content-type": "multipart/form-data",
-                },
-            }
-        ).then((res) => console.log({ res }))
+    const handleInsertArticle = (file: FormData) => {
+        uploadingArti.mutate(file)
     }
 
     const handlePaginate = (
