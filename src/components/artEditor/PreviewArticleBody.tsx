@@ -1,8 +1,9 @@
 import React from 'react'
-import { Box, TextareaAutosize } from '@mui/material'
+import { Box, TextareaAutosize, Typography } from '@mui/material'
 import './style.css'
 import { Add } from '@mui/icons-material'
-
+import AppProgress from '../common/AppProgress'
+import { Delete } from '@mui/icons-material'
 type Props = {
     bodyStr: string
 }
@@ -28,6 +29,10 @@ const PreviewArticleBody = (props: Props) => {
         setParagraphs((prev) => [...prev, ''])
     }
 
+    const deleteParagraph = (index: number) => {
+        setParagraphs(paragraphs.filter((p, i) => i !== index))
+    }
+
     const getParagraphWithNewlines = () => {
         return paragraphs.map((p, index) => {
             if (index === paragraphs.length - 1) {
@@ -37,22 +42,27 @@ const PreviewArticleBody = (props: Props) => {
             }
         }).join('')
     }
-    
+    if (!paragraphs.length) return (<AppProgress />)
+
     return (
         <Box className="paragraphs-container">
             {paragraphs.map((p: string, index: number) => (
-                <TextareaAutosize
-                    key={index}
-                    value={p}
-                    className='paragraphs-editor'
-                    onChange={(event) => {
-                        const newBodies = [...paragraphs]
-                        newBodies[index] = event.target.value
-                        setParagraphs(newBodies)
-                    }}
-                    onKeyDown={handleKeyDown}
-                    ref={index === paragraphs.length - 1 ? lastTextareaRef : null}
-                />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <TextareaAutosize
+                        key={index}
+                        value={p}
+                        className='paragraphs-editor'
+                        onChange={(event) => {
+                            const newBodies = [...paragraphs]
+                            newBodies[index] = event.target.value
+                            setParagraphs(newBodies)
+                        }}
+                        onKeyDown={handleKeyDown}
+                        ref={index === paragraphs.length - 1 ? lastTextareaRef : null}
+                    />
+                    <Delete sx={{ color: 'red', width: 55, height: 55, cursor: 'pointer' }} onClick={() => deleteParagraph(index)} />
+
+                </Box>
             ))}
 
             <pre>{getParagraphWithNewlines()}</pre>

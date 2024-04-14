@@ -12,7 +12,7 @@ type Props = {
 }
 
 const Menu = (props: Props) => {
-    const { article, onArticleDetailChanged, handleKeyDown } = useArticleEditor({ handleNext : props.handleNext})
+    const { article, onArticleDetailChanged, handleKeyDown } = useArticleEditor({ handleNext: props.handleNext })
 
     const { index } = props
 
