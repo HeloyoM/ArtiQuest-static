@@ -1,18 +1,45 @@
+import React from 'react'
 import TitleEditor from './TitleEditor'
 import './style.css'
 import EditorPropertiesWrapper from './EditorPropertiesWrapper'
 import { Box } from '@mui/material'
-import useArticleEditor from './useArticleEditor'
 import AppProgress from '../common/AppProgress'
 import PreviewArticleBody from './PreviewArticleBody'
+import useArticleEditor from '../artEditor/useArticleEditor'
+import PdfReview from '../article/arti-pdf/PdfReview'
+import PdfTemplate from '../article/arti-pdf/PdfContent'
+import AppModal from '../common/modal/AppModal'
+import { Article } from '../../interface/article.interface'
+import { ICategory } from '../../interface/category.interface'
 
 type Props = {
     index: number
     handleNext: () => void
+    endStage: boolean
 }
 
 const Menu = (props: Props) => {
+    const [pdfInstance, setPdfInstance] = React.useState<JSX.Element | undefined>(undefined)
+
     const { article, onArticleDetailChanged, handleKeyDown } = useArticleEditor({ handleNext: props.handleNext })
+
+    // const instance = React.useMemo(() => (<PdfTemplate art={article!} />), [article])
+
+    // const pdfViewer = (<div className='pdf-view' >
+    //     <PdfReview>{instance}</PdfReview>
+    // </div>)
+
+    React.useEffect(() => {
+        const art = localStorage.getItem(`init-${article?.id}`)
+
+        if (props.endStage && article)
+            setPdfInstance(<div className='pdf-view' >
+                <PdfReview><PdfTemplate art={JSON.parse(art!)} /></PdfReview>
+            </div>)
+
+    }, [props.endStage])
+
+    const closePreview = () => { setPdfInstance(undefined) }
 
     const { index } = props
 
@@ -37,7 +64,14 @@ const Menu = (props: Props) => {
                 handleChange={onArticleDetailChanged}
             /></EditorPropertiesWrapper>}
 
-            {index === 2 && <PreviewArticleBody bodyStr={article.body} />}
+            {index === 2 && <PreviewArticleBody endStage={props.endStage} article={article} />}
+
+            <AppModal
+                popupModal={false}
+                open={Boolean(pdfInstance)}
+                close={closePreview}
+                children={pdfInstance ? pdfInstance : <></>}
+            />
         </Box>
     )
 }

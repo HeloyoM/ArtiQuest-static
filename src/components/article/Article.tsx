@@ -1,9 +1,6 @@
 import React from 'react'
 import './style.css'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
-
-import { getAllCategories } from '../../api/article'
 
 import AppProgress from '../common/AppProgress'
 import ArtiTitle from './ArtiTitle'
@@ -32,9 +29,9 @@ const Article = () => {
     const { categories } = useCategoryQueries({})
 
     React.useEffect(() => {
-        if (art && user && !art.viewers.includes(user?.id!)) {
+        if (art && user && !art.viewers.includes(user?.id!))
             handleIncreasViewers()
-        }
+
     }, [user, art])
 
     React.useEffect(() => {
@@ -82,12 +79,12 @@ const Article = () => {
 
     const editArticle = () => { editArticleMutate.mutate() }
 
-    const { author, body, created, sub_title, title } = art
+    const { author, body, created, sub_title } = art
 
     return (
         <div className='art'>
 
-            <ArtiTitle title={title} category={category} art={art} toggleEdit={toggleEdit} editArticleMutate={editArticle} />
+            <ArtiTitle category={category} art={art} toggleEdit={toggleEdit} editArticleMutate={editArticle} />
 
             <h2>{sub_title}</h2>
             <p>

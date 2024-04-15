@@ -14,7 +14,6 @@ import { ICategory } from '../../interface/category.interface'
 
 type Props = {
     art: IArticle
-    title: string
     toggleEdit: () => void
     editArticleMutate: () => void
     category?: string
@@ -59,7 +58,7 @@ const ArtiTitle = (props: Props) => {
     const pdfViewer = (<div className='pdf-view' >
         <PdfReview>{instance}</PdfReview>
 
-        <PdfDownloading art={instance} title={props.title} />
+        <PdfDownloading art={instance} title={props.art.title} />
     </div>)
 
     const handleShowCategory = () => {
@@ -70,7 +69,7 @@ const ArtiTitle = (props: Props) => {
     return (
         <>
             <div className={isSticky ? 'title sticky' : 'title'} >
-                <h1>{props.title}</h1>
+                <h1>{props.art.title}</h1>
                 <ArtActions
                     downloadArticle={openArticle}
                     toggleEdit={props.toggleEdit}

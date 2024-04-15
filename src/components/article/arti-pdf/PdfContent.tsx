@@ -4,12 +4,12 @@ import FileHeader from './PdfFileHeader'
 import RegExpUtil from '../../../utils/RegExp.util'
 
 type Props = {
-    art: Article
+    art: Article<any>
 }
 const PdfTemplate = ({ art }: Props) => {
     const creatorName = art.author.first_name + ' ' + art.author.last_name
-
-    const paragraphs = art.body.split(/[\n\r]+/)
+    
+    const paragraphs = Array.isArray(art.body) ? art.body : art.body.split(/[\n\r]+/)
 
     return (
         <Document>

@@ -15,6 +15,7 @@ const TitleEditor = (props: Props) => {
       onKeyDown={props.handleKeyDown}
       defaultValue={props.value ? props.value : ''}
       type="text"
+      autoFocus
       sx={{ width: '100%' }}
       name={props.name}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.handleChange(e)}
