@@ -1,14 +1,17 @@
 import React from 'react'
-import { Box, TextareaAutosize, Typography } from '@mui/material'
+import { Box, TextareaAutosize } from '@mui/material'
+import { Add, Delete } from '@mui/icons-material'
 import './style.css'
-import { Add } from '@mui/icons-material'
 import AppProgress from '../common/AppProgress'
-import { Delete } from '@mui/icons-material'
+import useArticleEditor from './useArticleEditor'
+
 type Props = {
     bodyStr: string
 }
 const PreviewArticleBody = (props: Props) => {
     const [paragraphs, setParagraphs] = React.useState<string[]>([props.bodyStr])
+
+    const { updateBodyArticle } = useArticleEditor({})
 
     const lastTextareaRef = React.useRef<HTMLTextAreaElement>(null)
 
@@ -25,8 +28,22 @@ const PreviewArticleBody = (props: Props) => {
         }
     }
 
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>, index: number) => {
+        const newBodies = [...paragraphs]
+        newBodies[index] = e.target.value
+
+        setParagraphs(newBodies)
+        updateLocalArticle()
+    }
+
+    const updateLocalArticle = () => {
+        updateBodyArticle(paragraphs)
+    }
+
     const addParagraph = () => {
         setParagraphs((prev) => [...prev, ''])
+
+        updateLocalArticle()
     }
 
     const deleteParagraph = (index: number) => {
@@ -40,8 +57,9 @@ const PreviewArticleBody = (props: Props) => {
             } else {
                 return p + "\n"
             }
-        }).join('')
+        })
     }
+
     if (!paragraphs.length) return (<AppProgress />)
 
     return (
@@ -52,11 +70,7 @@ const PreviewArticleBody = (props: Props) => {
                         key={index}
                         value={p}
                         className='paragraphs-editor'
-                        onChange={(event) => {
-                            const newBodies = [...paragraphs]
-                            newBodies[index] = event.target.value
-                            setParagraphs(newBodies)
-                        }}
+                        onChange={(e) => handleChange(e, index)}
                         onKeyDown={handleKeyDown}
                         ref={index === paragraphs.length - 1 ? lastTextareaRef : null}
                     />

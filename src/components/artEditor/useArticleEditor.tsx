@@ -22,6 +22,7 @@ const useArticleEditor = (props: Props) => {
     const onArticleDetailChanged = ({
         target: { value, name } }: React.ChangeEvent<HTMLInputElement>
     ) => {
+
         if (name === 'title') {
             updatePreparedArticle(JSON.stringify({ ...article, title: value }))
         }
@@ -30,6 +31,12 @@ const useArticleEditor = (props: Props) => {
             updatePreparedArticle(JSON.stringify({ ...article, sub_title: value }))
         }
 
+    }
+
+    const updateBodyArticle = (paragraphs: string[]): void => {
+        const updatedArt = { ...article, body: paragraphs }
+        
+        updatePreparedArticle(JSON.stringify(updatedArt))
     }
 
     const handleKeyDown = ({
@@ -41,12 +48,13 @@ const useArticleEditor = (props: Props) => {
     }
 
     const updatePreparedArticle = (data: any) => {
+        console.log(data)
         localStorage.setItem(`init-${article?.id}`, data)
 
         setArticle(JSON.parse(data))
     }
 
-    return { article, onArticleDetailChanged, handleKeyDown }
+    return { article, onArticleDetailChanged, handleKeyDown, updateBodyArticle }
 }
 
 export default useArticleEditor
