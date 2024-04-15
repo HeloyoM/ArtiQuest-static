@@ -20,6 +20,25 @@ const PreviewArticleBody = (props: Props) => {
             lastTextareaRef.current.focus()
     }, [paragraphs])
 
+    const handleUpdateParagraph = (index: number, text: string) => {
+        const newBodies = [...paragraphs]
+        newBodies[index] = text
+
+        setParagraphs(newBodies)
+    }
+
+    const addParagraph = () => {
+        setParagraphs((prev) => [...prev, ''])
+    }
+
+    const deleteParagraph = (index: number) => {
+        setParagraphs(paragraphs.filter((p, i) => i !== index))
+    }
+
+    React.useEffect(() => {
+        updateLocalArticle()
+    }, [handleUpdateParagraph, addParagraph, deleteParagraph])
+
     const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (event.key === 'Enter') {
             event.preventDefault()
@@ -28,26 +47,14 @@ const PreviewArticleBody = (props: Props) => {
         }
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>, index: number) => {
-        const newBodies = [...paragraphs]
-        newBodies[index] = e.target.value
+    const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>, index: number) => {
+        const pastedText = e.clipboardData.getData('text/plain')
 
-        setParagraphs(newBodies)
-        updateLocalArticle()
+        handleUpdateParagraph(index, pastedText)
     }
 
     const updateLocalArticle = () => {
         updateBodyArticle(paragraphs)
-    }
-
-    const addParagraph = () => {
-        setParagraphs((prev) => [...prev, ''])
-
-        updateLocalArticle()
-    }
-
-    const deleteParagraph = (index: number) => {
-        setParagraphs(paragraphs.filter((p, i) => i !== index))
     }
 
     const getParagraphWithNewlines = () => {
@@ -70,7 +77,8 @@ const PreviewArticleBody = (props: Props) => {
                         key={index}
                         value={p}
                         className='paragraphs-editor'
-                        onChange={(e) => handleChange(e, index)}
+                        onChange={(e) => handleUpdateParagraph(index, e.target.value)}
+                        onPaste={(e) => handlePaste(e, index)}
                         onKeyDown={handleKeyDown}
                         ref={index === paragraphs.length - 1 ? lastTextareaRef : null}
                     />

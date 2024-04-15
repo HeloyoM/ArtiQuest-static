@@ -34,8 +34,10 @@ const useArticleEditor = (props: Props) => {
     }
 
     const updateBodyArticle = (paragraphs: string[]): void => {
-        const updatedArt = { ...article, body: paragraphs }
+        if (!article || !paragraphs.length) return
         
+        const updatedArt = { ...article, body: paragraphs }
+
         updatePreparedArticle(JSON.stringify(updatedArt))
     }
 
