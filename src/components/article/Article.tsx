@@ -24,8 +24,9 @@ const Article = () => {
     const { editArticleMutate, handleIncreasViewers, rateArt } = useArticleQueries({ setArt, art })
 
     const navigate = useNavigate()
-    const { category, id } = useParams()
 
+    const { category, id } = useParams()
+    console.log({ category, id })
     const { categories } = useCategoryQueries({})
 
     React.useEffect(() => {
@@ -41,17 +42,30 @@ const Article = () => {
         currentCategory = categories.data?.filter((c: ICategory) => c.name?.trim() === category?.trim())
 
         if (!art) {
+
             const [crrArt] = currentCategory.map(c => {
                 return c.arts.find(a => a.id === id)
             })
 
-            setTimeout(() => {
-                if (crrArt) {
-                    setArt(crrArt)
-                } else {
-                    navigate(Paths.NOT_FOUND)
-                }
-            }, 1500)
+
+            if (crrArt) {
+
+                setTimeout(() => {
+                    if (crrArt) {
+                        setArt(crrArt)
+                    } else {
+                        navigate(Paths.NOT_FOUND)
+                    }
+                }, 1500)
+
+            } else {
+                const artObj = localStorage.getItem(`init-${id}`)
+
+
+                if (artObj)
+                    setArt(JSON.parse(artObj))
+            }
+
         }
     }, [art, categories.data])
 
@@ -103,13 +117,13 @@ const Article = () => {
                 handleEditParagraph={handleEditParagraph}
             />
 
-            <div style={style}>
+            {art.active && <div style={style}>
                 <AppRating
                     handleRate={handleRatingArticle}
                     value={art?.rank?.total}
                     readonly={!Boolean(user) || userAlreadyVote} />
                 <p>{art.rank.voters.length} people voted</p>
-            </div>
+            </div>}
 
         </div>
     )

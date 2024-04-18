@@ -10,7 +10,7 @@ type Props = {
 
 const ArtiBody = (props: Props) => {
 
-    const paragraphs = props.body.split(/[\n\r]+/)
+    const paragraphs = Array.isArray(props.body) ? props.body : props.body.split(/[\n\r]+/)
 
     return (
         <main className='art-container'>

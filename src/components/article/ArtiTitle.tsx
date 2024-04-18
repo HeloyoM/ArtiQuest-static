@@ -23,18 +23,11 @@ const ArtiTitle = (props: Props) => {
     const [isSticky, setSticky] = React.useState(false)
     const [artOpen, setArtOpen] = React.useState(false)
 
-    const navigate = useNavigate()
-
-    // const { getCategoriesInfo } = useCategoryQueries({})
 
     const instance = (<PdfTemplate art={props.art!} />)
 
-    const { handleSendPdf } = useExportPdf({ reactPdfInstance: instance })
-
     const closePdf = () => { setArtOpen(false) }
-
     const openArticle = () => { setArtOpen(true) }
-
 
     React.useEffect(() => {
 
@@ -46,8 +39,8 @@ const ArtiTitle = (props: Props) => {
             }
         }
 
-        window.addEventListener('scroll', handleScroll)
 
+        window.addEventListener('scroll', handleScroll)
 
 
         return () => {
@@ -70,10 +63,10 @@ const ArtiTitle = (props: Props) => {
         <>
             <div className={isSticky ? 'title sticky' : 'title'} >
                 <h1>{props.art.title}</h1>
-                <ArtActions
+                {props.art.active && <ArtActions
                     downloadArticle={openArticle}
                     toggleEdit={props.toggleEdit}
-                />
+                />}
 
                 <p onClick={handleShowCategory}>{props.category}</p>
             </div>

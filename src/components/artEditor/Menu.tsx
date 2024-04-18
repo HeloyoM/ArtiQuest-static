@@ -10,6 +10,7 @@ import PdfReview from '../article/arti-pdf/PdfReview'
 import PdfTemplate from '../article/arti-pdf/PdfContent'
 import AppModal from '../common/modal/AppModal'
 import PdfDownloading from '../article/arti-pdf/PdfDownloading'
+import { useNavigate } from 'react-router-dom'
 
 type Props = {
     index: number
@@ -20,27 +21,40 @@ type Props = {
 const Menu = (props: Props) => {
     const [pdfInstance, setPdfInstance] = React.useState<JSX.Element | undefined>(undefined)
 
+    const { index } = props
+
     const { article, onArticleDetailChanged, handleKeyDown } = useArticleEditor({ handleNext: props.handleNext })
+
+    const navigate = useNavigate()
 
     React.useEffect(() => {
         const art = localStorage.getItem(`init-${article?.id}`)
+
+
         if (art) {
+
             const artObj = JSON.parse(art)
+
             if (props.endStage && article) {
+
                 const instance = (<PdfTemplate art={artObj} />)
 
-                setPdfInstance(<div className='pdf-view' >
-                    <PdfReview>{instance}</PdfReview>
-                    <PdfDownloading art={instance} title={artObj.title} />
-                </div>)
+                setPdfInstance(
+                    <div className='pdf-view'>
+                        <PdfReview>{instance}</PdfReview>
+
+                        <PdfDownloading art={instance} title={artObj.title} />
+                    </div>
+                )
+
+                navigate(`/cat/${artObj.cat.name}/art/${artObj.title}/${artObj.id}`)
+
             }
         }
 
     }, [props.endStage])
 
     const closePreview = () => { setPdfInstance(undefined) }
-
-    const { index } = props
 
     if (!article) return (<AppProgress />)
 
@@ -65,12 +79,12 @@ const Menu = (props: Props) => {
 
             {index === 2 && <PreviewArticleBody endStage={props.endStage} article={article} />}
 
-            <AppModal
+            {/* <AppModal
                 popupModal={false}
                 open={Boolean(pdfInstance)}
                 close={closePreview}
                 children={pdfInstance ? pdfInstance : <></>}
-            />
+            /> */}
         </Box>
     )
 }
