@@ -1,15 +1,11 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import './style.css'
 import ArtActions from './ArtActions'
 import AppModal from '../common/modal/AppModal'
 import PdfReview from './arti-pdf/PdfReview'
 import PdfDownloading from './arti-pdf/PdfDownloading'
 import PdfTemplate from './arti-pdf/PdfContent'
 import { Article as IArticle } from '../../interface/article.interface'
-import useExportPdf from '../../utils/useExportPdf'
-import './style.css'
-import useCategoryQueries from '../category/useCategoryQueries'
-import { ICategory } from '../../interface/category.interface'
 
 
 type Props = {

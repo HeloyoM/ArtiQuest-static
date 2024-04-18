@@ -2,14 +2,11 @@ import * as React from 'react'
 import '../../artEditor/style.css'
 import Box from '@mui/material/Box'
 import Menu from '../../artEditor/Menu'
-import { Article } from '../../../interface/article.interface'
-import { ICategory } from '../../../interface/category.interface'
 import StepperStages from './StepperStages'
 import { isStepOptional, isStepSkipped } from './utils'
 import StepperButtons from './StepperButtons'
 
 type Props = {
-    article: Article<ICategory> | undefined
     steps: string[]
     optionals: number[]
 }
@@ -17,6 +14,8 @@ export default function AppSteper(props: Props) {
     const [steps, setSteps] = React.useState(props.steps)
     const [activeStep, setActiveStep] = React.useState(0)
     const [skipped, setSkipped] = React.useState(new Set<number>())
+
+    const { optionals } = props
 
     const handleNext = () => {
         let newSkipped = skipped
@@ -49,25 +48,22 @@ export default function AppSteper(props: Props) {
     return (
         <Box sx={{ width: '100%' }}>
 
-            <StepperStages optionals={props.optionals} activeStep={activeStep} steps={steps} skipped={skipped} />
+            <StepperStages optionals={optionals} activeStep={activeStep} steps={steps} skipped={skipped} />
 
-            <React.Fragment>
 
-                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 
-                    <Menu index={activeStep} handleNext={handleNext} endStage={activeStep === steps.length} />
+                <Menu index={activeStep} handleNext={handleNext} endStage={activeStep === steps.length} />
 
-                </Box>
+            </Box>
 
-                <StepperButtons
-                    optionals={props.optionals}
-                    activeStep={activeStep}
-                    handleBack={handleBack}
-                    handleNext={handleNext}
-                    handleSkip={handleSkip}
-                    steps={steps} />
-
-            </React.Fragment>
+            <StepperButtons
+                optionals={optionals}
+                activeStep={activeStep}
+                handleBack={handleBack}
+                handleNext={handleNext}
+                handleSkip={handleSkip}
+                steps={steps} />
 
         </Box>
     )

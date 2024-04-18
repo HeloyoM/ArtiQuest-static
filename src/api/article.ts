@@ -1,6 +1,5 @@
 import { EditArticleDto } from './dto/EditArticle.dto'
-import { Article } from '../interface/article.interface'
-import { DELETE, GET, PATCH, POST, PUT } from './api-req'
+import { DELETE, GET, PATCH, POST } from './api-req'
 import { CreateCatDto } from './dto/CreateCat.dto'
 
 const API = 'art'
