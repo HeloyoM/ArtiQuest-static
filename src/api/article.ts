@@ -117,7 +117,7 @@ export const createNewCategory = async (cat: CreateCatDto) => {
 
 export const disabledArticle = async (id: string) => {
     try {
-        const response = await PATCH(`${API}/disabled/${id}`, {})
+        const response = await PATCH(`${API}/active/${id}`, {})
 
         return response
     } catch (error) {

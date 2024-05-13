@@ -34,8 +34,8 @@ const HomePage = () => {
 
   return (
     <div className={!demo ? 'home' : 'home demo'}>
-      <AppNav isdemo={demo} endDemo={endDemo} users={users} />
-      {/* <SysadminAppNav /> */}
+      {/* <AppNav isdemo={demo} endDemo={endDemo} users={users} /> */}
+      <SysadminAppNav />
 
       <ArtiQuest isdemo={demo} />
 

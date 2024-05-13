@@ -51,8 +51,11 @@ const useArticleQueries = (props: Props) => {
         mutationFn: (id: string) => deleteArticle(id)
     })
 
-    const handleDisabledArticle = useMutation({
-        mutationFn: (id: string) => disabledArticle(id)
+    const handleToggleActive = useMutation({
+        mutationFn: (id: string) => disabledArticle(id),
+        onSuccess: async (data: any) => {
+            console.log({data})
+        }
     })
 
 
@@ -60,7 +63,7 @@ const useArticleQueries = (props: Props) => {
         deleteArticleMutate.mutate(id)
     }
 
-    return { editArticleMutate, uploadingArti,  rateArt, handleDisabledArticle, handleDeleteArticle, handleIncreasViewers }
+    return { editArticleMutate, uploadingArti, rateArt, handleToggleActive, handleDeleteArticle, handleIncreasViewers }
 }
 
 export default useArticleQueries

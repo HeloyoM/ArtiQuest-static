@@ -17,13 +17,14 @@ import useArticleQueries from '../../../article/useArticleQueries'
 import { categoriesColumns } from './columns-definition'
 import getPopularAuthor from '../../utils/getMostPopularAuthor'
 import getToalViewers from '../../utils/getTotalArticles'
+import { ICategory } from '../../../../interface/category.interface'
 
 const CategoriesManagement = () => {
     const [rows, setRows] = React.useState<any[]>([])
     const [open, setOpen] = React.useState(false)
     const [page, setPage] = React.useState(1)
 
-    const { handleDeleteArticle, handleDisabledArticle } = useArticleQueries({})
+    const { handleDeleteArticle, handleToggleActive } = useArticleQueries({})
 
     const { isLoading, data: categoriesData } = useQuery({
         queryKey: ['categories'],
@@ -58,8 +59,8 @@ const CategoriesManagement = () => {
         setOpen(true)
     }
 
-    const disabledArticle = (id: string) => {
-        handleDisabledArticle.mutate(id)
+    const toggleActiveArticle = (id: string) => {
+        handleToggleActive.mutate(id)
     }
 
     const closeModal = () => {
@@ -76,7 +77,9 @@ const CategoriesManagement = () => {
             </IconButton>
 
             <IconButton>
-                <VisibilityOffIcon sx={{ color: isDisabledArticle(id) ? 'black' : 'red', cursor: 'pointer' }} onClick={() => disabledArticle(id)} />
+                <VisibilityOffIcon
+                    sx={{ color: isDisabledArticle(id) ? 'black' : 'red', cursor: 'pointer' }}
+                    onClick={() => toggleActiveArticle(id)} />
             </IconButton>
 
         </React.Fragment>
