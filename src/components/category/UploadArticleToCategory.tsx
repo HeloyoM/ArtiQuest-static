@@ -18,12 +18,11 @@ type Props = {
     category: Partial<ICategory>
     isUploading: boolean
     error: UploadErrors
-    uploadArticle: (file: FormData) => void
 }
 
 const UploadArticleToCategory = (props: Props) => {
     const [sub_title, setSubTitle] = React.useState('')
-    const { error, isUploading, category, uploadArticle } = props
+    const { error, isUploading, category } = props
 
     const navigate = useNavigate()
 
@@ -35,14 +34,14 @@ const UploadArticleToCategory = (props: Props) => {
         setSubTitle(target.value)
     }
 
-    const onSubmit = async (data: any) => {
-        const formData = new FormData()
-        formData.append("file", data.file[0])
-        const title = data.file[0].name.split('.')[0]!
+    // const onSubmit = async (data: any) => {
+    //     const formData = new FormData()
+    //     formData.append("file", data.file[0])
+    //     const title = data.file[0].name.split('.')[0]!
 
-        formData.append('art', JSON.stringify({ title, sub_title, cat: category.id }))
-        uploadArticle(formData)
-    }
+    //     formData.append('art', JSON.stringify({ title, sub_title, cat: category.id }))
+    //     uploadArticle(formData)
+    // }
 
     React.useEffect(() => {
         if (!watch("file").length) return
@@ -81,13 +80,7 @@ const UploadArticleToCategory = (props: Props) => {
                 <FileLimitations />
 
                 <div className='upload-arti'>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-
-                        <Button
-                            variant='contained'
-                            color='secondary'
-                            sx={{ width: '100%', height: '47px' }}
-                            type="submit">Upload</Button>
+                    <form>
 
                         <Button
                             variant="contained"

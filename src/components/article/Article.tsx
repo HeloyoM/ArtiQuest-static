@@ -14,6 +14,7 @@ import { ICategory } from '../../interface/category.interface'
 import { Article as IArticle } from '../../interface/article.interface'
 import useArticleQueries from './useArticleQueries'
 import useCategoryQueries from '../category/useCategoryQueries'
+import { Button } from '@mui/material'
 
 const Article = () => {
     const [art, setArt] = React.useState<IArticle>()
@@ -21,12 +22,12 @@ const Article = () => {
 
     const { user } = React.useContext(AppUserContext)
 
-    const { editArticleMutate, handleIncreasViewers, rateArt } = useArticleQueries({ setArt, art })
+    const { editArticleMutate, handleIncreasViewers, rateArt, uploadingArti } = useArticleQueries({ setArt, art })
 
     const navigate = useNavigate()
 
     const { category, id } = useParams()
-    console.log({ category, id })
+
     const { categories } = useCategoryQueries({})
 
     React.useEffect(() => {
@@ -68,6 +69,10 @@ const Article = () => {
 
         }
     }, [art, categories.data])
+
+    const handleInsertArticle = (article: any) => {
+        uploadingArti.mutate(article)
+    }
 
     const handleAuthorArticles = () => {
         navigate(`/cat/${author.first_name}-${author.last_name}/${author.id}`)
@@ -124,6 +129,13 @@ const Article = () => {
                     readonly={!Boolean(user) || userAlreadyVote} />
                 <p>{art.rank.voters.length} people voted</p>
             </div>}
+
+            {!art.active && <Button
+                variant='contained'
+                onClick={() => handleInsertArticle(art)}
+                color='secondary'
+                sx={{ width: '100%', height: '47px' }}
+                type="submit">Upload</Button>}
 
         </div>
     )

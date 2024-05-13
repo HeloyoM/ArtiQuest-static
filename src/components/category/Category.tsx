@@ -34,7 +34,7 @@ const Category = () => {
 
     let { category, id } = useParams()
 
-    const { categoryArticles, uploadingArti } = useCategoryQueries({ id })
+    const { categoryArticles } = useCategoryQueries({ id })
 
     React.useEffect(() => {
         if (!categoryArticles.data) return
@@ -66,10 +66,6 @@ const Category = () => {
 
     const clearStorageCateroy = () => {
         localStorage.removeItem(`category-${id}`)
-    }
-
-    const handleInsertArticle = (file: FormData) => {
-        uploadingArti.mutate(file)
     }
 
     const handlePaginate = (
@@ -122,7 +118,6 @@ const Category = () => {
 
             <AppMenu
                 menuBody={<UploadArticleToCategory
-                    uploadArticle={handleInsertArticle}
                     error={errorWithUpload}
                     isUploading={uploading}
                     category={{ name: category, id }} />}

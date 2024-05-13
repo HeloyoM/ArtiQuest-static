@@ -18,12 +18,9 @@ const useCategoryQueries = (props: Props) => {
         queryFn: () => getArticlesByCategoryId(id!)
     })
 
-    const uploadingArti = useMutation({
-        mutationFn: (art: FormData) => createArticle(art),
-        mutationKey: ['create-article']
-    })
+  
 
-    return { uploadingArti, categoryArticles, categories }
+    return {categoryArticles, categories }
 }
 
 export default useCategoryQueries

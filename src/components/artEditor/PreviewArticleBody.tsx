@@ -1,14 +1,15 @@
 import React from 'react'
 import { Box, TextareaAutosize } from '@mui/material'
-import { Add, Delete } from '@mui/icons-material'
+import { Add } from '@mui/icons-material'
 import './style.css'
 import AppProgress from '../common/AppProgress'
 import useArticleEditor from './useArticleEditor'
 import { Article } from '../../interface/article.interface'
+import DeleteIcon from '../common/icons/DeleteIcon'
 
 type Props = {
     article: Article<any>
-    endStage:boolean
+    endStage: boolean
 }
 const PreviewArticleBody = (props: Props) => {
     const [paragraphs, setParagraphs] = React.useState<string[]>([props.article.body])
@@ -75,23 +76,27 @@ const PreviewArticleBody = (props: Props) => {
     return (
         <React.Fragment>
             <Box className="paragraphs-container">
+
                 {paragraphs.map((p: string, index: number) => (
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+
                         <TextareaAutosize
+                            className='paragraphs-editor'
                             key={index}
                             value={p}
-                            className='paragraphs-editor'
                             onChange={(e) => handleUpdateParagraph(index, e.target.value)}
                             onPaste={(e) => handlePaste(e, index)}
                             onKeyDown={handleKeyDown}
                             ref={index === paragraphs.length - 1 ? lastTextareaRef : null}
                         />
-                        <Delete sx={{ color: 'red', width: 55, height: 55, cursor: 'pointer' }} onClick={() => deleteParagraph(index)} />
+
+                        <DeleteIcon onDelete={() => deleteParagraph(index)} />
 
                     </Box>
                 ))}
 
-                <Add className='add-paragraph'
+                <Add
+                    className='add-paragraph'
                     onClick={addParagraph}
                     style={{ width: 45, height: 45 }} />
             </Box>

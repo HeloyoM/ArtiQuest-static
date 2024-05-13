@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { deleteArticle, disabledArticle, editArticleById, increasArticleViewers, rateArticle } from '../../api/article'
+import { createArticle, deleteArticle, disabledArticle, editArticleById, increasArticleViewers, rateArticle } from '../../api/article'
 import { Article } from '../../interface/article.interface'
 
 type Props = {
@@ -11,6 +11,11 @@ const useArticleQueries = (props: Props) => {
     const { art, setArt } = props
 
     const queryClient = useQueryClient()
+
+    const uploadingArti = useMutation({
+        mutationFn: (art: any) => createArticle(art),
+        mutationKey: ['create-article']
+    })
 
     const editArticleMutate = useMutation({
         mutationFn: () => editArticleById(art?.id!, { body: [], location: [] }),
@@ -55,7 +60,7 @@ const useArticleQueries = (props: Props) => {
         deleteArticleMutate.mutate(id)
     }
 
-    return { editArticleMutate, rateArt, handleDisabledArticle, handleDeleteArticle, handleIncreasViewers }
+    return { editArticleMutate, uploadingArti,  rateArt, handleDisabledArticle, handleDeleteArticle, handleIncreasViewers }
 }
 
 export default useArticleQueries

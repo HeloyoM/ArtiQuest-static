@@ -12,7 +12,6 @@ type Props = {
     index: number
     handleNext: () => void
     endStage: boolean
-    // menu: () => JSX.Element
 }
 
 const Menu = (props: Props) => {
