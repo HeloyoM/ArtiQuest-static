@@ -9,7 +9,9 @@ type Props = {
     index: number
     handleNext: () => void
     endStage: boolean
+    menu: () => JSX.Element
 }
+
 const MenuV2 = (props: Props) => {
     const { index, endStage } = props
 
@@ -19,7 +21,7 @@ const MenuV2 = (props: Props) => {
 
     return (
         <React.Fragment>
-            
+
             {!index && <EditorPropertiesWrapper header='edit the title of the new article'>
                 <TitleEditor
                     handleKeyDown={handleKeyDown}
