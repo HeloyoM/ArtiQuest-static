@@ -4,6 +4,17 @@ import { CreateCatDto } from './dto/CreateCat.dto'
 
 const API = 'art'
 
+
+export const getAllArticles = async () => {
+    try {
+        const response = await GET(`${API}`)
+
+        return response
+    } catch (error) {
+        throw new Error('Failed to fetch categories')
+    }
+}
+
 export const getAllCategories = async () => {
     try {
         const response = await GET(`${API}/cat`)

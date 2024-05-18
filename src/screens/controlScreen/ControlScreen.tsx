@@ -1,7 +1,8 @@
 import React from 'react'
-
+import { useQuery } from '@tanstack/react-query'
 import './style.css'
 
+import { getAllCategories } from '../../api/article'
 import { ArrowBack } from '@mui/icons-material'
 
 import { Box, Typography } from '@mui/material'
@@ -10,6 +11,11 @@ import CategoriesManagement from '../../components/entities/sysAdmin/manage-cage
 
 const ControlScreen = () => {
     const [editArticle, setEditArticle] = React.useState(false)
+
+    const { isLoading, data: categoriesData } = useQuery({
+        queryKey: ['categories'],
+        queryFn: getAllCategories
+    })
 
     const onEditArticle = (id: string) => {
         setEditArticle(prev => !prev)
@@ -22,9 +28,9 @@ const ControlScreen = () => {
     return (
         <React.Fragment>
             {!editArticle ?
-                
-                <CategoriesManagement />
-                
+
+                <CategoriesManagement categoriesData={categoriesData} />
+
                 :
                 <Box sx={style} className='edit-container'>
                     <ArrowBack onClick={closeEditArticle} />

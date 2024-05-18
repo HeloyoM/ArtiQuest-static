@@ -1,16 +1,15 @@
-import React from 'react'
 import AppBar from '@mui/material/AppBar'
 import { useNavigate } from 'react-router-dom'
-import { Toolbar, Button, Box, Menu, useMediaQuery } from '@mui/material'
+import { Toolbar, Box } from '@mui/material'
 import NavBtnAction from '../NavBtnAction'
 import { AccountCircle, Login as ConnectIcon } from '@mui/icons-material'
-import Fade from '@mui/material/Fade'
 import CatShortcut from './CatShortcut'
 import ArtiShortcut from './ArtiShortcut'
 import Badge from '@mui/material/Badge'
 import MailIcon from '@mui/icons-material/Mail'
 
 const SysadminAppNav = () => {
+
     const navigate = useNavigate()
 
     const openAcceptingScreen = () => {
@@ -19,26 +18,18 @@ const SysadminAppNav = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="static" color='secondary'>
                 <Toolbar>
 
                     <Box sx={{ flexGrow: 1 }} />
 
-                    <SimpleBadge openAcceptingScreen={openAcceptingScreen}/>
+                    <SimpleBadge openAcceptingScreen={openAcceptingScreen} />
 
                     <Box sx={{ display: { md: 'flex' } }}>
-
-                        <NavBtnAction
-                            btn={<AccountCircle onClick={() => { }} />} />
-
-                        <NavBtnAction
-                            btn={<ConnectIcon onClick={() => { }} />} />
-
 
                         <CatShortcut />
 
                         <ArtiShortcut />
-
 
                     </Box>
                 </Toolbar>

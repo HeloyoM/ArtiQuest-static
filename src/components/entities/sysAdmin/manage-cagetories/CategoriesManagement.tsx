@@ -1,8 +1,8 @@
 import React from 'react'
-import { useQuery } from '@tanstack/react-query'
+
 import { Box, Button, IconButton, Typography } from '@mui/material'
 import { VisibilityOff as VisibilityOffIcon, Person as PersonIcon, Info as InfoIcon, Delete as DeleteIcon, TurnedIn as TurnedIcon, Image as ImageIcon, Edit as UpdateIcon } from '@mui/icons-material'
-import { getAllCategories } from '../../../../api/article'
+
 
 import AppTable from '../../../../components/common/table/AppTable'
 import AppPagination from '../../../../components/common/AppPagination'
@@ -17,23 +17,20 @@ import useArticleQueries from '../../../article/useArticleQueries'
 import { categoriesColumns } from './columns-definition'
 import getPopularAuthor from '../../utils/getMostPopularAuthor'
 import getToalViewers from '../../utils/getTotalArticles'
-import { ICategory } from '../../../../interface/category.interface'
 
-const CategoriesManagement = () => {
+type Props = {
+    categoriesData: any
+}
+const CategoriesManagement = (props: Props) => {
     const [rows, setRows] = React.useState<any[]>([])
     const [open, setOpen] = React.useState(false)
     const [page, setPage] = React.useState(1)
 
     const { handleDeleteArticle, handleToggleActive } = useArticleQueries({})
 
-    const { isLoading, data: categoriesData } = useQuery({
-        queryKey: ['categories'],
-        queryFn: getAllCategories
-    })
-
     const categoriesChunk = React.useMemo(() => {
-        return paginate(categoriesData, page, 1)
-    }, [categoriesData, page])
+        return paginate(props.categoriesData, page, 1)
+    }, [props.categoriesData, page])
 
     React.useEffect(() => {
         if (!categoriesChunk.length) return
@@ -112,7 +109,7 @@ const CategoriesManagement = () => {
             <AppPagination
                 paginate={handlePaginate}
                 page={page}
-                itemsCount={categoriesData.length}
+                itemsCount={props.categoriesData.length}
                 pageSize={1} />
 
             <Typography component='div' sx={{ display: 'flex', p: 2 }}>

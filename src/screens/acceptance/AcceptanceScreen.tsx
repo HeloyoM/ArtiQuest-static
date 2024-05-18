@@ -1,21 +1,35 @@
-import React from 'react'
-import { getAllCategories } from '../../api/article'
-import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import useArticleQueries from '../../components/article/useArticleQueries'
+import { Article } from '../../interface/article.interface'
+import { Box, Typography } from '@mui/material'
+import CategoriesManagement from '../../components/entities/sysAdmin/manage-cagetories/CategoriesManagement'
+import AppProgress from '../../components/common/AppProgress'
 import useCategoryQueries from '../../components/category/useCategoryQueries'
-import AppMenu from '../../components/common/AppMenu'
-import { Button } from '@mui/material'
 import { ICategory } from '../../interface/category.interface'
 
 const AcceptanceScreen = () => {
-
+    const [pendingArticles, setPendingArticles] = useState<ICategory[]>([])
     const { categories } = useCategoryQueries({})
 
-    console.log(categories.data)
+    useEffect(() => {
+        if (!categories.data) return
 
-    const categoriesList = categories.data.map((c: ICategory) => (<Button>{c.name}</Button>))
+        const inactiveArticles = categories.data.map((c: ICategory) => {
+            const inactiveArts = c.arts.filter((a: Article) => !a.active);
+            return { ...c, arts: inactiveArts, len: inactiveArts.length };
+        });
+        console.log({ inactiveArticles })
+        setPendingArticles(inactiveArticles)
+    }, [categories.data])
+
+    if (!categories || !pendingArticles.length) return <AppProgress type="Line" />
 
     return (
-        <AppMenu variant='permanent' openMenu close={()=>{}} menuBody={<></>}/>
+        <Box>
+            <Typography align="center">Pending articles</Typography>
+
+            <CategoriesManagement categoriesData={pendingArticles} />
+        </Box>
     )
 }
 

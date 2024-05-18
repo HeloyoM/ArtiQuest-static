@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Typography } from '@mui/material'
 
@@ -10,17 +11,21 @@ import { findAllUsers } from '../../api/user'
 
 import SysadminAppNav from '../../components/common/navbar/sysAdminPanel/SysadminAppNav'
 import PostsContainer from '../../components/post/PostsContainer'
+import AppUserContext from '../../contextes/AppUserContext'
+import { Roles } from '../../enum/Roles.enum'
 
 const HomePage = () => {
+  const { user } = useContext(AppUserContext)
+
   const { isLoading, data: users } = useQuery({
     queryKey: ['users'],
     queryFn: findAllUsers
   })
 
   return (
-    <div className='home'>
-      {/* <AppNav users={users} /> */}
-      <SysadminAppNav />
+    <Typography className='home'>
+      <AppNav users={users} />
+      {user && Roles.SysAdmin === user.role && <SysadminAppNav />}
 
       <ArtiQuest />
 
@@ -30,9 +35,9 @@ const HomePage = () => {
       </Typography>
 
 
-      {/* <PostsContainer users={users} /> */}
+      <PostsContainer users={users} />
 
-    </div>
+    </Typography>
   )
 }
 

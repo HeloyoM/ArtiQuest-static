@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createArticle, deleteArticle, disabledArticle, editArticleById, increasArticleViewers, rateArticle } from '../../api/article'
+import { createArticle, deleteArticle, disabledArticle, editArticleById, getAllArticles, increasArticleViewers, rateArticle } from '../../api/article'
 import { Article } from '../../interface/article.interface'
+import { useQuery } from '@tanstack/react-query'
 
 type Props = {
     setArt?: React.Dispatch<React.SetStateAction<Article<string> | undefined>>
@@ -11,6 +12,12 @@ const useArticleQueries = (props: Props) => {
     const { art, setArt } = props
 
     const queryClient = useQueryClient()
+
+    const allArticles = useQuery({
+        queryKey: ['articles'],
+        queryFn: getAllArticles
+    })
+
 
     const uploadingArti = useMutation({
         mutationFn: (art: any) => createArticle(art),
@@ -54,7 +61,7 @@ const useArticleQueries = (props: Props) => {
     const handleToggleActive = useMutation({
         mutationFn: (id: string) => disabledArticle(id),
         onSuccess: async (data: any) => {
-            console.log({data})
+            console.log({ data })
         }
     })
 
@@ -63,7 +70,7 @@ const useArticleQueries = (props: Props) => {
         deleteArticleMutate.mutate(id)
     }
 
-    return { editArticleMutate, uploadingArti, rateArt, handleToggleActive, handleDeleteArticle, handleIncreasViewers }
+    return { editArticleMutate, allArticles, uploadingArti, rateArt, handleToggleActive, handleDeleteArticle, handleIncreasViewers }
 }
 
 export default useArticleQueries
