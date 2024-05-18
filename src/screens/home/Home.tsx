@@ -1,4 +1,3 @@
-import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Typography } from '@mui/material'
 
@@ -13,31 +12,17 @@ import SysadminAppNav from '../../components/common/navbar/sysAdminPanel/Sysadmi
 import PostsContainer from '../../components/post/PostsContainer'
 
 const HomePage = () => {
-  const [demo, setDemo] = React.useState(false)
-
   const { isLoading, data: users } = useQuery({
     queryKey: ['users'],
     queryFn: findAllUsers
   })
 
-  const endDemo = () => {
-    setDemo(false)
-
-    localStorage.removeItem('artiQuest-demo')
-  }
-
-  React.useEffect(() => {
-    const isdemo = localStorage.getItem('artiQuest-demo')
-
-    setDemo(Boolean(isdemo))
-  }, [])
-
   return (
-    <div className={!demo ? 'home' : 'home demo'}>
-      {/* <AppNav isdemo={demo} endDemo={endDemo} users={users} /> */}
+    <div className='home'>
+      {/* <AppNav users={users} /> */}
       <SysadminAppNav />
 
-      <ArtiQuest isdemo={demo} />
+      <ArtiQuest />
 
       <Typography component='p' className='arti-quest-header'>
         <h1>Arti-Quest</h1>
@@ -45,7 +30,7 @@ const HomePage = () => {
       </Typography>
 
 
-      <PostsContainer users={users} />
+      {/* <PostsContainer users={users} /> */}
 
     </div>
   )

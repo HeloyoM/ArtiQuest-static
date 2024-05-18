@@ -18,19 +18,17 @@ import Profile from '../profile/Profile'
 import { Paths } from '../../../utils/paths'
 
 type Props = {
-  isdemo: boolean
-  endDemo: () => void
   users: User[]
 }
 
 const AppNav = (props: Props) => {
   const [openRegisterForm, setOpenRegister] = React.useState(false)
 
-  const { endDemo, isdemo, users } = props
+  const { users } = props
 
   const { updateUserContext, user } = React.useContext(AppUserContext)
 
-  const { popover } = useDemo({ endDemo: endDemo, isdemo: isdemo })
+  const { popover } = useDemo({ endDemo: () => { }, isdemo: false })
 
   const navigate = useNavigate()
 
@@ -71,7 +69,7 @@ const AppNav = (props: Props) => {
     <React.Fragment>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
-          <Toolbar sx={{ background: isdemo ? 'rgba(0, 0, 0, 0.5)' : 'default' }}>
+          <Toolbar>
 
             <Button sx={{ color: 'white' }} onClick={goAboutPage}>About author</Button>
 

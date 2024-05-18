@@ -5,7 +5,6 @@ import { ICategory } from '../../interface/category.interface'
 
 type Props = {
     cat: Partial<ICategory>
-    isdemo: boolean
 }
 
 const AppChip = (props: Props) => {

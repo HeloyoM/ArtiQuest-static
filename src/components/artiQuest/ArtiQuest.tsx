@@ -5,10 +5,7 @@ import { getAllCategories } from '../../api/article'
 import { ICategory } from '../../interface/category.interface'
 import AppProgress from '../common/AppProgress'
 
-type Props = {
-    isdemo: boolean
-}
-const ArtiQuest = (props: Props) => {
+const ArtiQuest = () => {
 
     const { isLoading, data } = useQuery({
         queryKey: ['categories'],
@@ -21,7 +18,7 @@ const ArtiQuest = (props: Props) => {
         <div className='articles'>
             <ul>
                 {data?.map((c: ICategory) => (
-                    <AppChip cat={c} key={c.id} isdemo={props.isdemo} />
+                    <AppChip cat={c} key={c.id} />
                 ))}
             </ul>
         </div>
