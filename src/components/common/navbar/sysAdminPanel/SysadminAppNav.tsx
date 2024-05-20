@@ -1,8 +1,6 @@
 import AppBar from '@mui/material/AppBar'
 import { useNavigate } from 'react-router-dom'
 import { Toolbar, Box } from '@mui/material'
-import NavBtnAction from '../NavBtnAction'
-import { AccountCircle, Login as ConnectIcon } from '@mui/icons-material'
 import CatShortcut from './CatShortcut'
 import ArtiShortcut from './ArtiShortcut'
 import Badge from '@mui/material/Badge'

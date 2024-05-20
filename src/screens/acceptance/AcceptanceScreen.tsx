@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import useArticleQueries from '../../components/article/useArticleQueries'
 import { Article } from '../../interface/article.interface'
 import { Box, Typography } from '@mui/material'
-import CategoriesManagement from '../../components/entities/sysAdmin/manage-cagetories/CategoriesManagement'
+import ManagementTable from '../../components/entities/sysAdmin/manage-cagetories/ManagementTable'
 import AppProgress from '../../components/common/AppProgress'
 import useCategoryQueries from '../../components/category/useCategoryQueries'
 import { ICategory } from '../../interface/category.interface'
@@ -18,7 +18,7 @@ const AcceptanceScreen = () => {
             const inactiveArts = c.arts.filter((a: Article) => !a.active);
             return { ...c, arts: inactiveArts, len: inactiveArts.length };
         });
-        console.log({ inactiveArticles })
+
         setPendingArticles(inactiveArticles)
     }, [categories.data])
 
@@ -28,7 +28,7 @@ const AcceptanceScreen = () => {
         <Box>
             <Typography align="center">Pending articles</Typography>
 
-            <CategoriesManagement categoriesData={pendingArticles} />
+            {/* <ManagementTable categoriesData={pendingArticles} /> */}
         </Box>
     )
 }

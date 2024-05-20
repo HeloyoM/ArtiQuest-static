@@ -13,12 +13,6 @@ const useArticleQueries = (props: Props) => {
 
     const queryClient = useQueryClient()
 
-    const allArticles = useQuery({
-        queryKey: ['articles'],
-        queryFn: getAllArticles
-    })
-
-
     const uploadingArti = useMutation({
         mutationFn: (art: any) => createArticle(art),
         mutationKey: ['create-article']
@@ -70,7 +64,7 @@ const useArticleQueries = (props: Props) => {
         deleteArticleMutate.mutate(id)
     }
 
-    return { editArticleMutate, allArticles, uploadingArti, rateArt, handleToggleActive, handleDeleteArticle, handleIncreasViewers }
+    return { editArticleMutate, uploadingArti, rateArt, handleToggleActive, handleDeleteArticle, handleIncreasViewers }
 }
 
 export default useArticleQueries

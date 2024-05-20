@@ -4,9 +4,9 @@ import { Box, Button, IconButton, Typography } from '@mui/material'
 import { VisibilityOff as VisibilityOffIcon, Person as PersonIcon, Info as InfoIcon, Delete as DeleteIcon, TurnedIn as TurnedIcon, Image as ImageIcon, Edit as UpdateIcon } from '@mui/icons-material'
 
 
-import AppTable from '../../../../components/common/table/AppTable'
-import AppPagination from '../../../../components/common/AppPagination'
-import AppList from '../../../../components/common/list/AppList'
+import AppTable from '../../../common/table/AppTable'
+import AppPagination from '../../../common/AppPagination'
+import AppList from '../../../common/list/AppList'
 
 import { Article } from '../../../../interface/article.interface'
 
@@ -19,38 +19,15 @@ import getPopularAuthor from '../../utils/getMostPopularAuthor'
 import getToalViewers from '../../utils/getTotalArticles'
 
 type Props = {
-    categoriesData: any
+    tableData: any
+    handlePaginate: (e: React.ChangeEvent<unknown>, value: number) => void
+    rows: any[]
+    page: number
 }
-const CategoriesManagement = (props: Props) => {
-    const [rows, setRows] = React.useState<any[]>([])
+const ManagementTable = (props: Props) => {
     const [open, setOpen] = React.useState(false)
-    const [page, setPage] = React.useState(1)
 
     const { handleDeleteArticle, handleToggleActive } = useArticleQueries({})
-
-    const categoriesChunk = React.useMemo(() => {
-        return paginate(props.categoriesData, page, 1)
-    }, [props.categoriesData, page])
-
-    React.useEffect(() => {
-        if (!categoriesChunk.length) return
-
-        const computedRows = categoriesChunk[0].arts.map((r: Article) => {
-            const row = computRows(r.title, r.author.first_name + ' ' + r.author.last_name, r.created, r.viewers.length, r.rank.total, tableOptions(r.id))
-
-            return row
-        })
-
-        setRows(computedRows)
-
-    }, [categoriesChunk])
-
-    const handlePaginate = (
-        e: React.ChangeEvent<unknown>,
-        value: number
-    ) => {
-        setPage(prev => value)
-    }
 
     const confirmationBeforeDeletion = (id: string) => {
         setOpen(true)
@@ -64,7 +41,7 @@ const CategoriesManagement = (props: Props) => {
         setOpen(false)
     }
     const isDisabledArticle = (id: string) => {
-        return Boolean(categoriesChunk[0].arts.find((a: Article) => (a.id === id)).active)
+        return Boolean(props.tableData[0].arts.find((a: Article) => (a.id === id)).active)
     }
     const tableOptions = (id: string) => (
         <React.Fragment>
@@ -91,25 +68,25 @@ const CategoriesManagement = (props: Props) => {
     )
 
     const items = [
-        { primary: 'Total articles', secondary: categoriesChunk[0].len, icon: <TurnedIcon /> },
-        { primary: 'Viewers', secondary: getToalViewers(categoriesChunk[0].arts), icon: <ImageIcon /> },
-        { primary: 'Most popular author', secondary: getPopularAuthor(categoriesChunk[0].arts), icon: <PersonIcon /> },
+        { primary: 'Total articles', secondary: props.tableData[0].len, icon: <TurnedIcon /> },
+        { primary: 'Viewers', secondary: getToalViewers(props.tableData[0].arts), icon: <ImageIcon /> },
+        { primary: 'Most popular author', secondary: getPopularAuthor(props.tableData[0].arts), icon: <PersonIcon /> },
     ]
 
     return (
         <React.Fragment>
             <AppTable
-                rows={rows}
+                rows={props.rows}
                 columns={categoriesColumns}
-                tableTitle={categoriesChunk[0].name}
+                tableTitle={props.tableData[0].name}
                 handleUpdateArticle={() => { }}
                 handleDeleteArticle={handleDeleteArticle}
             />
 
             <AppPagination
-                paginate={handlePaginate}
-                page={page}
-                itemsCount={props.categoriesData.length}
+                paginate={props.handlePaginate}
+                page={props.page}
+                itemsCount={Number(localStorage.getItem('categories-len'))}
                 pageSize={1} />
 
             <Typography component='div' sx={{ display: 'flex', p: 2 }}>
@@ -123,7 +100,7 @@ const CategoriesManagement = (props: Props) => {
     )
 }
 
-export default CategoriesManagement
+export default ManagementTable
 
 const modalStyle = {
     position: 'absolute' as 'absolute',
