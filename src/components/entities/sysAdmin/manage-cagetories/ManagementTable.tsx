@@ -27,37 +27,15 @@ type Props = {
 const ManagementTable = (props: Props) => {
     const [open, setOpen] = React.useState(false)
 
-    const { handleDeleteArticle, handleToggleActive } = useArticleQueries({})
+    const { handleDeleteArticle } = useArticleQueries({})
 
     const confirmationBeforeDeletion = (id: string) => {
         setOpen(true)
     }
 
-    const toggleActiveArticle = (id: string) => {
-        handleToggleActive.mutate(id)
-    }
-
     const closeModal = () => {
         setOpen(false)
     }
-    const isDisabledArticle = (id: string) => {
-        return Boolean(props.tableData[0].arts.find((a: Article) => (a.id === id)).active)
-    }
-    const tableOptions = (id: string) => (
-        <React.Fragment>
-
-            <IconButton>
-                <DeleteIcon sx={{ color: 'red', cursor: 'pointer' }} onClick={() => confirmationBeforeDeletion(id)} />
-            </IconButton>
-
-            <IconButton>
-                <VisibilityOffIcon
-                    sx={{ color: isDisabledArticle(id) ? 'black' : 'red', cursor: 'pointer' }}
-                    onClick={() => toggleActiveArticle(id)} />
-            </IconButton>
-
-        </React.Fragment>
-    )
 
     const approvalChanges = (
         <Box sx={modalStyle}>

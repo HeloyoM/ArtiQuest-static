@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { VisibilityOff as VisibilityOffIcon, Person as PersonIcon, Info as InfoIcon, Delete as DeleteIcon, TurnedIn as TurnedIcon, Image as ImageIcon, Edit as UpdateIcon } from '@mui/icons-material'
+import { VisibilityOff as VisibilityOffIcon, Person as PersonIcon, Info as InfoIcon, Delete as DeleteIcon, TurnedIn as TurnedIcon, Image as ImageIcon, Edit as UpdateIcon, CategoryRounded } from '@mui/icons-material'
 import ManagementTable from "../components/entities/sysAdmin/manage-cagetories/ManagementTable"
 import useArticleQueries from '../components/article/useArticleQueries'
 import { paginate } from './paginate'
@@ -7,6 +7,8 @@ import useCategoryQueries from '../components/category/useCategoryQueries'
 import computRows from '../components/entities/sysAdmin/manage-cagetories/rowDataMapping'
 import { Article } from '../interface/article.interface'
 import { IconButton } from '@mui/material'
+import { useLocation } from 'react-router-dom'
+import { ICategory } from '../interface/category.interface'
 
 const useCategoriesTable = () => {
     const [rows, setRows] = React.useState<any[]>([])
@@ -16,6 +18,9 @@ const useCategoriesTable = () => {
     const { categories } = useCategoryQueries({})
 
     const { handleDeleteArticle, handleToggleActive } = useArticleQueries({})
+    const { pathname } = useLocation()
+
+    console.log({ pathname })
 
     useEffect(() => {
         if (!categories.data) return
@@ -23,8 +28,20 @@ const useCategoriesTable = () => {
         localStorage.setItem('categories-len', categories.data.length)
     }, [categories.data])
 
+    const isPendingScreen = (): boolean => {
+        return pathname === '/pending-articles'
+    }
+
     const categoriesChunk = React.useMemo(() => {
-        return paginate(categories.data, page, 1)
+        let cats = categories.data
+        if (isPendingScreen()) {
+            cats = categories.data.map((c: ICategory) => {
+                const inactiveArts = c.arts.filter((a: Article) => !a.active);
+                return { ...c, arts: inactiveArts, len: inactiveArts.length };
+            })
+
+        }
+        return paginate(cats, page, 1)
     }, [categories.data, page])
 
     React.useEffect(() => {
@@ -46,6 +63,15 @@ const useCategoriesTable = () => {
 
     }, [categoriesChunk])
 
+
+    const toggleActiveArticle = (id: string) => {
+        handleToggleActive.mutate(id)
+    }
+
+    const isDisabledArticle = (id: string) => {
+        return Boolean(categoriesChunk[0].arts.find((a: Article) => (a.id === id)).active)
+    }
+
     const tableOptions = (id: string) => (
         <React.Fragment>
 
@@ -55,8 +81,8 @@ const useCategoriesTable = () => {
 
             <IconButton>
                 <VisibilityOffIcon
-                    /*sx={{ color: isDisabledArticle(id) ? 'black' : 'red', cursor: 'pointer' }}
-                    onClick={() => toggleActiveArticle(id)}*/ />
+                    sx={{ color: isDisabledArticle(id) ? 'black' : 'red', cursor: 'pointer' }}
+                    onClick={() => toggleActiveArticle(id)} />
             </IconButton>
 
         </React.Fragment>
