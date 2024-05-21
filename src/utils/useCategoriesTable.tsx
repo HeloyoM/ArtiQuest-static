@@ -9,6 +9,8 @@ import { Article } from '../interface/article.interface'
 import { IconButton } from '@mui/material'
 import { useLocation } from 'react-router-dom'
 import { ICategory } from '../interface/category.interface'
+import getToalViewers from '../components/entities/utils/getTotalArticles'
+import getPopularAuthor from '../components/entities/utils/getMostPopularAuthor'
 
 const useCategoriesTable = () => {
     const [rows, setRows] = React.useState<any[]>([])
@@ -19,8 +21,6 @@ const useCategoriesTable = () => {
 
     const { handleDeleteArticle, handleToggleActive } = useArticleQueries({})
     const { pathname } = useLocation()
-
-    console.log({ pathname })
 
     useEffect(() => {
         if (!categories.data) return
@@ -34,15 +34,20 @@ const useCategoriesTable = () => {
 
     const categoriesChunk = React.useMemo(() => {
         let cats = categories.data
+
+
         if (isPendingScreen()) {
             cats = categories.data.map((c: ICategory) => {
                 const inactiveArts = c.arts.filter((a: Article) => !a.active);
                 return { ...c, arts: inactiveArts, len: inactiveArts.length };
             })
-
         }
+
+
         return paginate(cats, page, 1)
     }, [categories.data, page])
+
+
 
     React.useEffect(() => {
         if (!categoriesChunk.length) return
@@ -95,7 +100,17 @@ const useCategoriesTable = () => {
         setPage(prev => value)
     }
 
-    return { main: <ManagementTable page={page} rows={rows} tableData={categoriesChunk} handlePaginate={handlePaginate} /> }
+
+    const additionInfoAboutCategory = [
+        { primary: 'Total articles', secondary: categoriesChunk[0].len, icon: <TurnedIcon /> },
+        { primary: 'Viewers', secondary: getToalViewers(categoriesChunk[0].arts), icon: <ImageIcon /> },
+        { primary: 'Most popular author', secondary: getPopularAuthor(categoriesChunk[0].arts), icon: <PersonIcon /> },
+    ]
+
+
+    return { 
+        additionInfoAboutCategory,
+        main: <ManagementTable page={page} rows={rows} tableData={categoriesChunk} handlePaginate={handlePaginate} /> }
 }
 
 export default useCategoriesTable
