@@ -5,6 +5,7 @@ import CatShortcut from './CatShortcut'
 import ArtiShortcut from './ArtiShortcut'
 import Badge from '@mui/material/Badge'
 import MailIcon from '@mui/icons-material/Mail'
+import { useCategories } from '../../../category/useCategoryQueries'
 
 const SysadminAppNav = () => {
 
@@ -13,7 +14,6 @@ const SysadminAppNav = () => {
     const openAcceptingScreen = () => {
         navigate('/pending-articles')
     }
-
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" color='secondary'>
@@ -43,9 +43,10 @@ type Props = {
     openAcceptingScreen: () => void
 }
 export function SimpleBadge(props: Props) {
+    const { data } = useCategories()
     return (
-        <Badge badgeContent={4} color="primary">
+        <Badge badgeContent={Number(data.length)} color="primary">
             <MailIcon color="action" onClick={props.openAcceptingScreen} />
         </Badge>
-    );
+    )
 }

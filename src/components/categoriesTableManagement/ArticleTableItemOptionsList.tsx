@@ -1,26 +1,26 @@
 import AppList from '../common/list/AppList'
 import useArticleQueries from '../article/useArticleQueries'
-import { Article } from '../../interface/article.interface'
 import { Delete, VisibilityOff } from '@mui/icons-material'
 import { IListItem } from '../../interface/IListItem.interface'
 
 type Props = {
     id: string
+    active: boolean
 }
-const ItemOptionsList = (props: Props) => {
-
-    const { handleToggleActive } = useArticleQueries({})
+const ArticleTableItemOptionsList = (props: Props) => {
+    const { active, id } = props
+    const { handleToggleActive, handleDeleteArticle } = useArticleQueries({})
 
     const isDisabledArticle = () => {
-        return true//Boolean(categoriesChunk[0].arts.find((a: Article) => (a.id === props.id)).active)
+        return Boolean(active)
     }
 
     const toggleActiveArticle = () => {
-        handleToggleActive.mutate(props.id)
+        handleToggleActive.mutate(id)
     }
 
     const optionsListItems: IListItem[] = [
-        { primary: 'delete article', handleClick: () => { }, secondary: '', icon: <Delete /> },
+        { primary: 'delete article', handleClick: () => handleDeleteArticle(id), secondary: '', icon: <Delete /> },
         {
             primary: 'active', handleClick: toggleActiveArticle, secondary: '', icon: <VisibilityOff
                 sx={{ color: isDisabledArticle() ? 'black' : 'red', cursor: 'pointer' }} />
@@ -31,4 +31,4 @@ const ItemOptionsList = (props: Props) => {
         <AppList items={optionsListItems} />
     )
 }
-export default ItemOptionsList
+export default ArticleTableItemOptionsList

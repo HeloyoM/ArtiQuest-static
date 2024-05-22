@@ -9,7 +9,7 @@ import { findAllUsers } from "./api/user"
 import useQueries from "./components/register/useQueries"
 
 import useRoutes from "./utils/useRoutes"
-import getDecodedUser, { getToken } from "./api/getDecodedUser"
+import getDecodedUser from "./api/getDecodedUser"
 
 import { User } from "./interface/user.interface"
 

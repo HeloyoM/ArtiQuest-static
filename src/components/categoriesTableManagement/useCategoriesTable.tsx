@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Person as PersonIcon, TurnedIn as TurnedIcon, Image as ImageIcon } from '@mui/icons-material'
 
 import ManagementTable from "../entities/sysAdmin/manage-cagetories/ManagementTable"
-import useCategoryQueries from '../category/useCategoryQueries'
+import { useCategories } from '../category/useCategoryQueries'
 import computRows from '../entities/sysAdmin/manage-cagetories/rowDataMapping'
 import RowTableOptions from './RowTableOptions'
 import usePopover from '../../utils/usePopover'
@@ -16,29 +16,24 @@ import { ICategory } from '../../interface/category.interface'
 import { Article } from '../../interface/article.interface'
 
 const useCategoriesTable = () => {
-    const [rows, setRows] = React.useState<any[]>([])
-    const [page, setPage] = React.useState(1)
+    const [rows, setRows] = useState<any[]>([])
+    const [page, setPage] = useState(1)
 
-    const { categories } = useCategoryQueries({})
+    const { data: categories } = useCategories()
+    console.log({categories})
     const { open } = usePopover()
     const { pathname } = useLocation()
 
-    useEffect(() => {
-        if (!categories.data) return
-
-        localStorage.setItem('categories-len', categories.data.length)
-    }, [categories.data])
-
-    const isPendingScreen = (): boolean => {
+    const showOnlyInactiveArticles = (): boolean => {
         return pathname === '/pending-articles'
     }
 
     const categoriesChunk = React.useMemo(() => {
-        let cats = categories.data
+        let cats = categories
 
 
-        if (isPendingScreen()) {
-            cats = categories.data.map((c: ICategory) => {
+        if (showOnlyInactiveArticles()) {
+            cats = categories.map((c: ICategory) => {
                 const inactiveArts = c.arts.filter((a: Article) => !a.active);
                 return { ...c, arts: inactiveArts, len: inactiveArts.length };
             })
@@ -46,7 +41,7 @@ const useCategoriesTable = () => {
 
 
         return paginate(cats, page, 1)
-    }, [categories.data, page])
+    }, [categories, page])
 
 
     React.useEffect(() => {
@@ -58,7 +53,7 @@ const useCategoriesTable = () => {
                 r.created,
                 r.viewers.length,
                 r.rank.total,
-                <RowTableOptions id={r.id} />
+                <RowTableOptions id={r.id} active={r.active} />
             )
 
             return row

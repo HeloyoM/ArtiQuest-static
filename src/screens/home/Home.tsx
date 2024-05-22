@@ -22,10 +22,12 @@ const HomePage = () => {
     queryFn: findAllUsers
   })
 
+  const isSysAdmin = user && Roles.SysAdmin === user.role
+
   return (
     <Typography className='home'>
       <AppNav users={users} />
-      {user && Roles.SysAdmin === user.role && <SysadminAppNav />}
+      {isSysAdmin && <SysadminAppNav />}
 
       <ArtiQuest />
 

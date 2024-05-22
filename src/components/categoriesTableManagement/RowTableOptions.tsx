@@ -3,19 +3,19 @@ import { MoreHoriz } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import usePopover from '../../utils/usePopover'
 import AppPopover from '../common/AppPopover'
-import ItemOptionsList from './ItemOptionsList'
+import ArticleTableItemOptionsList from './ArticleTableItemOptionsList'
 
 type Props = {
     id: string
+    active: boolean
 }
 const RowTableOptions = (props: Props): JSX.Element => {
-
+    const { active, id} = props
     const { anchorEl, closePopover, open, togglePopover } = usePopover()
 
     const popover = (id: string) => (
         <AppPopover anchorEl={anchorEl} id={id} close={closePopover} open={open} >
-            <div></div>
-            <ItemOptionsList id={props.id} />
+            <ArticleTableItemOptionsList id={id} active={active}/>
         </AppPopover>
     )
 
@@ -25,7 +25,7 @@ const RowTableOptions = (props: Props): JSX.Element => {
                 <MoreHoriz onClick={(e) => togglePopover(e)} />
             </IconButton>
 
-            {popover(props.id)}
+            {popover(id)}
         </React.Fragment >
     )
 }

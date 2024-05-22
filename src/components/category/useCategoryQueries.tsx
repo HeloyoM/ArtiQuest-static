@@ -18,9 +18,9 @@ const useCategoryQueries = (props: Props) => {
         queryFn: () => getArticlesByCategoryId(id!)
     })
 
-
-
     return { categoryArticles, categories }
 }
 
 export default useCategoryQueries
+
+export const useCategories = () => useQuery({ queryKey: ['categories'], queryFn: getAllCategories })
