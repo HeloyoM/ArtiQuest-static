@@ -1,25 +1,29 @@
-import { Popover, PopoverOrigin } from '@mui/material'
+import { Popover } from '@mui/material'
 import { FC } from 'react'
 
 type PopoverProps = {
     open: boolean
     anchorEl: Element | null | undefined
-    close?: () => void
+    close: () => void
     id?: string
     children: any
-    position: PopoverOrigin
 }
 const AppPopover: FC<PopoverProps> = props => {
-    const { id, position, open, anchorEl, children, close } = props
+    const { id, open, anchorEl, children, close } = props
     return (
         <Popover
-            open={open}
+            id={id}
+            open={open && anchorEl !== null}
             anchorEl={anchorEl}
             onClose={close}
-            anchorOrigin={position}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+            }}
+
         >
             {children}
-        </Popover >
+        </Popover>
     )
 }
 

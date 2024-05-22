@@ -1,0 +1,20 @@
+import React, { useState } from 'react'
+
+const usePopover = () => {
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | SVGSVGElement | null>(null)
+
+    const togglePopover = (event?: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+        if (!event?.currentTarget) return
+
+        setAnchorEl(event.currentTarget)
+    }
+
+    const closePopover = () => setAnchorEl(null)
+
+    const open = Boolean(anchorEl)
+    const id = open ? 'popover' : undefined
+
+    return { open, id, togglePopover, closePopover, anchorEl }
+}
+
+export default usePopover

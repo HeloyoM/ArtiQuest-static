@@ -89,12 +89,10 @@ const useDemo = (props: Props) => {
 
     const popover = React.useMemo(() => {
         return (
-            <AppPopover anchorEl={anchorEl} position={anchorOrigin} open={popoverOpen}>
-                <Box sx={{ padding: '8px', height: '119px', wordBreak: 'break-word' }}>
-                    {explanationStrings[indexSession]}
-                </Box>
-                <Button onClick={nextDemo}>{demoProgress}</Button>
-            </AppPopover>
+            // <AppPopover anchorEl={anchorEl}   open={popoverOpen}>
+                <>
+                <Button onClick={nextDemo}>{demoProgress}</Button></>
+            // </AppPopover>
         )
     }, [anchorEl, popoverOpen, demoSession])
 
