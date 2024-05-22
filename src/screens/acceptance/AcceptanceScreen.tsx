@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import AppProgress from '../../components/common/AppProgress'
-import useCategoriesTable from '../../utils/useCategoriesTable'
+import useCategoriesTable from '../../components/categoriesTableManagement/useCategoriesTable'
 
 const AcceptanceScreen = () => {
     const { main } = useCategoriesTable()

@@ -4,10 +4,11 @@ type Props = {
     primary: React.ReactNode
     secondary: React.ReactNode
     icon: any
+    handleClick?: () => void
 }
 const AppListItem = (props: Props) => {
     return (
-        <ListItem>
+        <ListItem onClick={props.handleClick}>
             <ListItemAvatar>
                 <Avatar>
                     {props.icon}

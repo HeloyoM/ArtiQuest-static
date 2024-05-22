@@ -1,7 +1,7 @@
 import React from 'react'
 import './style.css'
 import { Info as InfoIcon } from '@mui/icons-material'
-import useCategoriesTable from '../../utils/useCategoriesTable'
+import useCategoriesTable from '../../components/categoriesTableManagement/useCategoriesTable'
 import { Typography } from '@mui/material'
 import AppList from '../../components/common/list/AppList'
 
