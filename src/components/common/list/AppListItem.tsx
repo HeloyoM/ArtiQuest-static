@@ -8,7 +8,7 @@ type Props = {
 }
 const AppListItem = (props: Props) => {
     return (
-        <ListItem onClick={props.handleClick}>
+        <ListItem onClick={props.handleClick} sx={{cursor: 'pointer' }}>
             <ListItemAvatar>
                 <Avatar>
                     {props.icon}

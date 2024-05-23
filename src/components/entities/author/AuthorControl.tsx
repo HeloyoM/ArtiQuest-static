@@ -81,7 +81,6 @@ const AuthorControl = () => {
                 columns={authorColumnsDefinition}
                 tableTitle={authorName}
                 handleUpdateArticle={() => { }}
-            // handleDeleteArticle={handleDeleteArticle}
             />
             <AppList items={items} />
         </React.Fragment>

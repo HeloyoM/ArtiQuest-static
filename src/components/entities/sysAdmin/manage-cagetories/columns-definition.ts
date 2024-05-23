@@ -31,7 +31,7 @@ export const categoriesColumns: ITableColumn[] = [
     },
     {
         id: 'operations',
-        label: 'options',
+        label: '',
         minWidth: 170,
         align: 'center'
     }

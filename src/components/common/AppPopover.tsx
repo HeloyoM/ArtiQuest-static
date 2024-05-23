@@ -18,9 +18,8 @@ const AppPopover: FC<PopoverProps> = props => {
             onClose={close}
             anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'left',
+                horizontal: 'right',
             }}
-
         >
             {children}
         </Popover>

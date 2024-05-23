@@ -7,9 +7,10 @@ type Props = {
 export default function AppTableHeader(props: Props) {
     return (
         <TableHead>
-            <TableRow>
+            <TableRow >
                 {props.columns.map((column) => (
                     <TableCell
+                    sx={{ fontWeight: 'bold' }}
                         key={column.id}
                         align={column.align}
                         style={{ minWidth: column.minWidth }}

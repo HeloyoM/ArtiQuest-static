@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Person as PersonIcon, TurnedIn as TurnedIcon, Image as ImageIcon } from '@mui/icons-material'
 
 import ManagementTable from "../entities/sysAdmin/manage-cagetories/ManagementTable"
@@ -14,13 +14,16 @@ import { paginate } from '../../utils/paginate'
 
 import { ICategory } from '../../interface/category.interface'
 import { Article } from '../../interface/article.interface'
+import { User } from '../../interface/user.interface'
 
 const useCategoriesTable = () => {
     const [rows, setRows] = useState<any[]>([])
     const [page, setPage] = useState(1)
 
+    const navigate = useNavigate()
+
     const { data: categories } = useCategories()
-    console.log({categories})
+
     const { open } = usePopover()
     const { pathname } = useLocation()
 
@@ -43,13 +46,21 @@ const useCategoriesTable = () => {
         return paginate(cats, page, 1)
     }, [categories, page])
 
+    const goToArticle = (title: string, id: string) => {
+        navigate(`/cat/${categoriesChunk[0].name}/art/${title}/${id}`)
+    }
+
+    const showAllAutherArticles = (author: User) => {
+        navigate(`/cat/${author.first_name}-${author.last_name}/${author.id}`)
+    }
 
     React.useEffect(() => {
         if (!categoriesChunk.length) return
 
         const computedRows = categoriesChunk[0].arts.map((r: Article) => {
-            const row = computRows(r.title,
-                r.author.first_name + ' ' + r.author.last_name,
+            const row = computRows(
+                <p style={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }} onClick={() => goToArticle(r.title, r.id)}>{r.title}</p>,
+                <p style={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }} onClick={() => showAllAutherArticles(r.author)}>{r.author.first_name + ' ' + r.author.last_name}</p>,
                 r.created,
                 r.viewers.length,
                 r.rank.total,
@@ -78,7 +89,7 @@ const useCategoriesTable = () => {
 
     return {
         additionInfoAboutCategory,
-        main: <ManagementTable page={page} rows={rows} tableData={categoriesChunk} handlePaginate={handlePaginate} />
+        main: <ManagementTable items={categories.length} page={page} rows={rows} tableData={categoriesChunk} handlePaginate={handlePaginate} />
     }
 }
 

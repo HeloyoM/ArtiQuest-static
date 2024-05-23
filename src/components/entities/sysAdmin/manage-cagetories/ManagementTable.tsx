@@ -9,6 +9,7 @@ type Props = {
     handlePaginate: (e: React.ChangeEvent<unknown>, value: number) => void
     rows: any[]
     page: number
+    items: number
 }
 const ManagementTable = (props: Props) => {
     const { handleDeleteArticle } = useArticleQueries({})
@@ -26,7 +27,7 @@ const ManagementTable = (props: Props) => {
             <AppPagination
                 paginate={props.handlePaginate}
                 page={props.page}
-                itemsCount={Number(localStorage.getItem('categories-len'))}
+                itemsCount={props.items}
                 pageSize={1} />
 
 

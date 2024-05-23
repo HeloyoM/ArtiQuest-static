@@ -1,6 +1,6 @@
 interface CategoryTableData {
-    title: string
-    author: string
+    title: JSX.Element 
+    author: JSX.Element 
     createdAt: string
     viewers: number
     rate: number
@@ -8,8 +8,8 @@ interface CategoryTableData {
 }
 
 export default function computRows(
-    title: string,
-    author: string,
+    title: JSX.Element,
+    author: JSX.Element,
     createdAt: string,
     viewers: number,
     rate: number,
