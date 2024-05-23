@@ -9,6 +9,7 @@ import { Close } from '@mui/icons-material'
 import AppModal from '../modal/AppModal'
 import { Button } from '@mui/material'
 import langsFile from '../../../utils/langs-file.json'
+import { useNavigate, useParams } from 'react-router-dom'
 
 type Props = {
     steps: string[]
@@ -22,12 +23,19 @@ export default function AppSteper(props: Props) {
 
     const { optionals } = props
 
+    const { id } = useParams()
+
+    const navigate = useNavigate()
 
     const handleOpenModal = () => {
         setOpenModal(true)
     }
     const handleCloseModal = () => {
         setOpenModal(true)
+
+        localStorage.removeItem(`init-${id}`)
+
+        navigate(-1)
     }
 
     const handleNext = () => {
