@@ -5,6 +5,10 @@ import Menu from '../../artEditor/Menu'
 import StepperStages from './StepperStages'
 import { isStepOptional, isStepSkipped } from './utils'
 import StepperButtons from './StepperButtons'
+import { Close } from '@mui/icons-material'
+import AppModal from '../modal/AppModal'
+import { Button } from '@mui/material'
+import langsFile from '../../../utils/langs-file.json'
 
 type Props = {
     steps: string[]
@@ -14,8 +18,17 @@ export default function AppSteper(props: Props) {
     const [steps, setSteps] = React.useState(props.steps)
     const [activeStep, setActiveStep] = React.useState(0)
     const [skipped, setSkipped] = React.useState(new Set<number>())
+    const [openModal, setOpenModal] = React.useState(false)
 
     const { optionals } = props
+
+
+    const handleOpenModal = () => {
+        setOpenModal(true)
+    }
+    const handleCloseModal = () => {
+        setOpenModal(true)
+    }
 
     const handleNext = () => {
         let newSkipped = skipped
@@ -32,6 +45,10 @@ export default function AppSteper(props: Props) {
         setActiveStep((prevActiveStep) => prevActiveStep - 1)
     }
 
+    const cancelAction = () => {
+        handleOpenModal()
+    }
+
     const handleSkip = () => {
         if (!isStepOptional(props.optionals, activeStep)) {
             throw new Error("You can't skip a step that isn't optional.")
@@ -45,26 +62,63 @@ export default function AppSteper(props: Props) {
         })
     }
 
+    const handleCancelUploading = () => {
+
+    }
+
+    const approvalChanges = (
+        <Box sx={modalStyle}>
+            {langsFile.system.common.approval}
+            <Button onClick={handleCancelUploading}>{langsFile.casual.yes}</Button>
+            <Button onClick={handleCloseModal}>{langsFile.casual.no}</Button>
+        </Box >
+    )
+
     return (
-        <Box sx={{ width: '100%' }}>
+        <>
+            <Box sx={{ width: '100%' }}>
 
-            <StepperStages optionals={optionals} activeStep={activeStep} steps={steps} skipped={skipped} />
+                <Close sx={{
+                    position: 'absolute',
+                    left: '10%',
+                    width: '35px',
+                    top: '2%',
+                    height: '35px',
+                }} onClick={cancelAction} />
+
+                <StepperStages optionals={optionals} activeStep={activeStep} steps={steps} skipped={skipped} />
 
 
-            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 
-                <Menu index={activeStep} handleNext={handleNext} endStage={activeStep === steps.length} />
+                    <Menu index={activeStep} handleNext={handleNext} endStage={activeStep === steps.length} />
+
+                </Box>
+
+                <StepperButtons
+                    optionals={optionals}
+                    activeStep={activeStep}
+                    handleBack={handleBack}
+                    handleNext={handleNext}
+                    handleSkip={handleSkip}
+                    steps={steps} />
 
             </Box>
 
-            <StepperButtons
-                optionals={optionals}
-                activeStep={activeStep}
-                handleBack={handleBack}
-                handleNext={handleNext}
-                handleSkip={handleSkip}
-                steps={steps} />
-
-        </Box>
+            <AppModal open={openModal} close={handleCloseModal} children={approvalChanges} />
+        </>
     )
+}
+
+
+const modalStyle = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
 }

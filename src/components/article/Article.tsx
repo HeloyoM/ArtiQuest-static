@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -17,8 +17,8 @@ import useCategoryQueries from '../category/useCategoryQueries'
 import { Button } from '@mui/material'
 
 const Article = () => {
-    const [art, setArt] = React.useState<IArticle>()
-    const [isedit, setIsedit] = React.useState(false)
+    const [art, setArt] = useState<IArticle>()
+    const [isedit, setIsedit] = useState(false)
 
     const { user } = React.useContext(AppUserContext)
 
@@ -30,13 +30,13 @@ const Article = () => {
 
     const { categories } = useCategoryQueries({})
 
-    React.useEffect(() => {
-        if (art && user && !art.viewers.includes(user?.id!))
+    useEffect(() => {
+        if (art && user && !art.viewers.includes(user?.id!) && art.active)
             handleIncreasViewers()
 
     }, [user, art])
 
-    React.useEffect(() => {
+    useEffect(() => {
         let currentCategory: ICategory[] = []
 
         if (!categories.data) return

@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createArticle, deleteArticle, disabledArticle, editArticleById, getAllArticles, increasArticleViewers, rateArticle } from '../../api/article'
+import { createArticle, deleteArticle, disabledArticle, editArticleById, increasArticleViewers, rateArticle } from '../../api/article'
 import { Article } from '../../interface/article.interface'
-import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import { Paths } from '../../utils/paths'
 
 type Props = {
     setArt?: React.Dispatch<React.SetStateAction<Article<string> | undefined>>
@@ -11,11 +12,18 @@ const useArticleQueries = (props: Props) => {
 
     const { art, setArt } = props
 
+    const navigate = useNavigate()
+
     const queryClient = useQueryClient()
 
     const uploadingArti = useMutation({
         mutationFn: (art: any) => createArticle(art),
-        mutationKey: ['create-article']
+        mutationKey: ['create-article'],
+        onSuccess: (data) => {
+            localStorage.removeItem(`init-${data.id}`)
+
+            navigate(`/${Paths.HOME}`)
+        }
     })
 
     const editArticleMutate = useMutation({
