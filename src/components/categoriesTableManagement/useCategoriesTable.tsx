@@ -15,6 +15,7 @@ import { paginate } from '../../utils/paginate'
 import { ICategory } from '../../interface/category.interface'
 import { Article } from '../../interface/article.interface'
 import { User } from '../../interface/user.interface'
+import { Typography } from '@mui/material'
 
 const useCategoriesTable = () => {
     const [rows, setRows] = useState<any[]>([])
@@ -59,8 +60,10 @@ const useCategoriesTable = () => {
 
         const computedRows = categoriesChunk[0].arts.map((r: Article) => {
             const row = computRows(
-                <p style={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }} onClick={() => goToArticle(r.title, r.id)}>{r.title}</p>,
-                <p style={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }} onClick={() => showAllAutherArticles(r.author)}>{r.author.first_name + ' ' + r.author.last_name}</p>,
+                <Typography sx={typographyStyle} onClick={() => goToArticle(r.title, r.id)}>{r.title}</Typography>,
+                <Typography sx={typographyStyle} onClick={() => showAllAutherArticles(r.author)}>
+                    {r.author.first_name + ' ' + r.author.last_name}
+                </Typography>,
                 r.created,
                 r.viewers.length,
                 r.rank.total,
@@ -94,3 +97,9 @@ const useCategoriesTable = () => {
 }
 
 export default useCategoriesTable
+
+const typographyStyle = {
+    textDecoration: 'underline',
+    color: 'blue',
+    cursor: 'pointer'
+}
