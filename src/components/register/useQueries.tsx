@@ -9,6 +9,7 @@ import { login, logout, refreshToken } from '../../api/auth'
 import React from 'react'
 import AppUserContext from '../../contextes/AppUserContext'
 import { UpdateUserDto } from '../../api/dto/UpdateUser.dto'
+import localStorageKeys from '../../utils/localStorageKeys'
 
 type Props = {
     onLogin?: () => void
@@ -42,7 +43,7 @@ const useQueries = (props: Props) => {
         mutationFn: (payload: LoginDto) => login(payload),
         onSuccess: async (data: any) => {
             if (data.token) {
-                localStorage.setItem('token', data.token)
+                localStorage.setItem(localStorageKeys.TOKEN, data.token)
                 props.onLogin!()
             }
             else throw Error('unable to log in')

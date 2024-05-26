@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { Article } from '../../interface/article.interface'
 import { ICategory } from '../../interface/category.interface'
+import localStorageKeys from '../../utils/localStorageKeys'
 
 type Props = {
     handleNext?: () => void
@@ -50,7 +51,7 @@ const useArticleEditor = (props: Props) => {
     }
 
     const updatePreparedArticle = (data: any) => {
-        localStorage.setItem(`init-${article?.id}`, data)
+        localStorage.setItem(`${localStorageKeys.INITIALIZATION_ART}${article?.id}`, data)
 
         setArticle(JSON.parse(data))
     }

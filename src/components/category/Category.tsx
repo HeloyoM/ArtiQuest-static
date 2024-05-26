@@ -21,6 +21,7 @@ import { UploadErrors } from './interface/fileErrors.interface'
 import { ICategory } from '../../interface/category.interface'
 import constants from './constants'
 import useCategoryQueries from './useCategoryQueries'
+import localStorageKeys from '../../utils/localStorageKeys'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
@@ -61,11 +62,11 @@ const Category = () => {
     })
 
     const handleSaveLastPage = () => {
-        localStorage.setItem(`category-${id}`, page.toString())
+        localStorage.setItem(`${localStorageKeys.CATEGORY_PAGE}${id}`, page.toString())
     }
 
     const clearStorageCateroy = () => {
-        localStorage.removeItem(`category-${id}`)
+        localStorage.removeItem(`${localStorageKeys.CATEGORY_PAGE}${id}`)
     }
 
     const handlePaginate = (

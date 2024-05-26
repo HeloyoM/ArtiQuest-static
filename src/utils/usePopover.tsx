@@ -5,8 +5,6 @@ const usePopover = () => {
 
     const togglePopover = (event?: React.MouseEvent<SVGSVGElement, MouseEvent>, id?: string) => {
         if (!event?.currentTarget) return
-       
-        if (id) localStorage.setItem('focused-art', id)
 
         setAnchorEl(event.currentTarget)
     }

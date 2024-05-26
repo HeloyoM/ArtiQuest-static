@@ -13,6 +13,7 @@ import { ICategory } from '../../interface/category.interface'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { initArticleBeforeUpload } from '../../api/article'
+import localStorageKeys from '../../utils/localStorageKeys'
 
 type Props = {
     category: Partial<ICategory>
@@ -61,7 +62,7 @@ const UploadArticleToCategory = (props: Props) => {
         const res = await initArticleBeforeUpload(formData)
 
         if (Object.keys(res).length) {
-            localStorage.setItem(`init-${res.id}`, JSON.stringify(res))
+            localStorage.setItem(`${localStorageKeys.INITIALIZATION_ART}${res.id}`, JSON.stringify(res))
 
             navigate(`/art-editor/${res.id}`)
         }
