@@ -7,13 +7,7 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
-import { User } from '../../interface/user.interface'
-
-export interface StepItem {
-    description: string
-    label: string
-    author: User
-}
+import { StepItem } from './StepItem.interface'
 
 type Props = {
     steps: StepItem[]
