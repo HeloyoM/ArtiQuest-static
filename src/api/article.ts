@@ -55,6 +55,16 @@ export const getCategoriesList = async () => {
     }
 }
 
+export const getInprogressArtsList = async () => {
+    try {
+        const response = await GET(`${API}/in-progress`)
+
+        return response
+    } catch (error) {
+        throw new Error(`Failed to fetch categories information, it's not should interrupt you watch categories`)
+    }
+}
+
 export const editArticleById = async (id: string, payload: EditArticleDto) => {
     try {
         const response = await PATCH(`${API}/${id}`, payload)

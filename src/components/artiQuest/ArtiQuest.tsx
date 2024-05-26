@@ -1,16 +1,12 @@
 import AppChip from '../common/AppChip'
 import './style.css'
-import { useQuery } from '@tanstack/react-query'
-import { getAllCategories } from '../../api/article'
 import { ICategory } from '../../interface/category.interface'
 import AppProgress from '../common/AppProgress'
+import { useCategories } from '../category/useCategoryQueries'
 
 const ArtiQuest = () => {
 
-    const { isLoading, data } = useQuery({
-        queryKey: ['categories'],
-        queryFn: getAllCategories
-    })
+    const { isLoading, data } = useCategories()
 
     if (isLoading) return (<AppProgress />)
 
