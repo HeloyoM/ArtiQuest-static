@@ -1,3 +1,5 @@
+import { isAvailableArt } from '../api/article'
+
 export default function clearAllPendingArts(): void {
     const keys = getArtsInProgressFromLocalStorage()
 

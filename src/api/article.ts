@@ -55,6 +55,15 @@ export const getCategoriesList = async () => {
     }
 }
 
+export const isAvailableArt = async (id: string) => {
+    try {
+        const response = await GET(`${API}/init/${id}`)
+
+        return response
+    } catch (error) {
+        throw new Error(`Failed to fetch categories information, it's not should interrupt you watch categories`)
+    }
+}
 export const getInprogressArtsList = async () => {
     try {
         const response = await GET(`${API}/in-progress`)
