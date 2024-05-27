@@ -17,6 +17,7 @@ import AppModal from '../modal/AppModal'
 import Profile from '../profile/Profile'
 import { Paths } from '../../../utils/paths'
 import { getArtsInProgressFromLocalStorage } from '../../../utils/clearAllPendingArts'
+import AppDropdown from '../AppDropdown'
 
 type Props = {
   users: User[]
@@ -30,7 +31,7 @@ const AppNav = (props: Props) => {
   const { updateUserContext, user } = React.useContext(AppUserContext)
 
   const artsInProgress = getArtsInProgressFromLocalStorage()
-  console.log({ artsInProgress })
+
   const { popover } = useDemo({ endDemo: () => { }, isdemo: false })
 
   const navigate = useNavigate()
@@ -47,12 +48,13 @@ const AppNav = (props: Props) => {
 
   }
 
-  const openEditor = () => {
-    const art_id = artsInProgress[0]
+  const openEditor = (id?: string) => {
+    console.log({ id })
+    const art_id = id ? `init-${id}` : artsInProgress[0]
     const storedArt = localStorage.getItem(art_id)
     let currArt
     if (storedArt) currArt = JSON.parse(storedArt)
-
+    console.log({ art_id, storedArt, currArt })
     navigate(`/art-editor/${currArt.id}`)
   }
 
@@ -85,7 +87,9 @@ const AppNav = (props: Props) => {
 
             <Button sx={{ color: 'white' }} onClick={goAboutPage}>About author</Button>
 
-            {!!artsInProgress.length && <Button onClick={openEditor} sx={{ color: 'white' }} >articles in progress </Button>}
+            {!!artsInProgress.length && artsInProgress.length === 1 && <Button onClick={() => openEditor()} sx={{ color: 'white' }} >articles in progress </Button>}
+
+            {!!artsInProgress.length && artsInProgress.length > 1 && <AppDropdown onSelect={openEditor} placeholder='atrs' items={artsInProgress.map(text => text.slice(5))} />}
 
             <Box sx={{ flexGrow: 1 }} />
 
