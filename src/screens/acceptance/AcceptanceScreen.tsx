@@ -44,14 +44,14 @@ const AcceptanceScreen = () => {
 
             {main}
 
-            <Box p={3}>
-                <Typography><TtlTimer  ttl={ttl}/></Typography>
+            {!!inProgressArts.length && <Box p={3}>
+                <Typography><TtlTimer ttl={ttl} /></Typography>
                 <Typography align="center" sx={{ fontWeight: 'bold' }}>Coming soon - articles in progress </Typography>
 
                 <Box sx={{ display: 'flex', justifyContent: 'center' }} m={2}>
-                    {!!inProgressArts.length && <InProgressCarusel steps={inProgressArts} />}
+                    <InProgressCarusel steps={inProgressArts} />
                 </Box>
-            </Box>
+            </Box>}
         </Box>
     )
 }

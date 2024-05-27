@@ -22,6 +22,7 @@ import { ICategory } from '../../interface/category.interface'
 import constants from './constants'
 import useCategoryQueries from './useCategoryQueries'
 import localStorageKeys from '../../utils/localStorageKeys'
+import AppUserContext from '../../contextes/AppUserContext'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
@@ -32,6 +33,8 @@ const Category = () => {
         fileSizeInMB: false,
         fileExtension: false
     })
+
+    const { user } = React.useContext(AppUserContext)
 
     let { category, id } = useParams()
 
@@ -96,7 +99,7 @@ const Category = () => {
                 <div>
                     <h2>{category}</h2>
 
-                    <AddCircleOutlineOutlinedIcon onClick={openInsertionModal} />
+                    {user && <AddCircleOutlineOutlinedIcon onClick={openInsertionModal} />}
                 </div>
 
                 <p>Number of articles: {articles.length}</p>

@@ -1,13 +1,19 @@
 export default function clearAllPendingArts(): void {
-    const keysToRemove = []
+    const keys = getArtsInProgressFromLocalStorage()
+
+    for (const key of keys) {
+        localStorage.removeItem(key)
+    }
+}
+
+export const getArtsInProgressFromLocalStorage = () => {
+    const inprogressKeys = []
 
     for (const key in window.localStorage) {
         if (key.startsWith('init-')) {
-            keysToRemove.push(key)
+            inprogressKeys.push(key)
         }
     }
 
-    for (const key of keysToRemove) {
-        localStorage.removeItem(key)
-    }
+    return inprogressKeys
 }

@@ -8,6 +8,8 @@ import Button from '@mui/material/Button'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import { StepItem } from './StepItem.interface'
+import { useNavigate } from 'react-router-dom'
+import { User } from '../../interface/user.interface'
 
 type Props = {
     steps: StepItem[]
@@ -18,12 +20,18 @@ export default function InProgressCarusel(props: Props) {
     const [activeStep, setActiveStep] = React.useState(0)
     const maxSteps = steps.length
 
+    const navigate = useNavigate()
+
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
     }
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1)
+    }
+
+    const showAllAutherArticles = (author: User) => {
+        navigate(`/cat/${author.first_name}-${author.last_name}/${author.id}`)
     }
 
     return (
@@ -44,7 +52,8 @@ export default function InProgressCarusel(props: Props) {
             </Paper>
 
             <Box sx={{ maxWidth: 400, width: '100%', p: 2, display: 'grid' }}>
-                <Typography sx={{ borderRadius: '8px', width: '-webkit-fill-available', height: 'fit-content' }}>
+
+                <Typography sx={{ textDecoration: 'underline', cursor:'pointer', borderRadius: '8px', width: '-webkit-fill-available', height: 'fit-content' }} onClick={() => showAllAutherArticles(steps[activeStep].author)}>
                     <span style={{ fontWeight: 'bold' }}>full name:</span> {steps[activeStep].author.first_name + ' ' + steps[activeStep].author.last_name}
                 </Typography>
 
@@ -63,6 +72,7 @@ export default function InProgressCarusel(props: Props) {
                     width: '-webkit-fill-available',
                     height: 'fit-content',
                 }}  ><span style={{ fontWeight: 'bold' }}>role:</span>{steps[activeStep].author.role}</Typography>
+
             </Box>
 
             <Box>

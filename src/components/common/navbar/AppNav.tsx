@@ -16,6 +16,7 @@ import NavbarButtons from './NavbarButtons'
 import AppModal from '../modal/AppModal'
 import Profile from '../profile/Profile'
 import { Paths } from '../../../utils/paths'
+import { getArtsInProgressFromLocalStorage } from '../../../utils/clearAllPendingArts'
 
 type Props = {
   users: User[]
@@ -28,6 +29,8 @@ const AppNav = (props: Props) => {
 
   const { updateUserContext, user } = React.useContext(AppUserContext)
 
+  const artsInProgress = getArtsInProgressFromLocalStorage()
+  console.log({ artsInProgress })
   const { popover } = useDemo({ endDemo: () => { }, isdemo: false })
 
   const navigate = useNavigate()
@@ -42,6 +45,15 @@ const AppNav = (props: Props) => {
       updateUserContext(userObj)
     }
 
+  }
+
+  const openEditor = () => {
+    const art_id = artsInProgress[0]
+    const storedArt = localStorage.getItem(art_id)
+    let currArt
+    if (storedArt) currArt = JSON.parse(storedArt)
+
+    navigate(`/art-editor/${currArt.id}`)
   }
 
   const handleOpenProfile = () => {
@@ -73,6 +85,8 @@ const AppNav = (props: Props) => {
 
             <Button sx={{ color: 'white' }} onClick={goAboutPage}>About author</Button>
 
+            {!!artsInProgress.length && <Button onClick={openEditor} sx={{ color: 'white' }} >articles in progress </Button>}
+
             <Box sx={{ flexGrow: 1 }} />
 
             <Box sx={{ display: { md: 'flex' } }}>
@@ -95,7 +109,7 @@ const AppNav = (props: Props) => {
         closeRegisterModal={closeLoginModal}
       />
 
-    </React.Fragment>
+    </React.Fragment >
   )
 }
 export default AppNav

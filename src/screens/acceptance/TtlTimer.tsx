@@ -36,7 +36,7 @@ function TtlTimer(props: Props) {
 
     return (
         <div>
-            <h1>Remaining Time: {formattedTime}</h1>
+            <h3>Remaining Time for the latest article uploaded: {formattedTime}</h3>
         </div>
     )
 }
