@@ -3,7 +3,8 @@ import { DELETE, GET, PATCH, POST } from './api-req'
 import { CreateCatDto } from './dto/CreateCat.dto'
 
 const API = 'art'
-
+const CAT = `/cat`
+const IN_PROGRESS = `in-progress`
 
 export const getAllArticles = async () => {
     try {
@@ -17,7 +18,7 @@ export const getAllArticles = async () => {
 
 export const getAllCategories = async () => {
     try {
-        const response = await GET(`${API}/cat`)
+        const response = await GET(`${API}${CAT}`)
 
         return response
     } catch (error) {
@@ -45,9 +46,9 @@ export const getArticleById = async (id: string) => {
     }
 }
 
-export const getCategoriesList = async () => {
+export const getInprogressArtsByAuthorId = async () => {
     try {
-        const response = await GET(`${API}/cat`)
+        const response = await GET(`${API}${IN_PROGRESS}/findByAuthor`)
 
         return response
     } catch (error) {
@@ -55,18 +56,9 @@ export const getCategoriesList = async () => {
     }
 }
 
-export const isAvailableArt = async (id: string) => {
-    try {
-        const response = await GET(`${API}/init/${id}`)
-
-        return response
-    } catch (error) {
-        throw new Error(`Failed to fetch categories information, it's not should interrupt you watch categories`)
-    }
-}
 export const getInprogressArtsList = async () => {
     try {
-        const response = await GET(`${API}/in-progress`)
+        const response = await GET(`${API}${IN_PROGRESS}`)
 
         return response
     } catch (error) {
@@ -97,7 +89,7 @@ export const rateArticle = async (id: string, rate: number) => {
 
 export const initArticleBeforeUpload = async (art: FormData) => {
     try {
-        const response = await POST(`${API}/init-art`, art)
+        const response = await POST(`${API}${IN_PROGRESS}`, art)
 
         return response
     } catch (error) {
@@ -137,7 +129,7 @@ export const deleteArticle = async (id: string) => {
 
 export const createNewCategory = async (cat: CreateCatDto) => {
     try {
-        const response = await POST(`${API}/cat`, cat)
+        const response = await POST(`${API}${CAT}`, cat)
 
         return response
     } catch (error) {
@@ -145,7 +137,7 @@ export const createNewCategory = async (cat: CreateCatDto) => {
     }
 }
 
-export const disabledArticle = async (id: string) => {
+export const toggleActiveArticle = async (id: string) => {
     try {
         const response = await PATCH(`${API}/active/${id}`, {})
 

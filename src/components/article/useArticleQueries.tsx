@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createArticle, deleteArticle, disabledArticle, editArticleById, increasArticleViewers, rateArticle } from '../../api/article'
+import { createArticle, deleteArticle, toggleActiveArticle, editArticleById, increasArticleViewers, rateArticle } from '../../api/article'
 import { Article } from '../../interface/article.interface'
 import { useNavigate } from 'react-router-dom'
 import { Paths } from '../../utils/paths'
@@ -61,7 +61,7 @@ const useArticleQueries = (props: Props) => {
     })
 
     const handleToggleActive = useMutation({
-        mutationFn: (id: string) => disabledArticle(id),
+        mutationFn: (id: string) => toggleActiveArticle(id),
         onSuccess: async (data: any) => {
             console.log({ data })
         }

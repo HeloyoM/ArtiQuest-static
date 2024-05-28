@@ -87,9 +87,11 @@ const AppNav = (props: Props) => {
 
             <Button sx={{ color: 'white' }} onClick={goAboutPage}>About author</Button>
 
-            {!!artsInProgress.length && artsInProgress.length === 1
-              ? <Button onClick={() => openEditor()} sx={{ color: 'white' }} >articles in progress </Button>
-              : <AppDropdown onSelect={openEditor} placeholder='atrs' items={artsInProgress.map(text => text.slice(5))} />
+            {!!artsInProgress.length && (<AppDropdown
+              onSelect={openEditor}
+              placeholder='atrs'
+              items={artsInProgress.map(text => text.slice(5))}
+            />)
             }
 
             <Box sx={{ flexGrow: 1 }} />
