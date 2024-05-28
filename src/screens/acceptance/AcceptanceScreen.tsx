@@ -3,7 +3,7 @@ import AppProgress from '../../components/common/AppProgress'
 import useCategoriesTable from '../../components/categoriesTableManagement/useCategoriesTable'
 import InProgressCarusel from './InProgressCarusel'
 import { useEffect, useState } from 'react'
-import { getInprogressArtsList } from '../../api/article'
+import { getInprogressArtsByAuthorId } from '../../api/article'
 import { Article } from '../../interface/article.interface'
 import { useQuery } from '@tanstack/react-query'
 import { StepItem } from './StepItem.interface'
@@ -17,7 +17,7 @@ const AcceptanceScreen = () => {
 
     const { data } = useQuery({
         queryKey: ['in-progress'],
-        queryFn: getInprogressArtsList,
+        queryFn: getInprogressArtsByAuthorId,
     })
 
     useEffect(() => {

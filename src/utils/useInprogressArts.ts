@@ -8,7 +8,7 @@ const useInprogressArts = () => {
     const { user } = React.useContext(AppUserContext)
 
     const authorInprogressArts = useQuery({
-        queryKey: ['my-inprogress-arts'],
+        queryKey: ['author-inprogress-ars'],
         queryFn: getInprogressArtsByAuthorId
     })
 

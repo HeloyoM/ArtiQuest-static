@@ -18,6 +18,7 @@ import Profile from '../profile/Profile'
 import { Paths } from '../../../utils/paths'
 import { getArtsInProgressFromLocalStorage } from '../../../utils/clearAllPendingArts'
 import AppDropdown from '../AppDropdown'
+import useInprogressArts from '../../../utils/useInprogressArts'
 
 type Props = {
   users: User[]
@@ -28,6 +29,7 @@ const AppNav = (props: Props) => {
 
   const { users } = props
 
+  const { authorInprogressArts } = useInprogressArts()
   const { updateUserContext, user } = React.useContext(AppUserContext)
 
   const artsInProgress = getArtsInProgressFromLocalStorage()
@@ -47,7 +49,7 @@ const AppNav = (props: Props) => {
     }
 
   }
-
+  console.log({ authorInprogressArts })
   const openEditor = (id?: string) => {
     console.log({ id })
     const art_id = id ? `init-${id}` : artsInProgress[0]

@@ -4,7 +4,7 @@ import { CreateCatDto } from './dto/CreateCat.dto'
 
 const API = 'art'
 const CAT = `/cat`
-const IN_PROGRESS = `in-progress`
+const IN_PROGRESS = `/in-progress`
 
 export const getAllArticles = async () => {
     try {
@@ -29,7 +29,7 @@ export const getAllCategories = async () => {
 export const getArticlesByCategoryId = async (id: string) => {
     try {
         const response = await GET(`${API}/findBy/${id}`)
-        console.log({ response })
+
         return response
     } catch (error) {
         throw new Error('Failed to fetch articles')
@@ -49,16 +49,6 @@ export const getArticleById = async (id: string) => {
 export const getInprogressArtsByAuthorId = async () => {
     try {
         const response = await GET(`${API}${IN_PROGRESS}/findByAuthor`)
-
-        return response
-    } catch (error) {
-        throw new Error(`Failed to fetch categories information, it's not should interrupt you watch categories`)
-    }
-}
-
-export const getInprogressArtsList = async () => {
-    try {
-        const response = await GET(`${API}${IN_PROGRESS}`)
 
         return response
     } catch (error) {
