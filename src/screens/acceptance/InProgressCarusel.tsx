@@ -10,6 +10,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import { StepItem } from './StepItem.interface'
 import { useNavigate } from 'react-router-dom'
 import { User } from '../../interface/user.interface'
+import TtlTimer from './TtlTimer'
 
 type Props = {
     steps: StepItem[]
@@ -35,7 +36,8 @@ export default function InProgressCarusel(props: Props) {
     }
 
     return (
-        <Box sx={{ maxWidth: 400, flexGrow: 1, border: '1px solid lightgrey', borderRadius: '5px' }}>
+        <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+           <Typography><TtlTimer ttl={steps[activeStep].ttl!} /></Typography>
             <Paper
                 square
                 elevation={0}
@@ -53,7 +55,7 @@ export default function InProgressCarusel(props: Props) {
 
             <Box sx={{ maxWidth: 400, width: '100%', p: 2, display: 'grid' }}>
 
-                <Typography sx={{ textDecoration: 'underline', cursor:'pointer', borderRadius: '8px', width: '-webkit-fill-available', height: 'fit-content' }} onClick={() => showAllAutherArticles(steps[activeStep].author)}>
+                <Typography sx={{ textDecoration: 'underline', cursor: 'pointer', borderRadius: '8px', width: '-webkit-fill-available', height: 'fit-content' }} onClick={() => showAllAutherArticles(steps[activeStep].author)}>
                     <span style={{ fontWeight: 'bold' }}>full name:</span> {steps[activeStep].author.first_name + ' ' + steps[activeStep].author.last_name}
                 </Typography>
 

@@ -7,11 +7,9 @@ import { getInprogressArtsByAuthorId } from '../../api/article'
 import { Article } from '../../interface/article.interface'
 import { useQuery } from '@tanstack/react-query'
 import { StepItem } from './StepItem.interface'
-import TtlTimer from './TtlTimer'
 
 const AcceptanceScreen = () => {
     const [inProgressArts, setInprogressArts] = useState<StepItem[]>([])
-    const [ttl, setTtl] = useState(0)
 
     const { main } = useCategoriesTable()
 
@@ -25,12 +23,10 @@ const AcceptanceScreen = () => {
 
         const steps: StepItem[] = []
 
-        setTtl(data.ttl)
-
-        data.storedInprogressArticles.map((a: Article) => {
+        data.map((a: Article) => {
             const { body, title } = a
             const lines = body.slice(0, 100)
-            steps.push({ label: title, description: lines, author: a.author })
+            steps.push({ label: title, description: lines, author: a.author, ttl: a.ttl })
         })
 
         setInprogressArts(steps)
@@ -45,7 +41,6 @@ const AcceptanceScreen = () => {
             {main}
 
             {!!inProgressArts.length && <Box p={3}>
-                <Typography><TtlTimer ttl={ttl} /></Typography>
                 <Typography align="center" sx={{ fontWeight: 'bold' }}>Coming soon - articles in progress </Typography>
 
                 <Box sx={{ display: 'flex', justifyContent: 'center' }} m={2}>

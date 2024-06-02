@@ -12,4 +12,5 @@ export interface Article<T = string> {
     rank: IArticleRank
     viewers: string[]
     active: boolean
+    ttl?: number
 }
