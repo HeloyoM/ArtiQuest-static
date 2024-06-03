@@ -49,14 +49,12 @@ const AppNav = (props: Props) => {
     }
 
   }
-  console.log({ authorInprogressArts })
+
   const openEditor = (id?: string) => {
-    console.log({ id })
     const art_id = id ? `init-${id}` : artsInProgress[0]
     const storedArt = localStorage.getItem(art_id)
     let currArt
     if (storedArt) currArt = JSON.parse(storedArt)
-    console.log({ art_id, storedArt, currArt })
     navigate(`/art-editor/${currArt.id}`)
   }
 

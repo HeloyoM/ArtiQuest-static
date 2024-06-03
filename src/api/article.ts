@@ -52,7 +52,17 @@ export const getInprogressArtsByAuthorId = async () => {
 
         return response
     } catch (error) {
-        throw new Error(`Failed to fetch categories information, it's not should interrupt you watch categories`)
+        throw new Error(`Failed to fetch categories information, it's may not interrupt you watch categories`)
+    }
+}
+
+export const getAllInprogressArts = async () => {
+    try {
+        const response = await GET(`${API}${IN_PROGRESS}`)
+
+        return response
+    } catch (error) {
+        throw new Error(`Failed to fetch in progress as system admin`)
     }
 }
 
