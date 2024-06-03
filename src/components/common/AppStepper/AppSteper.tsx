@@ -10,7 +10,7 @@ import AppModal from '../modal/AppModal'
 import { Button } from '@mui/material'
 import langsFile from '../../../utils/langs-file.json'
 import { useNavigate } from 'react-router-dom'
-import clearAllPendingArts from '../../../utils/clearAllPendingArts'
+import clearAllPendingArts from '../../../utils/pendingArtsStorage'
 
 type Props = {
     steps: string[]

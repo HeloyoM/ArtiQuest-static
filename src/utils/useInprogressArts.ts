@@ -1,18 +1,28 @@
 import { useQuery } from '@tanstack/react-query'
-import React from 'react'
-import AppUserContext from '../contextes/AppUserContext'
+import { useEffect, useState } from 'react'
 import { getInprogressArtsByAuthorId } from '../api/article'
+import { getArtsInProgressFromLocalStorage } from './pendingArtsStorage'
 
 const useInprogressArts = () => {
-
-    const { user } = React.useContext(AppUserContext)
+    const [livePendingArts, setLivePendingArts] = useState<string[]>([])
 
     const authorInprogressArts = useQuery({
-        queryKey: ['author-inprogress-ars'],
+        queryKey: ['my-inprogress-ars'],
         queryFn: getInprogressArtsByAuthorId
     })
 
-    return { authorInprogressArts }
+    useEffect(() => {
+        if (!authorInprogressArts.data) return
+        const localPendingArts = getArtsInProgressFromLocalStorage()
+        const existingIds = new Set(localPendingArts.map((id: any) => id))
+
+        setLivePendingArts(authorInprogressArts.data.filter((obj: any) => existingIds.has(obj.id)).map((a:any) => a.id))
+    }, [authorInprogressArts.data])
+
+    console.log({ authorInprogressArts })
+
+
+    return { livePendingArts }
 }
 
 export default useInprogressArts

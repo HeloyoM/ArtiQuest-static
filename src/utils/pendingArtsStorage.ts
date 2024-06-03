@@ -11,9 +11,9 @@ export const getArtsInProgressFromLocalStorage = () => {
 
     for (const key in window.localStorage) {
         if (key.startsWith('init-')) {
-            inprogressKeys.push(key)
+            inprogressKeys.push(key.split('-').slice(1).join('-'))
         }
     }
-
+    console.log({ inprogressKeys })
     return inprogressKeys
 }
