@@ -14,7 +14,7 @@ export default function AppDropdown(props: Props) {
     return (
         <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">{props.placeholder}</InputLabel>
+                <InputLabel id="demo-simple-select-label" sx={{ fontWeight: 'bold' }}>{props.placeholder}</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"

@@ -16,10 +16,8 @@ const useInprogressArts = () => {
         const localPendingArts = getArtsInProgressFromLocalStorage()
         const existingIds = new Set(localPendingArts.map((id: any) => id))
 
-        setLivePendingArts(authorInprogressArts.data.filter((obj: any) => existingIds.has(obj.id)).map((a:any) => a.id))
+        setLivePendingArts(authorInprogressArts.data.filter((obj: any) => existingIds.has(obj.id)).map((a: any) => a.id))
     }, [authorInprogressArts.data])
-
-    console.log({ authorInprogressArts })
 
 
     return { livePendingArts }

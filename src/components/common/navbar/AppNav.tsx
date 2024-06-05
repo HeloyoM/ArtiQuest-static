@@ -89,7 +89,7 @@ const AppNav = (props: Props) => {
 
             {!!livePendingArts.length && (<AppDropdown
               onSelect={openEditor}
-              placeholder='atrs'
+              placeholder={`${livePendingArts.length} pending`}
               items={livePendingArts}
             />)
             }

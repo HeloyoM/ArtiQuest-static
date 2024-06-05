@@ -2,7 +2,7 @@ export default function clearAllPendingArts(): void {
     const keys = getArtsInProgressFromLocalStorage()
 
     for (const key of keys) {
-        localStorage.removeItem(key)
+        localStorage.removeItem(`init-${key}`)
     }
 }
 
@@ -14,6 +14,6 @@ export const getArtsInProgressFromLocalStorage = () => {
             inprogressKeys.push(key.split('-').slice(1).join('-'))
         }
     }
-    console.log({ inprogressKeys })
+
     return inprogressKeys
 }
