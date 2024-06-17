@@ -13,7 +13,6 @@ import SysadminAppNav from '../../components/common/navbar/sysAdminPanel/Sysadmi
 import PostsContainer from '../../components/post/PostsContainer'
 import AppUserContext from '../../contextes/AppUserContext'
 import { Roles } from '../../enum/Roles.enum'
-import AuthorPendingArticles from '../../components/pendingArticles/AuthorPendingArticles'
 
 const HomePage = () => {
   const { user } = useContext(AppUserContext)
@@ -36,8 +35,6 @@ const HomePage = () => {
         <h1>Arti-Quest</h1>
         <p className="transform-text">Discover programming world right under your hands</p>
       </Typography>
-
-      {user && <AuthorPendingArticles />}
 
     </Typography>
   )
