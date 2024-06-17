@@ -7,16 +7,20 @@ const useInprogressArts = () => {
     const [livePendingArts, setLivePendingArts] = useState<string[]>([])
 
     const authorInprogressArts = useQuery({
-        queryKey: ['my-inprogress-ars'],
+        queryKey: ['my-inprogress-arts'],
         queryFn: getInprogressArtsByAuthorId
     })
 
     useEffect(() => {
         if (!authorInprogressArts.data) return
+        
         const localPendingArts = getArtsInProgressFromLocalStorage()
-        const existingIds = new Set(localPendingArts.map((id: any) => id))
 
-        setLivePendingArts(authorInprogressArts.data.filter((obj: any) => existingIds.has(obj.id)).map((a: any) => a.id))
+        const frontendIds = new Set(localPendingArts.map((id: any) => id))
+        const cachedIds = new Set(authorInprogressArts.data.map((a: any) => a.id))
+
+        setLivePendingArts(authorInprogressArts.data.filter((obj: any) => frontendIds.has(obj.id)).map((a: any) => a.id))
+
     }, [authorInprogressArts.data])
 
 

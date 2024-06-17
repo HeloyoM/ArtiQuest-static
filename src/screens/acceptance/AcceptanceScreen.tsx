@@ -13,7 +13,7 @@ const AcceptanceScreen = () => {
 
     const { main } = useCategoriesTable()
 
-    const { data } = useQuery({
+    const { isLoading, data } = useQuery({
         queryKey: ['in-progress'],
         queryFn: getAllInprogressArts,
     })
@@ -40,13 +40,15 @@ const AcceptanceScreen = () => {
 
             {main}
 
-            {!!inProgressArts.length && <Box p={3}>
+            {!!inProgressArts.length && !isLoading && <Box p={3}>
                 <Typography align="center" sx={{ fontWeight: 'bold' }}>Coming soon - articles in progress </Typography>
 
                 <Box sx={{ display: 'flex', justifyContent: 'center' }} m={2}>
                     <InProgressCarusel steps={inProgressArts} />
                 </Box>
             </Box>}
+
+            {isLoading && <AppProgress type="Line"/>}
         </Box>
     )
 }

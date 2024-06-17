@@ -107,12 +107,15 @@ const Category = () => {
                 <div className='cards-container'>
                     {articlesChunk.filter((a: Article<ICategory>) => a.active).map((a: Article<ICategory>) => (
                         <React.Fragment>
+
                             <Typography sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <AppRating readonly value={a?.rank?.total} handleRate={() => { }} />
                                 <Typography>voters: {a.rank.voters.length ? a.rank.voters.length : 0}</Typography>
                                 <Typography>number of viewers: {a.viewers.length ? a.viewers.length : 0}</Typography>
                             </Typography>
+
                             <AppCard item={a} key={a.id} handleSaveLastPage={handleSaveLastPage} />
+
                         </React.Fragment>
                     ))}
                 </div>

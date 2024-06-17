@@ -5,7 +5,7 @@ import { ICategory } from '../../interface/category.interface'
 
 type Props = {
     item: Article<ICategory>
-    handleSaveLastPage: () => void
+    handleSaveLastPage?: () => void
 }
 const AppCard = (props: Props) => {
     const navigate = useNavigate()
@@ -15,7 +15,7 @@ const AppCard = (props: Props) => {
     const openArticle = () => {
         const title = props.item.title.replace(/\s/g, '-')
 
-        props.handleSaveLastPage()
+        props.handleSaveLastPage!()
 
         navigate(`/cat/${props.item.cat.name}/art/${title}/${props.item.id}`)
     }
