@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query'
-import { getAllCategories, getArticlesByCategoryId } from '../../api/article'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { createNewCategory, getAllCategories, getArticlesByCategoryId } from '../../api/article'
 
 type Props = {
     id?: string
@@ -18,7 +18,12 @@ const useCategoryQueries = (props: Props) => {
         queryFn: () => getArticlesByCategoryId(id!)
     })
 
-    return { categoryArticles, categories }
+    const addNewCategory = useMutation({
+        mutationFn: (catName: string) => createNewCategory({ name: catName }),
+        mutationKey: ['create-category'],
+    })
+
+    return { categoryArticles, categories, addNewCategory }
 }
 
 export default useCategoryQueries

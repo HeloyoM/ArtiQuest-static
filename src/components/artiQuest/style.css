@@ -1,9 +1,9 @@
-.articles{
+.chips-container{
     display: flex;
     justify-content: center;
 }
 
-.articles>ul{
+.chips-container>ul{
     display: grid;
     justify-content: space-between;
     align-items: center;

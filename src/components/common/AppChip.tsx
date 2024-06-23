@@ -18,8 +18,9 @@ const AppChip = (props: Props) => {
         <Stack direction="row" spacing={1}>
             <Chip
                 id="chip"
+                size="medium"
                 label={`${props.cat.name} (${props.cat.len})`}
-                color="primary"
+                sx={{ backgroundColor: props.cat.color }}
                 variant={"outlined"}
                 onClick={toCategory} />
         </Stack>
