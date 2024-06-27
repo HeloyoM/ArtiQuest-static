@@ -36,81 +36,84 @@ export default function InProgressCarusel(props: Props) {
     }
 
     return (
-        <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-           <Typography><TtlTimer ttl={steps[activeStep].ttl!} /></Typography>
-            <Paper
-                square
-                elevation={0}
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: 50,
-                    pl: 2,
+        <Box>
+            <Typography><TtlTimer ttl={steps[activeStep].ttl!} /></Typography>
 
-                    bgcolor: 'background.default',
-                }}
-            >
-                <Typography fontWeight='bold'>{steps[activeStep].label}</Typography>
-            </Paper>
+            <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+                <Paper
+                    square
+                    elevation={0}
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        height: 50,
+                        pl: 2,
 
-            <Box sx={{ maxWidth: 400, width: '100%', p: 2, display: 'grid' }}>
+                        bgcolor: 'background.default',
+                    }}
+                >
+                    <Typography fontWeight='bold'>{steps[activeStep].label}</Typography>
+                </Paper>
 
-                <Typography sx={{ textDecoration: 'underline', cursor: 'pointer', borderRadius: '8px', width: '-webkit-fill-available', height: 'fit-content' }} onClick={() => showAllAutherArticles(steps[activeStep].author)}>
-                    <span style={{ fontWeight: 'bold' }}>full name:</span> {steps[activeStep].author.first_name + ' ' + steps[activeStep].author.last_name}
-                </Typography>
+                <Box sx={{ maxWidth: 400, width: '100%', p: 2, display: 'grid' }}>
 
-                <Typography sx={{
-                    borderRadius: '8px',
-                    width: '-webkit-fill-available',
-                    height: 'fit-content',
-                }} ><span style={{ fontWeight: 'bold' }}>email:</span>{steps[activeStep].author.email}</Typography>
-                <Typography sx={{
-                    borderRadius: '8px',
-                    width: '-webkit-fill-available',
-                    height: 'fit-content',
-                }}  ><span style={{ fontWeight: 'bold' }}>phone:</span> {steps[activeStep].author.phone_number}</Typography>
-                <Typography sx={{
-                    borderRadius: '8px',
-                    width: '-webkit-fill-available',
-                    height: 'fit-content',
-                }}  ><span style={{ fontWeight: 'bold' }}>role:</span>{steps[activeStep].author.role}</Typography>
+                    <Typography sx={{ textDecoration: 'underline', cursor: 'pointer', borderRadius: '8px', width: '-webkit-fill-available', height: 'fit-content' }} onClick={() => showAllAutherArticles(steps[activeStep].author)}>
+                        <span style={{ fontWeight: 'bold' }}>full name:</span> {steps[activeStep].author.first_name + ' ' + steps[activeStep].author.last_name}
+                    </Typography>
 
+                    <Typography sx={{
+                        borderRadius: '8px',
+                        width: '-webkit-fill-available',
+                        height: 'fit-content',
+                    }} ><span style={{ fontWeight: 'bold' }}>email:</span>{steps[activeStep].author.email}</Typography>
+                    <Typography sx={{
+                        borderRadius: '8px',
+                        width: '-webkit-fill-available',
+                        height: 'fit-content',
+                    }}  ><span style={{ fontWeight: 'bold' }}>phone:</span> {steps[activeStep].author.phone_number}</Typography>
+                    <Typography sx={{
+                        borderRadius: '8px',
+                        width: '-webkit-fill-available',
+                        height: 'fit-content',
+                    }}  ><span style={{ fontWeight: 'bold' }}>role:</span>{steps[activeStep].author.role}</Typography>
+
+                </Box>
+
+                <Box>
+                    <Typography><span style={{ fontWeight: 'bold' }}>brief:</span> {steps[activeStep].description}</Typography>
+                </Box>
+
+                <MobileStepper
+                    variant="text"
+                    steps={maxSteps}
+                    position="static"
+                    activeStep={activeStep}
+                    nextButton={
+                        <Button
+                            size="small"
+                            onClick={handleNext}
+                            disabled={activeStep === maxSteps - 1}
+                        >
+                            Next
+                            {theme.direction === 'rtl' ? (
+                                <KeyboardArrowLeft />
+                            ) : (
+                                <KeyboardArrowRight />
+                            )}
+                        </Button>
+                    }
+                    backButton={
+                        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                            {theme.direction === 'rtl' ? (
+                                <KeyboardArrowRight />
+                            ) : (
+                                <KeyboardArrowLeft />
+                            )}
+                            Back
+                        </Button>
+                    }
+                />
             </Box>
-
-            <Box>
-                <Typography><span style={{ fontWeight: 'bold' }}>brief:</span> {steps[activeStep].description}</Typography>
-            </Box>
-
-            <MobileStepper
-                variant="text"
-                steps={maxSteps}
-                position="static"
-                activeStep={activeStep}
-                nextButton={
-                    <Button
-                        size="small"
-                        onClick={handleNext}
-                        disabled={activeStep === maxSteps - 1}
-                    >
-                        Next
-                        {theme.direction === 'rtl' ? (
-                            <KeyboardArrowLeft />
-                        ) : (
-                            <KeyboardArrowRight />
-                        )}
-                    </Button>
-                }
-                backButton={
-                    <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                        {theme.direction === 'rtl' ? (
-                            <KeyboardArrowRight />
-                        ) : (
-                            <KeyboardArrowLeft />
-                        )}
-                        Back
-                    </Button>
-                }
-            />
         </Box>
     )
 }
