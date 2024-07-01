@@ -1,30 +1,38 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { getInprogressArtsByAuthorId } from '../api/article'
-import { getArtsInProgressFromLocalStorage } from './pendingArtsStorage'
+import { getArtsInProgressFromLocalStorage, removeExceededProcess } from './pendingArtsStorage'
 
 const useInprogressArts = () => {
     const [livePendingArts, setLivePendingArts] = useState<string[]>([])
 
-    const authorInprogressArts = useQuery({
+    const { data: authorInprogressArts, isLoading } = useQuery({
         queryKey: ['my-inprogress-arts'],
         queryFn: getInprogressArtsByAuthorId
     })
 
     useEffect(() => {
-        if (!authorInprogressArts.data) return
-        
+        if (!authorInprogressArts) return
+
         const localPendingArts = getArtsInProgressFromLocalStorage()
 
         const frontendIds = new Set(localPendingArts.map((id: any) => id))
-        const cachedIds = new Set(authorInprogressArts.data.map((a: any) => a.id))
+        const cachedIds = new Set(authorInprogressArts.map((a: any) => a.id))
 
-        setLivePendingArts(authorInprogressArts.data.filter((obj: any) => frontendIds.has(obj.id)).map((a: any) => a.id))
+        const availableArts = authorInprogressArts.filter((obj: any) => cachedIds.has(obj.id))
 
-    }, [authorInprogressArts.data])
+        const unaliveInBackendIds = Array.from(frontendIds).filter(
+            (id) => !cachedIds.has(id)
+        )
+
+        if (unaliveInBackendIds.length) removeExceededProcess(unaliveInBackendIds)
+
+        setLivePendingArts(availableArts.map((a: any) => a.id))
+
+    }, [authorInprogressArts])
 
 
-    return { livePendingArts }
+    return { livePendingArts, isLoading }
 }
 
 export default useInprogressArts

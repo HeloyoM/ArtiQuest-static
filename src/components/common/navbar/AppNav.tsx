@@ -19,6 +19,7 @@ import { Paths } from '../../../utils/paths'
 import { getArtsInProgressFromLocalStorage } from '../../../utils/pendingArtsStorage'
 import AppDropdown from '../AppDropdown'
 import useInprogressArts from '../../../utils/useInprogressArts'
+import AppProgress from '../AppProgress'
 
 type Props = {
   users: User[]
@@ -29,7 +30,7 @@ const AppNav = (props: Props) => {
 
   const { users } = props
 
-  const { livePendingArts } = useInprogressArts()
+  const { livePendingArts, isLoading } = useInprogressArts()
   const { updateUserContext, user } = React.useContext(AppUserContext)
 
   // const artsInProgress = getArtsInProgressFromLocalStorage()
@@ -87,12 +88,13 @@ const AppNav = (props: Props) => {
 
             <Button sx={{ color: 'white' }} onClick={goAboutPage}>About author</Button>
 
-            {!!livePendingArts.length && (<AppDropdown
+            {isLoading && <AppProgress type="Circular" />}
+
+            {!isLoading && !!livePendingArts.length && (<AppDropdown
               onSelect={openEditor}
               placeholder={`${livePendingArts.length} pending`}
               items={livePendingArts}
-            />)
-            }
+            />)}
 
             <Box sx={{ flexGrow: 1 }} />
 
