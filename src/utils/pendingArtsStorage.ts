@@ -7,12 +7,9 @@ export default function clearAllPendingArts(): void {
 }
 
 export const removeExceededProcess = (unaliveInBackendIds: string[]) => {
-    console.log({ unaliveInBackendIds })
-
-    for(const i of unaliveInBackendIds){
+    for (const i of unaliveInBackendIds) {
         localStorage.removeItem(`init-${i}`)
     }
-
 }
 
 export const getArtsInProgressFromLocalStorage = () => {

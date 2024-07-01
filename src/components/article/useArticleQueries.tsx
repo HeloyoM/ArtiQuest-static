@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createArticle, deleteArticle, toggleActiveArticle, editArticleById, increasArticleViewers, rateArticle } from '../../api/article'
+import { createArticle, deleteArticle, toggleActiveArticle, editArticleById, increaseArticleViewers, rateArticle, increasePendingArtTtl } from '../../api/article'
 import { Article } from '../../interface/article.interface'
 import { useNavigate } from 'react-router-dom'
 import { Paths } from '../../utils/paths'
+import { UpdateTtl } from '../../api/dto/UpdateTtl.dto'
 
 type Props = {
     setArt?: React.Dispatch<React.SetStateAction<Article<string> | undefined>>
@@ -44,16 +45,24 @@ const useArticleQueries = (props: Props) => {
         }
     })
 
-    const increasViewers = useMutation({
-        mutationFn: () => increasArticleViewers(art?.id!),
+    const increaseViewers = useMutation({
+        mutationFn: () => increaseArticleViewers(art?.id!),
 
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['edit-article'] })
         }
     })
 
+    const increaseTtl = useMutation({
+        mutationFn: (payload: UpdateTtl) => increasePendingArtTtl(payload),
+
+        onSuccess: () => {
+            
+        }
+    })
+
     const handleIncreasViewers = () => {
-        increasViewers.mutate()
+        increaseViewers.mutate()
     }
 
     const deleteArticleMutate = useMutation({
@@ -72,7 +81,7 @@ const useArticleQueries = (props: Props) => {
         deleteArticleMutate.mutate(id)
     }
 
-    return { editArticleMutate, uploadingArti, rateArt, handleToggleActive, handleDeleteArticle, handleIncreasViewers }
+    return { editArticleMutate, increaseTtl, uploadingArti, rateArt, handleToggleActive, handleDeleteArticle, handleIncreasViewers }
 }
 
 export default useArticleQueries

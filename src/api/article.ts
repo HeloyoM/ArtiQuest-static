@@ -1,6 +1,7 @@
 import { EditArticleDto } from './dto/EditArticle.dto'
 import { DELETE, GET, PATCH, POST } from './api-req'
 import { CreateCatDto } from './dto/CreateCat.dto'
+import { UpdateTtl } from './dto/UpdateTtl.dto'
 
 const API = 'art'
 const CAT = `/cat`
@@ -66,6 +67,28 @@ export const getAllInprogressArts = async () => {
     }
 }
 
+export const initArticleBeforeUpload = async (art: FormData) => {
+    try {
+        const response = await POST(`${API}${IN_PROGRESS}`, art)
+
+        return response
+    } catch (error) {
+        throw new Error(`Failed to create new article in category`)
+    }
+}
+
+export const increasePendingArtTtl = async (payload: UpdateTtl) => {
+    try {
+        const response = await PATCH(`${API}${IN_PROGRESS}/ttl`, payload)
+
+        return response
+    } catch (error) {
+        throw new Error(`Unavle to increase ttl of pending article with given ID [${payload.id}]`)
+    }
+}
+
+
+
 export const editArticleById = async (id: string, payload: EditArticleDto) => {
     try {
         const response = await PATCH(`${API}/${id}`, payload)
@@ -87,16 +110,6 @@ export const rateArticle = async (id: string, rate: number) => {
 
 }
 
-export const initArticleBeforeUpload = async (art: FormData) => {
-    try {
-        const response = await POST(`${API}${IN_PROGRESS}`, art)
-
-        return response
-    } catch (error) {
-        throw new Error(`Failed to create new article in category`)
-    }
-}
-
 export const createArticle = async (art: FormData) => {
     try {
         const response = await POST(API, art)
@@ -107,7 +120,7 @@ export const createArticle = async (art: FormData) => {
     }
 }
 
-export const increasArticleViewers = async (id: string) => {
+export const increaseArticleViewers = async (id: string) => {
     try {
         const response = await PATCH(`${API}/view/${id}`, {})
 

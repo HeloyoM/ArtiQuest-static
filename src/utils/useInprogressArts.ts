@@ -16,19 +16,21 @@ const useInprogressArts = () => {
 
         const localPendingArts = getArtsInProgressFromLocalStorage()
 
+
         const frontendIds = new Set(localPendingArts.map((id: any) => id))
         const cachedIds = new Set(authorInprogressArts.map((a: any) => a.id))
 
+
         const availableArts = authorInprogressArts.filter((obj: any) => cachedIds.has(obj.id))
 
-        const unaliveInBackendIds = Array.from(frontendIds).filter(
+        const unaliveCachedIds = Array.from(frontendIds).filter(
             (id) => !cachedIds.has(id)
         )
 
-        if (unaliveInBackendIds.length) removeExceededProcess(unaliveInBackendIds)
+        if (unaliveCachedIds.length) removeExceededProcess(unaliveCachedIds)
 
-        setLivePendingArts(availableArts.map((a: any) => a.id))
-
+        const availableArtsIds = availableArts.map((a: any) => a.id)
+        setLivePendingArts(availableArtsIds)
     }, [authorInprogressArts])
 
 

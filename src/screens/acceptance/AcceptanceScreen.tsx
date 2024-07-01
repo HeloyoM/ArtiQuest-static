@@ -24,9 +24,9 @@ const AcceptanceScreen = () => {
         const steps: StepItem[] = []
 
         data.map((a: Article) => {
-            const { body, title } = a
+            const { body, title, id } = a
             const lines = body.slice(0, 100)
-            steps.push({ label: title, description: lines, author: a.author, ttl: a.ttl })
+            steps.push({ id, label: title, description: lines, author: a.author, ttl: a.ttl })
         })
 
         setInprogressArts(steps)

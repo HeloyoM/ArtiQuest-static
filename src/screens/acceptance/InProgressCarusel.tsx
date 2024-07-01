@@ -11,6 +11,8 @@ import { StepItem } from './StepItem.interface'
 import { useNavigate } from 'react-router-dom'
 import { User } from '../../interface/user.interface'
 import TtlTimer from '../../utils/TimerSetter/TtlTimer'
+import useArticleQueries from '../../components/article/useArticleQueries'
+import { UpdateTtl } from '../../api/dto/UpdateTtl.dto'
 
 type Props = {
     steps: StepItem[]
@@ -20,6 +22,8 @@ export default function InProgressCarusel(props: Props) {
     const theme = useTheme()
     const [activeStep, setActiveStep] = React.useState(0)
     const maxSteps = steps.length
+
+    const { increaseTtl } = useArticleQueries({})
 
     const navigate = useNavigate()
 
@@ -31,8 +35,15 @@ export default function InProgressCarusel(props: Props) {
     }
 
     const updateArtTtl = (ttl: number) => {
-        console.log({ ttl })
+        const payload: UpdateTtl = {
+            author_id: steps[activeStep].author.id,
+            id: steps[activeStep].id,
+            ttl
+        }
+
+        increaseTtl.mutate(payload)
     }
+
 
     const showAllAutherArticles = (author: User) => {
         navigate(`/cat/${author.first_name}-${author.last_name}/${author.id}`)
