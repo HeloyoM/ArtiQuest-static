@@ -1,6 +1,6 @@
 import React from 'react'
 import { UploadErrors } from './interface/fileErrors.interface'
-import constants from './constants'
+import constants from '../../utils/system/constants'
 import axios from 'axios'
 
 type Props = {

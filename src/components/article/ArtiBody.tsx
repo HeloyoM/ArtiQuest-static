@@ -1,4 +1,4 @@
-import RegExpUtil from '../../utils/RegExp.util'
+import RegExpUtil from '../../utils/system/RegExp.util'
 import { Typography } from '@mui/material'
 import './style.css'
 

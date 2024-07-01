@@ -1,6 +1,6 @@
 import React from 'react'
-import constants from '../../category/constants'
-import RegExpUtil from '../../../utils/RegExp.util'
+import constants from '../../../utils/system/constants'
+import RegExpUtil from '../../../utils/system/RegExp.util'
 
 const initialState = {
     NUM_OF_CHART: false,

@@ -10,7 +10,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import { StepItem } from './StepItem.interface'
 import { useNavigate } from 'react-router-dom'
 import { User } from '../../interface/user.interface'
-import TtlTimer from './TtlTimer'
+import TtlTimer from '../../utils/TimerSetter/TtlTimer'
 
 type Props = {
     steps: StepItem[]
@@ -26,9 +26,12 @@ export default function InProgressCarusel(props: Props) {
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
     }
-
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1)
+    }
+
+    const updateArtTtl = (ttl: number) => {
+        console.log({ ttl })
     }
 
     const showAllAutherArticles = (author: User) => {
@@ -37,7 +40,7 @@ export default function InProgressCarusel(props: Props) {
 
     return (
         <Box>
-            <Typography><TtlTimer ttl={steps[activeStep].ttl!} /></Typography>
+            <Typography><TtlTimer updateArtTtl={updateArtTtl} ttl={steps[activeStep].ttl!} /></Typography>
 
             <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
                 <Paper

@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import langsFile from '../../utils/langs-file.json'
+import langsFile from '../../utils/system/langs-file.json'
 
 type Props = {
     handleSave: () => void

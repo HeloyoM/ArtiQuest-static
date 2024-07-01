@@ -1,7 +1,7 @@
 import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
 import { Article } from '../../../interface/article.interface'
 import FileHeader from './PdfFileHeader'
-import RegExpUtil from '../../../utils/RegExp.util'
+import RegExpUtil from '../../../utils/system/RegExp.util'
 
 type Props = {
     art: Article<any>

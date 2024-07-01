@@ -8,7 +8,7 @@ import StepperButtons from './StepperButtons'
 import { Close } from '@mui/icons-material'
 import AppModal from '../modal/AppModal'
 import { Button } from '@mui/material'
-import langsFile from '../../../utils/langs-file.json'
+import langsFile from '../../../utils/system/langs-file.json'
 import { useNavigate } from 'react-router-dom'
 import clearAllPendingArts from '../../../utils/pendingArtsStorage'
 

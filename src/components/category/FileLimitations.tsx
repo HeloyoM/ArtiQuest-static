@@ -1,5 +1,5 @@
 import { List, ListItem, ListItemText } from '@mui/material'
-import constants from './constants'
+import constants from '../../utils/system/constants'
 
 import { IFileLimitations } from './interface/fileErrors.interface'
 

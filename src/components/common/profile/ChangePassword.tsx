@@ -7,7 +7,7 @@ import ProfileField from './ProfileField'
 import SaveButton from '../SaveButton'
 
 import { FormRules } from '../form/useUserForm'
-import langsFile from '../../../utils/langs-file.json'
+import langsFile from '../../../utils/system/langs-file.json'
 import { Profile as ProfileEnum } from '../../../enum/Profile.enum'
 
 type Props = {

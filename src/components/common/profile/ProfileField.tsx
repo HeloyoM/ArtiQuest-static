@@ -1,8 +1,8 @@
 import { TextField } from '@mui/material'
 import { Profile } from '../../../enum/Profile.enum'
 import { FormRules } from '../form/useUserForm'
-import constants from '../../category/constants'
-import langsFile from '../../../utils/langs-file.json'
+import constants from '../../../utils/system/constants'
+import langsFile from '../../../utils/system/langs-file.json'
 
 type Props = {
     isEditProfile: boolean
