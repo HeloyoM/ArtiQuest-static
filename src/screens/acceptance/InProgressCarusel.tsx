@@ -1,9 +1,6 @@
 import * as React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Box, MobileStepper, Paper, Typography, Button } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
+import { Box, Paper, Typography } from '@mui/material'
 
 import useArticleQueries from '../../components/article/useArticleQueries'
 import TtlTimer from '../../utils/TimerSetter/TtlTimer'
@@ -11,29 +8,19 @@ import TtlTimer from '../../utils/TimerSetter/TtlTimer'
 import { StepItem } from './StepItem.interface'
 import { User } from '../../interface/user.interface'
 import { UpdateTtl } from '../../api/dto/UpdateTtl.dto'
+import AppMobileStepper from '../../utils/MobileStepper'
 
 type Props = {
     steps: StepItem[]
 }
 export default function InProgressCarusel(props: Props) {
     const [activeStep, setActiveStep] = React.useState(0)
-
     const navigate = useNavigate()
 
     const { steps } = props
     const maxSteps = steps.length
 
     const { increaseTtl } = useArticleQueries({})
-
-    const theme = useTheme()
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)
-    }
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1)
-    }
 
     const updateArtTtl = (ttl: number) => {
         const payload: UpdateTtl = {
@@ -83,36 +70,7 @@ export default function InProgressCarusel(props: Props) {
                     <Typography><span style={{ fontWeight: 'bold' }}>brief:</span> {steps[activeStep].description}</Typography>
                 </Box>
 
-                <MobileStepper
-                    variant="text"
-                    steps={maxSteps}
-                    position="static"
-                    activeStep={activeStep}
-                    nextButton={
-                        <Button
-                            size="small"
-                            onClick={handleNext}
-                            disabled={activeStep === maxSteps - 1}
-                        >
-                            Next
-                            {theme.direction === 'rtl' ? (
-                                <KeyboardArrowLeft />
-                            ) : (
-                                <KeyboardArrowRight />
-                            )}
-                        </Button>
-                    }
-                    backButton={
-                        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                            {theme.direction === 'rtl' ? (
-                                <KeyboardArrowRight />
-                            ) : (
-                                <KeyboardArrowLeft />
-                            )}
-                            Back
-                        </Button>
-                    }
-                />
+                <AppMobileStepper maxSteps={maxSteps} activeStep={activeStep} setActiveStep={setActiveStep} />
             </Box>
         </Box>
     )
