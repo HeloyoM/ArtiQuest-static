@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { Box, Typography } from '@mui/material'
+
 import AppProgress from '../../components/common/AppProgress'
 import useCategoriesTable from '../../components/categoriesTableManagement/useCategoriesTable'
 import InProgressCarusel from './InProgressCarusel'
-import { useEffect, useState } from 'react'
+
 import { getAllInprogressArts } from '../../api/article'
 import { Article } from '../../interface/article.interface'
-import { useQuery } from '@tanstack/react-query'
 import { StepItem } from './StepItem.interface'
 
 const AcceptanceScreen = () => {

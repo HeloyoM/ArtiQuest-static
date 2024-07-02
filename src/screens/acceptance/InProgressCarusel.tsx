@@ -8,7 +8,7 @@ import TtlTimer from '../../utils/TimerSetter/TtlTimer'
 import { StepItem } from './StepItem.interface'
 import { User } from '../../interface/user.interface'
 import { UpdateTtl } from '../../api/dto/UpdateTtl.dto'
-import AppMobileStepper from '../../utils/MobileStepper'
+import AppMobileStepper from '../../utils/mobileStepper/AppMobileStepper'
 
 type Props = {
     steps: StepItem[]
