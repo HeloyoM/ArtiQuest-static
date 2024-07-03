@@ -1,0 +1,17 @@
+.pending-art-title {
+    display: flex;
+    align-items: center;
+    height: 50;
+    padding-left: 2;
+    background-color: inherit;
+}
+
+.pending-art-author {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.pending-art-p {
+    width: -webkit-fill-available;
+    height: fit-content
+}

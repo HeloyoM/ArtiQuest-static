@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material'
 
 import AppProgress from '../../components/common/AppProgress'
 import useCategoriesTable from '../../components/categoriesTableManagement/useCategoriesTable'
-import InProgressCarusel from './InProgressCarusel'
+import InProgressCarusel from './inProgressCarusel/InProgressCarusel'
 
 import { getAllInprogressArts } from '../../api/article'
 import { Article } from '../../interface/article.interface'
