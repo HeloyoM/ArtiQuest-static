@@ -6,13 +6,13 @@ type Props = {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   name: string
   value?: string
-  handleKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void
+  //handleKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void
 }
 
 const TitleEditor = (props: Props) => {
   return (
     <Input
-      onKeyDown={props.handleKeyDown}
+      //onKeyDown={props.handleKeyDown}
       defaultValue={props.value ? props.value : ''}
       type="text"
       autoFocus

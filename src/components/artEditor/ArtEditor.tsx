@@ -1,4 +1,4 @@
-import AppSteper from '../common/AppStepper/AppSteper'
+import AppStepper from '../common/AppStepper/AppStepper'
 import React from 'react'
 import AppProgress from '../common/AppProgress'
 import useArticleEditor from './useArticleEditor'
@@ -20,7 +20,7 @@ const ArtEditor = () => {
 
     return (
         <React.Fragment>
-            <AppSteper steps={steps} optionals={optionals} />
+            <AppStepper steps={steps} optionals={optionals} />
 
             <Button name='discard-changes'>Discard</Button>
         </React.Fragment>

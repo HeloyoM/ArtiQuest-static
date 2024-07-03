@@ -1,8 +1,9 @@
 import * as React from 'react'
 import '../../artEditor/style.css'
 import Box from '@mui/material/Box'
-import Menu from '../../artEditor/Menu'
+import Main from '../../artEditor/Main'
 import StepperStages from './StepperStages'
+import './style.css'
 import { isStepOptional, isStepSkipped } from './utils'
 import StepperButtons from './StepperButtons'
 import { Close } from '@mui/icons-material'
@@ -16,7 +17,7 @@ type Props = {
     steps: string[]
     optionals: number[]
 }
-export default function AppSteper(props: Props) {
+export default function AppStepper(props: Props) {
     const [steps, setSteps] = React.useState(props.steps)
     const [activeStep, setActiveStep] = React.useState(0)
     const [skipped, setSkipped] = React.useState(new Set<number>())
@@ -67,7 +68,7 @@ export default function AppSteper(props: Props) {
 
     const approvalChanges = (
         <Box sx={modalStyle}>
-            {langsFile.system.common.approval}
+            {langsFile.system.editArt.approval}
             <Button onClick={handleCancelUploading}>{langsFile.casual.yes}</Button>
             <Button onClick={handleCloseModal}>{langsFile.casual.no}</Button>
         </Box >
@@ -77,20 +78,13 @@ export default function AppSteper(props: Props) {
         <>
             <Box sx={{ width: '100%' }}>
 
-                <Close sx={{
-                    position: 'absolute',
-                    left: '10%',
-                    width: '35px',
-                    top: '2%',
-                    height: '35px',
-                }} onClick={() => setOpenModal(true)} />
+                <Close className='close' onClick={() => setOpenModal(true)} />
 
                 <StepperStages optionals={optionals} activeStep={activeStep} steps={steps} skipped={skipped} />
 
-
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 
-                    <Menu index={activeStep} handleNext={handleNext} endStage={activeStep === steps.length} />
+                    <Main index={activeStep} endStage={activeStep === steps.length} />
 
                 </Box>
 

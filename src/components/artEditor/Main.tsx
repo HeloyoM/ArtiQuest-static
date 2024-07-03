@@ -1,30 +1,47 @@
 import React from 'react'
+import './style.css'
+import { Box } from '@mui/material'
+import AppProgress from '../common/AppProgress'
+import useArticleEditor from './useArticleEditor'
+import { useNavigate } from 'react-router-dom'
 import EditorPropertiesWrapper from './EditorPropertiesWrapper'
 import TitleEditor from './TitleEditor'
 import PreviewArticleBody from './PreviewArticleBody'
-import useArticleEditor from './useArticleEditor'
-import AppProgress from '../common/AppProgress'
 
 type Props = {
     index: number
-    handleNext: () => void
     endStage: boolean
-    menu: () => JSX.Element
 }
 
-const MenuV2 = (props: Props) => {
-    const { index, endStage } = props
+const Main = (props: Props) => {
+    const { endStage, index } = props
 
-    const { article, onArticleDetailChanged, handleKeyDown } = useArticleEditor({ handleNext: props.handleNext })
+    const { article, onArticleDetailChanged/*, handleKeyDown*/ } = useArticleEditor({})
+    const navigate = useNavigate()
 
-    if (!article) return (<AppProgress type='Line' />)
+    React.useEffect(() => {
+        const art = localStorage.getItem(`init-${article?.id}`)
+
+        if (art) {
+
+            const artObj = JSON.parse(art)
+
+            if (endStage && article) {
+
+                navigate(`/cat/${artObj.cat.name}/art/${artObj.title}/${artObj.id}`)
+
+            }
+        }
+
+    }, [props.endStage])
+
+    if (!article) return (<AppProgress />)
 
     return (
-        <React.Fragment>
-
+        <Box className='editor-menu'>
             {!index && <EditorPropertiesWrapper header='edit the title of the new article'>
                 <TitleEditor
-                    handleKeyDown={handleKeyDown}
+                    //handleKeyDown={handleKeyDown}
                     placeholder='title'
                     name="title"
                     value={article?.title!}
@@ -35,14 +52,14 @@ const MenuV2 = (props: Props) => {
                 name="sub_title"
                 placeholder='sub title'
                 value={article.sub_title}
-                handleKeyDown={handleKeyDown}
+                //handleKeyDown={handleKeyDown}
                 handleChange={onArticleDetailChanged}
             /></EditorPropertiesWrapper>}
 
             {index === 2 && <PreviewArticleBody endStage={endStage} article={article} />}
 
-        </React.Fragment>
+        </Box>
     )
 }
 
-export default MenuV2
+export default Main

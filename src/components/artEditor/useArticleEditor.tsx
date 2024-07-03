@@ -5,7 +5,7 @@ import { ICategory } from '../../interface/category.interface'
 import localStorageKeys from '../../utils/localStorageKeys'
 
 type Props = {
-    handleNext?: () => void
+    // handleNext?: () => void
 }
 const useArticleEditor = (props: Props) => {
     const [article, setArticle] = React.useState<Article<ICategory> | undefined>(undefined)
@@ -42,13 +42,13 @@ const useArticleEditor = (props: Props) => {
         updatePreparedArticle(JSON.stringify(updatedArt))
     }
 
-    const handleKeyDown = ({
-        key
-    }: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (key === 'Enter') {
-            props.handleNext!()
-        }
-    }
+    // const handleKeyDown = ({
+    //     key
+    // }: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    //     if (key === 'Enter') {
+    //         props.handleNext!()
+    //     }
+    // }
 
     const updatePreparedArticle = (data: any) => {
         localStorage.setItem(`${localStorageKeys.INITIALIZATION_ART}${article?.id}`, data)
@@ -56,7 +56,7 @@ const useArticleEditor = (props: Props) => {
         setArticle(JSON.parse(data))
     }
 
-    return { article, onArticleDetailChanged, handleKeyDown, updateBodyArticle }
+    return { article, onArticleDetailChanged, /*handleKeyDown,*/ updateBodyArticle }
 }
 
 export default useArticleEditor

@@ -1,0 +1,7 @@
+.close {
+    position: absolute;
+    left: 10%;
+    width: 35px;
+    top: 2%;
+    height: 35px;
+}
