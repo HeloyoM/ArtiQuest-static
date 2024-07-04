@@ -1,54 +1,32 @@
-import AppStepper from '../common/AppStepper/AppStepper'
+import AppStepper from '../common/stepper/AppStepper'
 import React from 'react'
 import AppProgress from '../common/AppProgress'
 import useArticleEditor from './useArticleEditor'
 import { Button } from '@mui/material'
 import editorSteps from './steps'
-import { isStepOptional, isStepSkipped } from '../common/AppStepper/utils'
 import Main from './Main'
+import useStepper from '../common/stepper/useStepper'
 
 const ArtEditor = () => {
     const [activeStep, setActiveStep] = React.useState(0)
     const [skipped, setSkipped] = React.useState(new Set<number>())
     const { article } = useArticleEditor({})
 
-    if (!article) return (<AppProgress />)
-
     const steps = editorSteps.map(s => s.name)
     const optionalSteps = editorSteps.map(s => (s.optional))
 
-    const optionals: any[] = []
+    const optionalsSteps: number[] = []
     for (let i = 0; i < optionalSteps.length; i++) {
-        if (optionalSteps[i]) optionals.push(i)
+        if (optionalSteps[i]) optionalsSteps.push(i)
     }
 
-    const handleNext = () => {
-        let newSkipped = skipped
-        if (isStepSkipped(skipped, activeStep)) {
-            newSkipped = new Set(newSkipped.values())
-            newSkipped.delete(activeStep)
-        }
+    const {
+        handleBack,
+        handleNext,
+        handleSkip
+    } = useStepper({ optionalsSteps, setSkipped, activeStep, setActiveStep, skipped })
 
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)
-        setSkipped(newSkipped)
-    }
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1)
-    }
-
-    const handleSkip = () => {
-        if (!isStepOptional(optionals, activeStep)) {
-            throw new Error("You can't skip a step that isn't optional.")
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values())
-            newSkipped.add(activeStep)
-            return newSkipped
-        })
-    }
+    if (!article) return (<AppProgress />)
 
     const mainContent = (<Main index={activeStep} endStage={activeStep === steps.length} />)
 
@@ -62,11 +40,11 @@ const ArtEditor = () => {
                 handleNext={handleNext}
                 handleSkip={handleSkip}
                 steps={steps}
-                optionals={optionals}
+                optionals={optionalsSteps}
                 content={mainContent}
             />
 
-            <Button name='discard-changes'>Discard</Button>
+            <Button>Discard</Button>
 
         </React.Fragment>
     )

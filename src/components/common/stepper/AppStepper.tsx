@@ -1,14 +1,16 @@
 import * as React from 'react'
-import '../../artEditor/style.css'
-import { Box, Button } from '@mui/material'
-import StepperStages from './StepperStages'
-import './style.css'
-import StepperButtons from './StepperButtons'
-import { Close } from '@mui/icons-material'
-import AppModal from '../modal/AppModal'
-import langsFile from '../../../utils/system/langs-file.json'
 import { useNavigate } from 'react-router-dom'
+import { Box, Button } from '@mui/material'
+import { Close } from '@mui/icons-material'
+
+import './style.css'
+
+import StepperStages from './StepperStages'
+import StepperButtons from './StepperButtons'
+import AppModal from '../modal/AppModal'
+
 import clearAllPendingArts from '../../../utils/pendingArtsStorage'
+import langsFile from '../../../utils/system/langs-file.json'
 
 type Props = {
     steps: string[]
@@ -24,7 +26,7 @@ export default function AppStepper(props: Props) {
 
     const [openModal, setOpenModal] = React.useState(false)
 
-    const { optionals, steps, content, activeStep, skipped, handleBack, handleNext, handleSkip } = props
+    const { optionals, steps, activeStep, skipped, content, handleBack, handleNext, handleSkip } = props
 
     const navigate = useNavigate()
 
