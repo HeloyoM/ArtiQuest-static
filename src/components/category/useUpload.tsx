@@ -2,19 +2,21 @@ import React from 'react'
 import { UploadErrors } from './interface/fileErrors.interface'
 import constants from '../../utils/system/constants'
 
-const useUpload = () => {
-    const [error, setError] = React.useState<UploadErrors>({
+function initErrors() {
+    return {
         fileSizeInMB: false,
         fileExtension: false
-    })
-
+    }
+}
+const useUpload = () => {
+    const [error, setError] = React.useState<UploadErrors>(initErrors)
     let fileSizeInMB: number = 0
     let exe
 
     const validateFile = (file: File) => {
 
         const { name, size } = file
-        console.log({ name, size })
+
         try {
             isValidSizeFile(size)
 
@@ -33,7 +35,6 @@ const useUpload = () => {
         if (fileSizeInMB > constants.MAX_FILE_UPLOAD) {
             setError(prev => ({ ...prev, fileSizeInMB: true }))
         }
-
     }
 
     const isValidFileExtension = (name: string) => {
@@ -43,13 +44,12 @@ const useUpload = () => {
         if (fileExtension.length) {
 
             exe = fileExtension.pop()?.toLowerCase()
-            console.log({ exe })
+
             if (!constants.FILE_EXE.includes(exe!)) {
                 setError(prev => ({ ...prev, fileExtension: true }))
             }
         }
     }
-
 
     return { error, validateFile }
 }

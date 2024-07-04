@@ -33,7 +33,15 @@
     max-height: 250px;
 }
 
-.upload-arti {
+.add-icon {
+    cursor: pointer;
+}
+
+.add-icon:hover {
+    font-size: 35px;
+}
+
+.upload-art {
     display: flex;
     align-items: center;
     justify-content: center;

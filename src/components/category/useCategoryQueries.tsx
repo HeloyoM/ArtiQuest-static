@@ -1,12 +1,15 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { createNewCategory, getAllCategories, getArticlesByCategoryId } from '../../api/article'
+import { createNewCategory, getAllCategories, getArticlesByCategoryId, initArticleBeforeUpload } from '../../api/article'
+import localStorageKeys from '../../utils/localStorageKeys'
+import { useNavigate } from 'react-router-dom'
 
 type Props = {
     id?: string
 }
 const useCategoryQueries = (props: Props) => {
-
     const { id } = props
+
+    const navigate = useNavigate()
 
     const categories = useQuery({
         queryKey: ['categories'],
@@ -23,7 +26,19 @@ const useCategoryQueries = (props: Props) => {
         mutationKey: ['create-category'],
     })
 
-    return { categoryArticles, categories, addNewCategory }
+    const initPendingArticle = useMutation({
+        mutationFn: (formData: FormData) => (initArticleBeforeUpload(formData)),
+        mutationKey: ['init-art'],
+        onSuccess: async (data: any) => {
+            if (Object.keys(data).length) {
+                localStorage.setItem(`${localStorageKeys.INITIALIZATION_ART}${data.id}`, JSON.stringify(data))
+
+                navigate(`/art-editor/${data.id}`)
+            }
+        }
+    })
+
+    return { categoryArticles, initPendingArticle, categories, addNewCategory }
 }
 
 export default useCategoryQueries

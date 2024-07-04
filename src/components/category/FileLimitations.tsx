@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText } from '@mui/material'
+import { List, ListItem } from '@mui/material'
 import constants from '../../utils/system/constants'
 
 import { IFileLimitations } from './interface/fileErrors.interface'
@@ -16,8 +16,7 @@ const FileLimitations = () => {
 
             {limitationsArray.map((l: IFileLimitations) => (
                 <ListItem>
-                    {l.title + ' '}
-                    <ListItemText primary={l.description} />
+                    {l.title} {' '} {l.description}
                 </ListItem>
             ))}
 

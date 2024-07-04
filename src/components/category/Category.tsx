@@ -13,11 +13,9 @@ import AppCard from '../common/AppCard'
 import AppRating from '../common/AppRating'
 import AppPagination from '../common/AppPagination'
 import UploadArticleToCategory from './UploadArticleToCategory'
-import useUpload from './useUpload'
 import { paginate } from '../../utils/paginate'
 
 import { Article } from '../../interface/article.interface'
-import { UploadErrors } from './interface/fileErrors.interface'
 import { ICategory } from '../../interface/category.interface'
 import constants from '../../utils/system/constants'
 import useCategoryQueries from './useCategoryQueries'
@@ -28,7 +26,6 @@ const Category = () => {
     const [page, setPage] = React.useState(1)
     const [articles, setArticles] = React.useState<any[]>([])
     const [insertionOpen, setInsertionOpen] = React.useState(false)
-    const [uploading, setUploading] = React.useState(false)
 
     const { user } = React.useContext(AppUserContext)
 
@@ -54,11 +51,6 @@ const Category = () => {
 
     const openInsertionModal = () => { setInsertionOpen(true) }
     const closeInsertion = () => { setInsertionOpen(false) }
-
-    // const { handleArtiFile } = useUpload({
-    //     setIsUploading: setUploading,
-    //     setError: setErrorWithUpload
-    // })
 
     const handleSaveLastPage = () => {
         localStorage.setItem(`${localStorageKeys.CATEGORY_PAGE}${id}`, page.toString())
@@ -95,7 +87,7 @@ const Category = () => {
                 <div>
                     <h2>{category}</h2>
 
-                    {user && <AddCircleOutlineOutlinedIcon onClick={openInsertionModal} />}
+                    {user && <AddCircleOutlineOutlinedIcon className='add-icon' sx={{cursor:'pointer'}} onClick={openInsertionModal} />}
                 </div>
 
                 <p>Number of articles: {articles.length}</p>
@@ -120,9 +112,7 @@ const Category = () => {
             </Box>
 
             <AppMenu
-                menuBody={<UploadArticleToCategory
-                    isUploading={uploading}
-                    category={{ name: category, id }} />}
+                menuBody={<UploadArticleToCategory category={{ name: category, id }} />}
                 openMenu={insertionOpen}
                 close={closeInsertion} />
 

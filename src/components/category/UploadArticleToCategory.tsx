@@ -1,74 +1,51 @@
 import React from 'react'
-import './style.css'
-import { Box, Button, FormControl, Input, InputLabel, Typography } from '@mui/material'
+import { useForm } from 'react-hook-form'
+import { Box, Button, Typography } from '@mui/material'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
-import AppProgress from '../common/AppProgress'
-import { UploadErrors } from './interface/fileErrors.interface'
+import './style.css'
 
+import AppProgress from '../common/AppProgress'
 import ErrorFile from './ErrorFile'
 import FileLimitations from './FileLimitations'
-import { useForm } from 'react-hook-form'
-import FileReviewer from '../common/FileReviewer'
-import { ICategory } from '../../interface/category.interface'
-import { useNavigate } from 'react-router-dom'
-import { initArticleBeforeUpload } from '../../api/article'
-import localStorageKeys from '../../utils/localStorageKeys'
 import useUpload from './useUpload'
+
+import { ICategory } from '../../interface/category.interface'
+import useCategoryQueries from './useCategoryQueries'
 
 type Props = {
     category: Partial<ICategory>
-    isUploading: boolean
 }
-
 const UploadArticleToCategory = (props: Props) => {
-    const [sub_title, setSubTitle] = React.useState('')
-    const { isUploading, category } = props
+    const { category } = props
 
-    const navigate = useNavigate()
+    const { initPendingArticle } = useCategoryQueries({})
 
     const { error, validateFile } = useUpload()
 
     const { register, watch } = useForm()
-
-    const handleSubtitle = (
-        { target }: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setSubTitle(target.value)
-    }
 
     React.useEffect(() => {
         if (!watch("file").length) return
 
         const file = watch("file")[0]
 
-        try {
+        validateFile(file)
 
-            validateFile(file)
+        if (!error.fileExtension && !error.fileSizeInMB) {
+            const formData = new FormData()
+            formData.append("file", file)
 
-            if (!error) {
-                const formData = new FormData()
-                formData.append("file", file)
+            const title = file.name.split('.')[0]!
 
-                const title = file.name.split('.')[0]!
+            formData.append('art', JSON.stringify({ title, cat: category.id }))
 
-                formData.append('art', JSON.stringify({ title, sub_title, cat: category.id }))
-
-                initNewArticle(formData)
-            }
-        } catch (error) {
-
+            initNewArticle(formData)
         }
 
-    }, watch("file"))
+    }, [watch("file"), error])
 
     const initNewArticle = async (formData: FormData) => {
-        const res = await initArticleBeforeUpload(formData)
-
-        if (Object.keys(res).length) {
-            localStorage.setItem(`${localStorageKeys.INITIALIZATION_ART}${res.id}`, JSON.stringify(res))
-
-            navigate(`/art-editor/${res.id}`)
-        }
+        await initPendingArticle.mutate(formData)
     }
 
     return (
@@ -76,21 +53,21 @@ const UploadArticleToCategory = (props: Props) => {
             <Typography sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '22px' }}>{category.name}</Typography>
 
             <Typography sx={{ textAlign: 'center', fontWeight: 'bold' }}>
-                you head to insert a article to "{category.name}"
+                you about to insert a article to "{category.name}"
             </Typography>
 
             <React.Fragment>
 
                 <FileLimitations />
 
-                <div className='upload-arti'>
+                <div className='upload-art'>
                     <form>
 
                         <Button
                             variant="contained"
                             component="label"
                             className='upload-btn'
-                            startIcon={!isUploading ? <FileUploadOutlinedIcon /> : <AppProgress type='Circular' />}
+                            startIcon={<FileUploadOutlinedIcon />}
                         >
                             <label>
                                 upload article
@@ -108,22 +85,6 @@ const UploadArticleToCategory = (props: Props) => {
                 </div>
 
             </React.Fragment>
-
-            <React.Fragment>
-
-
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <FormControl variant="standard">
-                        <InputLabel htmlFor="component-simple">sub title(recomended)</InputLabel>
-                        <Input id="component-simple" name='sub_title' onChange={handleSubtitle} />
-                    </FormControl>
-                </Box>
-
-                {/* <FileReviewer file={file} /> */}
-
-
-            </React.Fragment>
-
 
             <ErrorFile error={error} />
 
