@@ -10,24 +10,25 @@ import FileLimitations from './FileLimitations'
 import { useForm } from 'react-hook-form'
 import FileReviewer from '../common/FileReviewer'
 import { ICategory } from '../../interface/category.interface'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { initArticleBeforeUpload } from '../../api/article'
 import localStorageKeys from '../../utils/localStorageKeys'
+import useUpload from './useUpload'
 
 type Props = {
     category: Partial<ICategory>
     isUploading: boolean
-    error: UploadErrors
 }
 
 const UploadArticleToCategory = (props: Props) => {
     const [sub_title, setSubTitle] = React.useState('')
-    const { error, isUploading, category } = props
+    const { isUploading, category } = props
 
     const navigate = useNavigate()
 
-    const { register, handleSubmit, watch } = useForm()
+    const { error, validateFile } = useUpload()
+
+    const { register, watch } = useForm()
 
     const handleSubtitle = (
         { target }: React.ChangeEvent<HTMLInputElement>
@@ -35,26 +36,28 @@ const UploadArticleToCategory = (props: Props) => {
         setSubTitle(target.value)
     }
 
-    // const onSubmit = async (data: any) => {
-    //     const formData = new FormData()
-    //     formData.append("file", data.file[0])
-    //     const title = data.file[0].name.split('.')[0]!
-
-    //     formData.append('art', JSON.stringify({ title, sub_title, cat: category.id }))
-    //     uploadArticle(formData)
-    // }
-
     React.useEffect(() => {
         if (!watch("file").length) return
 
-        const formData = new FormData()
-        formData.append("file", watch("file")[0])
+        const file = watch("file")[0]
 
-        const title = watch("file")[0].name.split('.')[0]!
+        try {
 
-        formData.append('art', JSON.stringify({ title, sub_title, cat: category.id }))
+            validateFile(file)
 
-        initNewArticle(formData)
+            if (!error) {
+                const formData = new FormData()
+                formData.append("file", file)
+
+                const title = file.name.split('.')[0]!
+
+                formData.append('art', JSON.stringify({ title, sub_title, cat: category.id }))
+
+                initNewArticle(formData)
+            }
+        } catch (error) {
+
+        }
 
     }, watch("file"))
 
@@ -122,7 +125,7 @@ const UploadArticleToCategory = (props: Props) => {
             </React.Fragment>
 
 
-            {/* <ErrorFile error={error} /> */}
+            <ErrorFile error={error} />
 
         </Box>
     )

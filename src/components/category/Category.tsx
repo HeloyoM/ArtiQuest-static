@@ -29,10 +29,6 @@ const Category = () => {
     const [articles, setArticles] = React.useState<any[]>([])
     const [insertionOpen, setInsertionOpen] = React.useState(false)
     const [uploading, setUploading] = React.useState(false)
-    const [errorWithUpload, setErrorWithUpload] = React.useState<UploadErrors>({
-        fileSizeInMB: false,
-        fileExtension: false
-    })
 
     const { user } = React.useContext(AppUserContext)
 
@@ -59,10 +55,10 @@ const Category = () => {
     const openInsertionModal = () => { setInsertionOpen(true) }
     const closeInsertion = () => { setInsertionOpen(false) }
 
-    const { handleArtiFile } = useUpload({
-        setIsUploading: setUploading,
-        setError: setErrorWithUpload
-    })
+    // const { handleArtiFile } = useUpload({
+    //     setIsUploading: setUploading,
+    //     setError: setErrorWithUpload
+    // })
 
     const handleSaveLastPage = () => {
         localStorage.setItem(`${localStorageKeys.CATEGORY_PAGE}${id}`, page.toString())
@@ -125,7 +121,6 @@ const Category = () => {
 
             <AppMenu
                 menuBody={<UploadArticleToCategory
-                    error={errorWithUpload}
                     isUploading={uploading}
                     category={{ name: category, id }} />}
                 openMenu={insertionOpen}

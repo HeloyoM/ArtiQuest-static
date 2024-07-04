@@ -1,43 +1,20 @@
 import React from 'react'
 import { UploadErrors } from './interface/fileErrors.interface'
 import constants from '../../utils/system/constants'
-import axios from 'axios'
 
-type Props = {
-    setIsUploading: React.Dispatch<React.SetStateAction<boolean>>
-    setError: React.Dispatch<React.SetStateAction<UploadErrors>>
-}
+const useUpload = () => {
+    const [error, setError] = React.useState<UploadErrors>({
+        fileSizeInMB: false,
+        fileExtension: false
+    })
 
-const useUpload = (props: Props) => {
     let fileSizeInMB: number = 0
     let exe
-
-
-    const handleArtiFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-        props.setError({ fileExtension: false, fileSizeInMB: false })
-
-        props.setIsUploading(true)
-
-        // const files = event.target.files
-
-        try {
-            // if (files === null) throw Error('error with file')
-
-            // const file = files[0]
-
-            // validateFile(file)
-
-            props.setIsUploading(false)
-
-        } catch (error) {
-            throw Error('Unable to upload file')
-        }
-    }
 
     const validateFile = (file: File) => {
 
         const { name, size } = file
-
+        console.log({ name, size })
         try {
             isValidSizeFile(size)
 
@@ -54,7 +31,7 @@ const useUpload = (props: Props) => {
         fileSizeInMB = fileSizeInKB / 1024
 
         if (fileSizeInMB > constants.MAX_FILE_UPLOAD) {
-            props.setError(prev => ({ ...prev, fileSizeInMB: true }))
+            setError(prev => ({ ...prev, fileSizeInMB: true }))
         }
 
     }
@@ -63,19 +40,18 @@ const useUpload = (props: Props) => {
 
         const fileExtension = name.split('.')
 
-
         if (fileExtension.length) {
 
             exe = fileExtension.pop()?.toLowerCase()
-
+            console.log({ exe })
             if (!constants.FILE_EXE.includes(exe!)) {
-                props.setError(prev => ({ ...prev, fileExtension: true }))
+                setError(prev => ({ ...prev, fileExtension: true }))
             }
         }
     }
 
 
-    return { handleArtiFile }
+    return { error, validateFile }
 }
 
 export default useUpload
