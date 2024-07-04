@@ -1,14 +1,11 @@
 import * as React from 'react'
 import '../../artEditor/style.css'
-import Box from '@mui/material/Box'
-import Main from '../../artEditor/Main'
+import { Box, Button } from '@mui/material'
 import StepperStages from './StepperStages'
 import './style.css'
-import { isStepOptional, isStepSkipped } from './utils'
 import StepperButtons from './StepperButtons'
 import { Close } from '@mui/icons-material'
 import AppModal from '../modal/AppModal'
-import { Button } from '@mui/material'
 import langsFile from '../../../utils/system/langs-file.json'
 import { useNavigate } from 'react-router-dom'
 import clearAllPendingArts from '../../../utils/pendingArtsStorage'
@@ -16,14 +13,18 @@ import clearAllPendingArts from '../../../utils/pendingArtsStorage'
 type Props = {
     steps: string[]
     optionals: number[]
+    activeStep: number
+    content: JSX.Element
+    handleBack: () => void
+    handleNext: () => void
+    handleSkip: () => void
+    skipped: Set<number>
 }
 export default function AppStepper(props: Props) {
-    const [steps, setSteps] = React.useState(props.steps)
-    const [activeStep, setActiveStep] = React.useState(0)
-    const [skipped, setSkipped] = React.useState(new Set<number>())
+
     const [openModal, setOpenModal] = React.useState(false)
 
-    const { optionals } = props
+    const { optionals, steps, content, activeStep, skipped, handleBack, handleNext, handleSkip } = props
 
     const navigate = useNavigate()
 
@@ -34,42 +35,14 @@ export default function AppStepper(props: Props) {
         navigate(-1)
     }
 
-    const handleNext = () => {
-        let newSkipped = skipped
-        if (isStepSkipped(skipped, activeStep)) {
-            newSkipped = new Set(newSkipped.values())
-            newSkipped.delete(activeStep)
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)
-        setSkipped(newSkipped)
-    }
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1)
-    }
-
-    const handleSkip = () => {
-        if (!isStepOptional(props.optionals, activeStep)) {
-            throw new Error("You can't skip a step that isn't optional.")
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values())
-            newSkipped.add(activeStep)
-            return newSkipped
-        })
-    }
-
-    const handleCancelUploading = () => {
+    const abrotProcess = () => {
 
     }
 
     const approvalChanges = (
         <Box sx={modalStyle}>
             {langsFile.system.editArt.approval}
-            <Button onClick={handleCancelUploading}>{langsFile.casual.yes}</Button>
+            <Button onClick={abrotProcess}>{langsFile.casual.yes}</Button>
             <Button onClick={handleCloseModal}>{langsFile.casual.no}</Button>
         </Box >
     )
@@ -84,7 +57,7 @@ export default function AppStepper(props: Props) {
 
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 
-                    <Main index={activeStep} endStage={activeStep === steps.length} />
+                    {content}
 
                 </Box>
 
