@@ -8,7 +8,7 @@ export interface Article<T = string> {
     author: User
     created: string
     cat: T
-    body: string
+    body: string[]
     rank: IArticleRank
     viewers: string[]
     active: boolean

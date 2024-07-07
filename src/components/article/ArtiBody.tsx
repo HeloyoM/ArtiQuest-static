@@ -3,18 +3,18 @@ import { Typography } from '@mui/material'
 import './style.css'
 
 type Props = {
-    body: string
+    body: string[]
     isedit: boolean
     handleEditParagraph: (e: React.ChangeEvent<HTMLTextAreaElement>, index: number) => void
 }
 
 const ArtiBody = (props: Props) => {
 
-    const paragraphs = Array.isArray(props.body) ? props.body : props.body.split(/[\n\r]+/)
+    // const paragraphs = Array.isArray(props.body) ? props.body : props.body.split(/[\n\r]+/)
 
     return (
         <main className='art-container'>
-            {paragraphs.map((paragraph, index) => {
+            {props.body.map((paragraph, index) => {
                 const isHeader: RegExpMatchArray | null = paragraph.match(RegExpUtil.headers)
 
                 if (isHeader?.length) {

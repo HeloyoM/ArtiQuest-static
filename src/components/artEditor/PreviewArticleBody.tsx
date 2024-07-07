@@ -12,7 +12,7 @@ type Props = {
     endStage: boolean
 }
 const PreviewArticleBody = (props: Props) => {
-    const [paragraphs, setParagraphs] = React.useState<string[]>([props.article.body])
+    const [paragraphs, setParagraphs] = React.useState<string[]>(props.article.body)
 
     const { updateBodyArticle } = useArticleEditor({})
 

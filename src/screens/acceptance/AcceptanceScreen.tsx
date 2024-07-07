@@ -27,7 +27,7 @@ const AcceptanceScreen = () => {
 
         data.map((art: Article) => {
             const { body, title, id } = art
-            const brife = body.slice(0, 100)
+            const [brife] = body.slice(0, 100)
             steps.push({ id, label: title, description: brife, author: art.author, ttl: art.ttl })
         })
 

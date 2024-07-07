@@ -9,7 +9,7 @@ type Props = {
 const PdfTemplate = ({ art }: Props) => {
     const creatorName = art.author.first_name + ' ' + art.author.last_name
     
-    const paragraphs = Array.isArray(art.body) ? art.body : art.body.split(/[\n\r]+/)
+    // const paragraphs = Array.isArray(art.body) ? art.body : art.body.split(/[\n\r]+/)
 
     return (
         <Document>
@@ -29,7 +29,7 @@ const PdfTemplate = ({ art }: Props) => {
                     {creatorName}
                 </Text>
 
-                {paragraphs.map((paragraph, index) => {
+                {art.body.map((paragraph, index) => {
                     const isHeader: RegExpMatchArray | null = paragraph.match(RegExpUtil.headers)
 
                     if (isHeader?.length) {
