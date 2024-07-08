@@ -4,6 +4,11 @@ import { Article } from '../../interface/article.interface'
 import { ICategory } from '../../interface/category.interface'
 import localStorageKeys from '../../utils/localStorageKeys'
 
+interface Item {
+    id: string
+    content: string
+}
+
 type Props = {
     // handleNext?: () => void
 }
@@ -34,7 +39,7 @@ const useArticleEditor = (props: Props) => {
         }
     }
 
-    const updateBodyArticle = (paragraphs: string[]): void => {
+    const updateBodyArticle = (paragraphs: Item[]): void => {
         if (!article || !paragraphs.length) return
 
         const updatedArt = { ...article, body: paragraphs }
