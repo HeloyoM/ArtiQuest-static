@@ -6,55 +6,22 @@ import {
     convertToRaw,
     convertFromRaw,
     DraftHandleValue,
+    RawDraftContentState,
 } from "draft-js"
 import Toolbar from "./Toolbar"
 import "./draftEditor.css"
 
-const DraftEditor = () => {
-
+type Props = {
+    body: RawDraftContentState
+    isReadOnly: boolean
+}
+const DraftEditor = ({ body, isReadOnly }: Props) => {
     const [editorState, setEditorState] = useState(
         EditorState.createWithContent(
-            convertFromRaw({
-                blocks: [
-                    {
-                        key: "3eesq",
-                        text: "A Text-editor with super cool features built in Draft.js.",
-                        type: "unstyled",
-                        depth: 0,
-                        inlineStyleRanges: [
-                            {
-                                offset: 19,
-                                length: 6,
-                                style: "BOLD",
-                            },
-                            {
-                                offset: 25,
-                                length: 5,
-                                style: "ITALIC",
-                            },
-                            {
-                                offset: 30,
-                                length: 8,
-                                style: "UNDERLINE",
-                            },
-                        ],
-                        entityRanges: [],
-                        data: {},
-                    },
-                    {
-                        key: "9adb5",
-                        text: "Tell us a story!",
-                        type: "",
-                        depth: 0,
-                        inlineStyleRanges: [],
-                        entityRanges: [],
-                        data: {},
-                    },
-                ],
-                entityMap: {},
-            })
+            convertFromRaw(body)
         )
     )
+
     const editor = useRef<Editor>(null)
 
     useEffect(() => {
@@ -70,12 +37,11 @@ const DraftEditor = () => {
         const newState = RichUtils.handleKeyCommand(editorState, command)
         if (newState) {
             setEditorState(newState)
-            return 'handled';
+            return 'handled'
         }
-        return 'not-handled';
+        return 'not-handled'
     }
 
-    // FOR INLINE STYLES
     const styleMap: Draft.DraftStyleMap = {
         CODE: {
             backgroundColor: "rgba(0, 0, 0, 0.05)",
@@ -111,7 +77,6 @@ const DraftEditor = () => {
         },
     }
 
-    // FOR BLOCK LEVEL STYLES(Returns CSS Class From DraftEditor.css)
     const myBlockStyleFn = (contentBlock: any): string => {
         const type = contentBlock.getType()
         switch (type) {
@@ -131,10 +96,11 @@ const DraftEditor = () => {
     }
 
     return (
-        <div className="editor-wrapper" onClick={focusEditor}>
-            <Toolbar editorState={editorState} setEditorState={setEditorState} />
-            <div className="editor-container">
+        <div className={!isReadOnly ? "editor-wrapper" : ""} onClick={focusEditor}>
+            {!isReadOnly && <Toolbar editorState={editorState} setEditorState={setEditorState} />}
+            <div className={!isReadOnly ? "editor-container" : ''}>
                 <Editor
+                    readOnly={isReadOnly}
                     ref={editor}
                     placeholder="Write Here"
                     handleKeyCommand={handleKeyCommand}
