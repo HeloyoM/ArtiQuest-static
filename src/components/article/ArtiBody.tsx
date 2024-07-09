@@ -23,60 +23,21 @@ const ArtiBody = (props: Props) => {
             case 'code-block': ElementType = 'pre'; break;
         }
 
-        // 2. Apply inline styles (bold, italic, etc.) 
         const styledText = inlineStyleRanges.reduce((acc, range) => {
-            const { offset, length, style } = range;
-            const styledSegment = <span style={{ fontWeight: style === 'BOLD' ? 'bold' : 'normal', fontStyle: style === 'ITALIC' ? 'italic' : 'normal' }}>{text.substring(offset, offset + length)}</span>;
-            return acc.concat(styledSegment);
-        }, [] as JSX.Element[]); // Start with an empty array of JSX elements
+            const { offset, length, style } = range
+            const styledSegment = <span style={{ fontWeight: style === 'BOLD' ? 'bold' : 'normal', fontStyle: style === 'ITALIC' ? 'italic' : 'normal' }}>{text.substring(offset, offset + length)}</span>
+            return acc.concat(styledSegment)
+        }, [] as JSX.Element[])
 
-        // 3. Render the block with the correct element and styled text
         return (
             <Typography component={ElementType} key={block.key}>
-                {styledText.length ? styledText : text} {/* If there are styled segments, use them, otherwise just the plain text */}
+                {styledText.length ? styledText : text}
             </Typography>
-        );
-    };
-    // const paragraphs = Array.isArray(props.body) ? props.body : props.body.split(/[\n\r]+/)
+        )
+    }
     return (
         <main className='art-container'>
             {props.body.blocks.map(renderBlock)}
-            {/*</main>{props.body.blocks.map((block, index) => {
-                console.log({ block })
-                if (block.type === "header-three") {
-                    return (
-                        <h3>{block.text}</h3>
-                    )
-                }
-                // const isHeader: RegExpMatchArray | null = paragraph.match(RegExpUtil.headers)
-
-                // if (isHeader?.length) {
-                // const header = paragraph.slice(4, paragraph.length - 5)
-                return (
-                    <Typography
-                        gutterBottom
-                        // component='h2'
-                        paragraph={false}
-                        key={index}
-                        className='title-index'
-                    >
-                        {block.text}
-                    </Typography>)
-                // } else if (!props.isedit) {
-                //     return (<Typography component='p' style={{ direction: RegExpUtil.rtl.test(paragraph) ? 'rtl' : 'ltr' }} key={index} className='body-paragraph'>{paragraph}</Typography>)
-                // } else {
-                //     return (
-                //         <div className='textarea-p'>
-                //             <textarea
-                //                 className='p-edit'
-                //                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => props.handleEditParagraph(e, index)}
-                //             >
-                //                 {paragraph}
-                //             </textarea>
-                //         </div>
-                //     )
-                // }
-            // })}*/}
         </main>
     )
 }
