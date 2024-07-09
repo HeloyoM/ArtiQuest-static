@@ -11,6 +11,7 @@ import Toolbar from "./Toolbar"
 import "./draftEditor.css"
 
 const DraftEditor = () => {
+
     const [editorState, setEditorState] = useState(
         EditorState.createWithContent(
             convertFromRaw({
@@ -43,7 +44,7 @@ const DraftEditor = () => {
                     {
                         key: "9adb5",
                         text: "Tell us a story!",
-                        type: "header-one",
+                        type: "",
                         depth: 0,
                         inlineStyleRanges: [],
                         entityRanges: [],

@@ -19,11 +19,11 @@ import {
     FormatUnderlined
 } from "@mui/icons-material"
 import { EditorState, RichUtils } from "draft-js"
+
 type Toolbar = {
     editorState: EditorState
     setEditorState: React.Dispatch<React.SetStateAction<EditorState>>
 }
-
 const Toolbar = ({ editorState, setEditorState }: Toolbar) => {
     const tools = [
         {

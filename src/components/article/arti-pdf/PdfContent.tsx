@@ -8,7 +8,7 @@ type Props = {
 }
 const PdfTemplate = ({ art }: Props) => {
     const creatorName = art.author.first_name + ' ' + art.author.last_name
-    
+
     // const paragraphs = Array.isArray(art.body) ? art.body : art.body.split(/[\n\r]+/)
 
     return (
@@ -29,22 +29,22 @@ const PdfTemplate = ({ art }: Props) => {
                     {creatorName}
                 </Text>
 
-                {art.body.map((paragraph, index) => {
-                    const isHeader: RegExpMatchArray | null = paragraph.match(RegExpUtil.headers)
+                {art.body.blocks.map(({ text }, index) => {
+                    // const isHeader: RegExpMatchArray | null = paragraph.match(RegExpUtil.headers)
 
-                    if (isHeader?.length) {
-                        const header = paragraph.slice(4, paragraph.length - 5)
-                        return (
-                            <Text style={{ fontSize: '22px', fontWeight: 'bold', margin: '2% 0px' }}>
-                                {header}
-                            </Text>
-                        )
-                    }
-                    else return (
-                        <Text key={index} >
-                            {paragraph}
+                    // if (isHeader?.length) {
+                    //     const header = paragraph.slice(4, paragraph.length - 5)
+                    return (
+                        <Text style={{ fontSize: '22px', fontWeight: 'bold', margin: '2% 0px' }}>
+                            {text}
                         </Text>
                     )
+                    // }
+                    // else return (
+                    //     <Text key={index} >
+                    //         {paragraph}
+                    //     </Text>
+                    // )
                 })}
 
                 <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (

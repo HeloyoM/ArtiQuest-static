@@ -9,15 +9,16 @@ import DeleteIcon from '../common/icons/DeleteIcon'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import AppDragDropContext from '../common/dNd/AppDragDropContext'
 import DragItem from '../common/dNd/DragItem'
+import { RawDraftContentState } from 'draft-js'
 
 interface Item {
     id: string
     content: any
 }
-const getItems = (body: string[]): Item[] => {
+const getItems = (body: RawDraftContentState): Item[] => {
     let itemIdCounter = 0
 
-    return body.map(content => ({
+    return body.blocks.map(content => ({
         content,
         id: `item-${itemIdCounter++}`
     }))

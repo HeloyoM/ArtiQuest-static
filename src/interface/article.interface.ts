@@ -1,3 +1,4 @@
+import { RawDraftContentState } from "draft-js"
 import { IArticleRank } from "./IArticleRank.interface"
 import { User } from "./user.interface"
 
@@ -8,7 +9,7 @@ export interface Article<T = string> {
     author: User
     created: string
     cat: T
-    body: string[]
+    body: RawDraftContentState
     rank: IArticleRank
     viewers: string[]
     active: boolean
