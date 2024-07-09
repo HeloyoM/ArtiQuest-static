@@ -5,6 +5,7 @@ import {
     RichUtils,
     convertToRaw,
     convertFromRaw,
+    DraftHandleValue,
 } from "draft-js"
 import Toolbar from "./Toolbar"
 import "./draftEditor.css"
@@ -64,17 +65,17 @@ const DraftEditor = () => {
             editor.current.focus()
     }
 
-    const handleKeyCommand = (command: any) => {
+    const handleKeyCommand = (command: string): DraftHandleValue => {
         const newState = RichUtils.handleKeyCommand(editorState, command)
         if (newState) {
             setEditorState(newState)
-            return true
+            return 'handled';
         }
-        return false
+        return 'not-handled';
     }
 
     // FOR INLINE STYLES
-    const styleMap = {
+    const styleMap: Draft.DraftStyleMap = {
         CODE: {
             backgroundColor: "rgba(0, 0, 0, 0.05)",
             fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
@@ -110,7 +111,7 @@ const DraftEditor = () => {
     }
 
     // FOR BLOCK LEVEL STYLES(Returns CSS Class From DraftEditor.css)
-    const myBlockStyleFn = (contentBlock: any) => {
+    const myBlockStyleFn = (contentBlock: any): string => {
         const type = contentBlock.getType()
         switch (type) {
             case "blockQuote":
@@ -124,7 +125,7 @@ const DraftEditor = () => {
             case "justifyAlign":
                 return "justifyAlign"
             default:
-                break
+                return ""
         }
     }
     console.log({ editorState })
@@ -135,10 +136,10 @@ const DraftEditor = () => {
                 <Editor
                     ref={editor}
                     placeholder="Write Here"
-                    //handleKeyCommand={handleKeyCommand}
+                    handleKeyCommand={handleKeyCommand}
                     editorState={editorState}
-                    //customStyleMap={styleMap}
-                    // blockStyleFn={myBlockStyleFn}
+                    customStyleMap={styleMap}
+                    blockStyleFn={myBlockStyleFn}
                     onChange={(editorState) => {
                         const contentState = editorState.getCurrentContent()
                         console.log(convertToRaw(contentState))

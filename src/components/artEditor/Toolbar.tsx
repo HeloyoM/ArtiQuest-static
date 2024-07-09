@@ -1,5 +1,5 @@
-import React from "react";
-import { /*FontAwesomeIcon*/ } from "@mui/icons-material";
+import React from "react"
+import { /*FontAwesomeIcon*/ } from "@mui/icons-material"
 import {
     FormatAlignRight,
     FormatAlignCenter,
@@ -17,14 +17,14 @@ import {
     Superscript,
     FormatListNumbered,
     FormatUnderlined
-} from "@mui/icons-material";
-import { EditorState, RichUtils } from "draft-js";
-type Test = {
+} from "@mui/icons-material"
+import { EditorState, RichUtils } from "draft-js"
+type Toolbar = {
     editorState: EditorState
     setEditorState: React.Dispatch<React.SetStateAction<EditorState>>
 }
 
-const Toolbar = ({ editorState, setEditorState }: Test) => {
+const Toolbar = ({ editorState, setEditorState }: Toolbar) => {
     const tools = [
         {
             label: "bold",
@@ -101,7 +101,7 @@ const Toolbar = ({ editorState, setEditorState }: Test) => {
         {
             label: "Uppercase",
             style: "UPPERCASE",
-             icon: <KeyboardArrowUp transform="grow-3" />,
+            icon: <KeyboardArrowUp transform="grow-3" />,
             method: "inline",
         },
         {
@@ -134,28 +134,28 @@ const Toolbar = ({ editorState, setEditorState }: Test) => {
         { label: "H4", style: "header-four", method: "block" },
         { label: "H5", style: "header-five", method: "block" },
         { label: "H6", style: "header-six", method: "block" },
-    ];
+    ]
 
     const applyStyle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, style: string, method: string) => {
-        e.preventDefault();
+        e.preventDefault()
         method === "block"
             ? setEditorState(RichUtils.toggleBlockType(editorState, style))
-            : setEditorState(RichUtils.toggleInlineStyle(editorState, style));
-    };
+            : setEditorState(RichUtils.toggleInlineStyle(editorState, style))
+    }
 
     const isActive = (style: string, method: string) => {
         if (method === "block") {
-            const selection = editorState.getSelection();
+            const selection = editorState.getSelection()
             const blockType = editorState
                 .getCurrentContent()
                 .getBlockForKey(selection.getStartKey())
-                .getType();
-            return blockType === style;
+                .getType()
+            return blockType === style
         } else {
-            const currentStyle = editorState.getCurrentInlineStyle();
-            return currentStyle.has(style);
+            const currentStyle = editorState.getCurrentInlineStyle()
+            return currentStyle.has(style)
         }
-    };
+    }
 
     return (
         <div className="toolbar-grid">
@@ -175,7 +175,7 @@ const Toolbar = ({ editorState, setEditorState }: Test) => {
                 </button>
             ))}
         </div>
-    );
-};
+    )
+}
 
-export default Toolbar;
+export default Toolbar
