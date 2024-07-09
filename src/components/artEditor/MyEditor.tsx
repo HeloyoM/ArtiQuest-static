@@ -128,7 +128,7 @@ const DraftEditor = () => {
                 return ""
         }
     }
-    console.log({ editorState })
+
     return (
         <div className="editor-wrapper" onClick={focusEditor}>
             <Toolbar editorState={editorState} setEditorState={setEditorState} />

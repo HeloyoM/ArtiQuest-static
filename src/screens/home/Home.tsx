@@ -13,7 +13,6 @@ import SysadminAppNav from '../../components/common/navbar/sysAdminPanel/Sysadmi
 import PostsContainer from '../../components/post/PostsContainer'
 import AppUserContext from '../../contextes/AppUserContext'
 import { Roles } from '../../enum/Roles.enum'
-import MyEditor from '../../components/artEditor/MyEditor'
 
 const HomePage = () => {
   const { user } = useContext(AppUserContext)
@@ -37,7 +36,6 @@ const HomePage = () => {
         <p className="transform-text">Discover programming world right under your hands</p>
       </Typography>
 
-      <MyEditor />
     </Typography>
   )
 }
