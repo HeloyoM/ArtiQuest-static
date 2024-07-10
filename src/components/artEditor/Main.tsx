@@ -16,7 +16,7 @@ type Props = {
 const Main = (props: Props) => {
     const { endStage, index } = props
 
-    const { article, onArticleDetailChanged/*, handleKeyDown*/ } = useArticleEditor({})
+    const { article, onArticleDetailChanged } = useArticleEditor()
     const navigate = useNavigate()
 
     React.useEffect(() => {

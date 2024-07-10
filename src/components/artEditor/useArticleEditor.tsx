@@ -3,16 +3,9 @@ import { useParams } from 'react-router-dom'
 import { Article } from '../../interface/article.interface'
 import { ICategory } from '../../interface/category.interface'
 import localStorageKeys from '../../utils/localStorageKeys'
+import { EditorState, RawDraftContentState } from 'draft-js'
 
-interface Item {
-    id: string
-    content: string
-}
-
-type Props = {
-    // handleNext?: () => void
-}
-const useArticleEditor = (props: Props) => {
+const useArticleEditor = () => {
     const [article, setArticle] = React.useState<Article<ICategory> | undefined>(undefined)
 
     const { id } = useParams()
@@ -39,21 +32,13 @@ const useArticleEditor = (props: Props) => {
         }
     }
 
-    const updateBodyArticle = (paragraphs: Item[]): void => {
-        if (!article || !paragraphs.length) return
+    const updateBodyArticle = (rawsContent: RawDraftContentState): void => {
+        if (!article || !rawsContent) return
 
-        const updatedArt = { ...article, body: paragraphs }
+        const updatedArt = { ...article, body: rawsContent }
 
         updatePreparedArticle(JSON.stringify(updatedArt))
     }
-
-    // const handleKeyDown = ({
-    //     key
-    // }: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    //     if (key === 'Enter') {
-    //         props.handleNext!()
-    //     }
-    // }
 
     const updatePreparedArticle = (data: any) => {
         localStorage.setItem(`${localStorageKeys.INITIALIZATION_ART}${article?.id}`, data)
@@ -61,7 +46,7 @@ const useArticleEditor = (props: Props) => {
         setArticle(JSON.parse(data))
     }
 
-    return { article, onArticleDetailChanged, /*handleKeyDown,*/ updateBodyArticle }
+    return { article, onArticleDetailChanged, updateBodyArticle }
 }
 
 export default useArticleEditor

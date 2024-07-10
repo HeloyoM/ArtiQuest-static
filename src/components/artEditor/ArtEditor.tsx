@@ -10,7 +10,7 @@ import useStepper from '../common/stepper/useStepper'
 const ArtEditor = () => {
     const [activeStep, setActiveStep] = React.useState(0)
     const [skipped, setSkipped] = React.useState(new Set<number>())
-    const { article } = useArticleEditor({})
+    const { article } = useArticleEditor()
 
     const steps = editorSteps.map(s => s.name)
     const optionalSteps = editorSteps.map(s => (s.optional))

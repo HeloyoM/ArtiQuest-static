@@ -7,7 +7,7 @@ type Props = {
 }
 const DragItem = ({ item, content, index }: Props) => {
     return (
-        <Draggable key={item.id} draggableId={item.id} index={index}>
+        <Draggable key={item.id || item.key} draggableId={item.id || item.key} index={index}>
             {(provided: any, snapshot: any) => (
                 <div
                     ref={provided.innerRef}
@@ -26,9 +26,7 @@ const DragItem = ({ item, content, index }: Props) => {
 }
 export default DragItem
 
-const grid = 8;
-
-// Styling functions with typing for props
+const grid = 8
 const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
     userSelect: "none",
     padding: grid * 2,

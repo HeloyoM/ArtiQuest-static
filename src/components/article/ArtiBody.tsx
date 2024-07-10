@@ -1,6 +1,7 @@
 import './style.css'
-import { RawDraftContentState } from 'draft-js'
+import { convertFromRaw, EditorState, RawDraftContentState } from 'draft-js'
 import MyEditor from '../artEditor/MyEditor'
+import { useState } from 'react'
 
 type Props = {
     body: RawDraftContentState
@@ -9,10 +10,15 @@ type Props = {
 }
 
 const ArtiBody = (props: Props) => {
+    const [rawsContent, setRawsContent] = useState(
+        EditorState.createWithContent(
+            convertFromRaw(props.body)
+        )
+    )
 
     return (
         <main className='art-container'>
-            <MyEditor isReadOnly body={props.body} />
+            <MyEditor isReadOnly editorState={rawsContent} setRawsContent={setRawsContent} />
         </main>
     )
 }

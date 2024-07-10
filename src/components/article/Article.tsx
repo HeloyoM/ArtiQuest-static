@@ -15,6 +15,7 @@ import { Article as IArticle } from '../../interface/article.interface'
 import useArticleQueries from './useArticleQueries'
 import useCategoryQueries from '../category/useCategoryQueries'
 import { Button } from '@mui/material'
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 
 const Article = () => {
     const [art, setArt] = useState<IArticle>()
@@ -63,8 +64,25 @@ const Article = () => {
                 const artObj = localStorage.getItem(`init-${id}`)
 
 
-                if (artObj)
-                    setArt(JSON.parse(artObj))
+                if (artObj) {
+                    const inProgressArticle = JSON.parse(artObj)
+                    console.log({ inProgressArticle })
+
+                    const contentState: EditorState = EditorState.createWithContent(
+                        convertFromRaw(inProgressArticle.body)
+                    )
+                    console.log({ contentState })
+
+                    const currentContent = contentState.getCurrentContent()
+
+                    const raws = convertToRaw(currentContent)
+
+                    console.log({ raws })
+
+                    inProgressArticle.body = raws
+
+                    setArt(inProgressArticle)
+                }
             }
 
         }

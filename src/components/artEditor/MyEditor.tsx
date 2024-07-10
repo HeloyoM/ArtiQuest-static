@@ -12,15 +12,12 @@ import Toolbar from "./Toolbar"
 import "./draftEditor.css"
 
 type Props = {
-    body: RawDraftContentState
+    editorState: EditorState
     isReadOnly: boolean
+    setRawsContent: React.Dispatch<React.SetStateAction<EditorState>>
 }
-const DraftEditor = ({ body, isReadOnly }: Props) => {
-    const [editorState, setEditorState] = useState(
-        EditorState.createWithContent(
-            convertFromRaw(body)
-        )
-    )
+const DraftEditor = ({ editorState, isReadOnly, setRawsContent }: Props) => {
+
 
     const editor = useRef<Editor>(null)
 
@@ -36,7 +33,7 @@ const DraftEditor = ({ body, isReadOnly }: Props) => {
     const handleKeyCommand = (command: string): DraftHandleValue => {
         const newState = RichUtils.handleKeyCommand(editorState, command)
         if (newState) {
-            setEditorState(newState)
+            setRawsContent(newState)
             return 'handled'
         }
         return 'not-handled'
@@ -94,10 +91,10 @@ const DraftEditor = ({ body, isReadOnly }: Props) => {
                 return ""
         }
     }
-
+    console.log({ editorState })
     return (
         <div className={!isReadOnly ? "editor-wrapper" : ""} onClick={focusEditor}>
-            {!isReadOnly && <Toolbar editorState={editorState} setEditorState={setEditorState} />}
+            {!isReadOnly && <Toolbar editorState={editorState} setEditorState={setRawsContent} />}
             <div className={!isReadOnly ? "editor-container" : ''}>
                 <Editor
                     readOnly={isReadOnly}
@@ -110,7 +107,7 @@ const DraftEditor = ({ body, isReadOnly }: Props) => {
                     onChange={(editorState) => {
                         const contentState = editorState.getCurrentContent()
                         console.log(convertToRaw(contentState))
-                        setEditorState(editorState)
+                        setRawsContent(editorState)
                     }}
                 />
             </div>
