@@ -1,5 +1,5 @@
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import DownloadIcon from '@mui/icons-material/Download'
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
 type Props = {
     art: JSX.Element
@@ -10,7 +10,7 @@ const PdfDownloading = (props: Props) => {
         <div>
             <PDFDownloadLink document={props.art} fileName={props.title}>
                 {({ blob, url, loading, error }) =>
-                    loading ? 'Loading document...' : <DownloadIcon width={40} height={40} />
+                    loading ? 'Loading document...' : <FileDownloadOutlinedIcon width={40} height={40} />
                 }
             </PDFDownloadLink>
         </div>

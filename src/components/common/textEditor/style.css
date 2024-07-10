@@ -6,9 +6,10 @@
 }
 
 .editor-container {
+    border: 1.5px solid lightgrey;
+    padding: 15px;
     width: 96%;
-    border: 1px solid green;
-    padding: 1rem;
+    border-radius: 8px;
 }
 
 .toolbar-grid {

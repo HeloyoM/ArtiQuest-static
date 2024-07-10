@@ -6,18 +6,9 @@
 }
 
 .steps-btns {
-    /* position: fixed; */
     top: 50%;
     width: fit-content;
     width: 56%;
-}
-
-.editor-container {
-    border: 1.5px solid lightgrey;
-    padding: 15px;
-    width: 100%;
-    border-radius: 8px;
-
 }
 
 .paragraphs-container {
@@ -43,5 +34,5 @@
     width: 55px;
     height: 55px;
     border-radius: 5px;
-    cursor:pointer;
+    cursor: pointer;
 }

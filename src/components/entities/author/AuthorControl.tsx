@@ -27,7 +27,7 @@ const AuthorControl = () => {
     let { id } = useParams()
 
     const { categoryArticles } = useCategoryQueries({ id })
-
+    console.log({ categoryArticles })
     const articlesChunk = React.useMemo(() => {
         if (categoryArticles.data)
             return paginate(categoryArticles.data, page, 1)

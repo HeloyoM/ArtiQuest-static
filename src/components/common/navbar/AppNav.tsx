@@ -13,10 +13,6 @@ import getDecodedUser from '../../../api/getDecodedUser'
 import AppUserContext from '../../../contextes/AppUserContext'
 import { User } from '../../../interface/user.interface'
 import NavbarButtons from './NavbarButtons'
-import AppModal from '../modal/AppModal'
-import Profile from '../profile/Profile'
-import { Paths } from '../../../utils/paths'
-import { getArtsInProgressFromLocalStorage } from '../../../utils/pendingArtsStorage'
 import AppDropdown from '../AppDropdown'
 import useInprogressArts from '../../../utils/useInprogressArts'
 import AppProgress from '../AppProgress'
@@ -57,6 +53,10 @@ const AppNav = (props: Props) => {
     let currArt
     if (storedArt) currArt = JSON.parse(storedArt)
     navigate(`/art-editor/${currArt.id}`)
+  }
+
+  const handleOpenContactUs = () => {
+      navigate(`/contact-us`)
   }
 
   const handleOpenProfile = () => {
@@ -101,6 +101,7 @@ const AppNav = (props: Props) => {
             <Box sx={{ display: { md: 'flex' } }}>
 
               <NavbarButtons
+                handleOpenContactUs={handleOpenContactUs}
                 popover={popover}
                 openConnectionForm={openConnectionForm}
                 handleOpenProfile={handleOpenProfile}
