@@ -9,8 +9,9 @@ type Props = {
     onFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     user: User
     error: FormRules
+    footerForm?: JSX.Element
 }
-const UserProfileForm = ({ onFormChange, user, error }: Props) => {
+const UserProfileForm = ({ onFormChange, user, error, footerForm }: Props) => {
     const { first_name, last_name, email, phone_number } = user
 
     const senderPersonalDetails = (
@@ -43,8 +44,10 @@ const UserProfileForm = ({ onFormChange, user, error }: Props) => {
                     label={ProfileEnum.PHONE_NUM}
                     value={phone_number} />
 
+
+                {footerForm}
             </Box>
-        </Box>
+        </Box >
     )
 
     return senderPersonalDetails

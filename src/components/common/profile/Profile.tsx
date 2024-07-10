@@ -16,6 +16,7 @@ import langsFile from '../../../utils/system/langs-file.json'
 import SaveButton from '../SaveButton'
 import AppProgress from '../AppProgress'
 import ChangePassword from './ChangePassword'
+import UserProfileForm from '../UserProfileForm'
 
 const Profile = () => {
 
@@ -23,7 +24,7 @@ const Profile = () => {
     const [changePassword, setChangePassword] = React.useState(false)
     const [isEditProfile, setIsEditProifle] = React.useState(false)
 
-    const { first_name, email: crrEmail, last_name, phone_number: crrPhone } = React.useContext(AppUserContext).user
+    const user = React.useContext(AppUserContext).user
 
     const {
         onFormChange,
@@ -96,6 +97,13 @@ const Profile = () => {
 
     const disabledChangePassowrd = !correctPasswordPattern || passwordDontMatch || !repeatedPassword.trim().length
 
+    const footerFormButtons = (
+        <>
+            <Button variant='outlined' color='success' onClick={toggleEditPass}>Change password</Button>
+
+            {hasChanges ? <SaveButton handleSave={handleUpdateUserDetails} /> : <></>}
+        </>
+    )
     return (
         <React.Fragment>
 
@@ -110,41 +118,12 @@ const Profile = () => {
 
             </div>
 
-            <Box sx={style} style={{ borderTop: '20px solid green', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px' }}>
-
-                <Box component='div' className='profile-container'>
-
-                    <ProfileField
-                        handleChange={onFormChange}
-                        isEditProfile={isEditProfile}
-                        label={ProfileEnum.FIRST_NAME}
-                        value={first_name} />
-
-                    <ProfileField
-                        handleChange={onFormChange}
-                        isEditProfile={isEditProfile}
-                        label={ProfileEnum.LAST_NAME}
-                        value={last_name} />
-
-                    <ProfileField
-                        handleChange={onFormChange}
-                        isEditProfile={isEditProfile}
-                        label={ProfileEnum.EMAIL}
-                        value={crrEmail}
-                        helperText={error.EMAIL} />
-
-                    <ProfileField
-                        handleChange={onFormChange}
-                        isEditProfile={isEditProfile}
-                        label={ProfileEnum.PHONE_NUM}
-                        value={crrPhone} />
-
-                    <Button variant='outlined' color='success' onClick={toggleEditPass}>Change password</Button>
-
-                    {hasChanges ? <SaveButton handleSave={handleUpdateUserDetails} /> : <></>}
-
-                </Box>
-            </Box>
+            <UserProfileForm
+                error={error}
+                onFormChange={onFormChange}
+                user={user}
+                footerForm={footerFormButtons}
+            />
 
             {
                 changePassword && <ChangePassword
@@ -160,6 +139,7 @@ const Profile = () => {
             }
 
             <AppModal open={openApprovModal} close={closeApprovModal} children={approvalChanges} />
+
         </React.Fragment >
     )
 }

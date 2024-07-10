@@ -53,7 +53,7 @@ export const reducer = (state: FormState, action: any) => {
         }
 
         case FormFields.set_phone_number: {
-            return { ...state, phoneNumber: action.phoneNumber }
+            return { ...state, phone_number: action.phoneNumber }
         }
 
         case FormFields.set_repeat_password: {

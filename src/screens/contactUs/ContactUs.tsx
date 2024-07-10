@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { EditorState } from 'draft-js'
 
 import './style.css'
@@ -17,16 +17,38 @@ const ContactUs = () => {
 
     const user = useContext(AppUserContext).user
 
-    return (
-        <Box sx={{ position: 'relative', top: 15, display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+    const sendMessageToSystemManager = () => {
+        const messagePayload = {
+            firstName: user.first_name || firstName,
+            lastName: user.last_name || lastName,
+            email: user.email || email,
+            phone_number: user.phone_number || phone_number,
+            msg: rawsContent
+        }
 
-            <Box>
-                <AppEditor editorState={rawsContent} isReadOnly={false} setRawsContent={setRawsContent} />
+        console.log({ messagePayload })
+    }
+
+
+    return (
+        <>
+            <Box sx={{ position: 'relative', top: 15, display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+
+                <Box>
+                    <AppEditor editorState={rawsContent} isReadOnly={false} setRawsContent={setRawsContent} />
+                </Box>
+
+                <UserProfileForm user={user} onFormChange={onFormChange} error={error} />
+
             </Box>
 
-            <UserProfileForm user={user} onFormChange={onFormChange} error={error} />
-
-        </Box>
+            <Button
+                variant='contained'
+                onClick={sendMessageToSystemManager}
+                color='secondary'
+                sx={{ width: '100%', height: '47px' }}
+                type="submit">Send</Button>
+        </>
     )
 }
 
