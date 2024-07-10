@@ -1,12 +1,11 @@
 import './style.css'
 import { convertFromRaw, EditorState, RawDraftContentState } from 'draft-js'
-import MyEditor from '../artEditor/MyEditor'
 import { useState } from 'react'
+import AppEditor from '../common/textEditor/AppEditor'
 
 type Props = {
     body: RawDraftContentState
     isedit: boolean
-    handleEditParagraph: (e: React.ChangeEvent<HTMLTextAreaElement>, index: number) => void
 }
 
 const ArtiBody = (props: Props) => {
@@ -18,7 +17,7 @@ const ArtiBody = (props: Props) => {
 
     return (
         <main className='art-container'>
-            <MyEditor isReadOnly editorState={rawsContent} setRawsContent={setRawsContent} />
+            <AppEditor isReadOnly editorState={rawsContent} setRawsContent={setRawsContent} />
         </main>
     )
 }

@@ -1,5 +1,4 @@
 import React from "react"
-import { /*FontAwesomeIcon*/ } from "@mui/icons-material"
 import {
     FormatAlignRight,
     FormatAlignCenter,

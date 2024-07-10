@@ -1,17 +1,11 @@
-import React from 'react'
 import fileUpload from '../../assets/fileUpload.svg'
-import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined'
 import AppTooltip from '../common/AppTooltip'
 import './style.css'
-import AppUserContext from '../../contextes/AppUserContext'
 
 type Props = {
     downloadArticle: () => void
-    toggleEdit: () => void
 }
 const ArtActions = (props: Props) => {
-    const { user } = React.useContext(AppUserContext)
-
     return (
         <div className='art-actions'>
 
@@ -22,11 +16,6 @@ const ArtActions = (props: Props) => {
                     onClick={props.downloadArticle}
                 />
             </AppTooltip>
-
-            {user && <AppTooltip title='edit'>
-                <CreateOutlinedIcon onClick={props.toggleEdit} />
-            </AppTooltip>}
-
         </div>
     )
 }

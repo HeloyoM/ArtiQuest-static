@@ -7,10 +7,8 @@ import PdfDownloading from './arti-pdf/PdfDownloading'
 import PdfTemplate from './arti-pdf/PdfContent'
 import { Article as IArticle } from '../../interface/article.interface'
 
-
 type Props = {
     art: IArticle
-    toggleEdit: () => void
     editArticleMutate: () => void
     category?: string
 }
@@ -55,13 +53,13 @@ const ArtiTitle = (props: Props) => {
         // console.log({ categoryId })
         // navigate(`/cat/${props.category}/${props.category?.id}`)
     }
+
     return (
         <>
             <div className={isSticky ? 'title sticky' : 'title'} >
                 <h1>{props.art.title}</h1>
                 {props.art.active && <ArtActions
                     downloadArticle={openArticle}
-                    toggleEdit={props.toggleEdit}
                 />}
 
                 <p onClick={handleShowCategory}>{props.category}</p>

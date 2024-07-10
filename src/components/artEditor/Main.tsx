@@ -6,7 +6,7 @@ import useArticleEditor from './useArticleEditor'
 import { useNavigate } from 'react-router-dom'
 import EditorPropertiesWrapper from './EditorPropertiesWrapper'
 import TitleEditor from './TitleEditor'
-import PreviewArticleBody from './PreviewArticleBody'
+import EditArticleBeforeUploading from './EditArticleBeforeUploading'
 
 type Props = {
     index: number
@@ -56,7 +56,7 @@ const Main = (props: Props) => {
                 handleChange={onArticleDetailChanged}
             /></EditorPropertiesWrapper>}
 
-            {index === 2 && <PreviewArticleBody endStage={endStage} article={article} />}
+            {index === 2 && <EditArticleBeforeUploading endStage={endStage} article={article} />}
 
         </Box>
     )

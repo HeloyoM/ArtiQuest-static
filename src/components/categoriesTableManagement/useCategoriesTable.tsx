@@ -64,7 +64,7 @@ const useCategoriesTable = () => {
                 <Typography sx={typographyStyle} onClick={() => showAllAutherArticles(r.author)}>
                     {r.author.first_name + ' ' + r.author.last_name}
                 </Typography>,
-                r.created,
+                r.createdAt,
                 r.viewers.length,
                 r.rank.total,
                 <RowTableOptions id={r.id} active={r.active} />

@@ -1,7 +1,6 @@
 import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
 import { Article } from '../../../interface/article.interface'
 import FileHeader from './PdfFileHeader'
-import RegExpUtil from '../../../utils/system/RegExp.util'
 
 type Props = {
     art: Article<any>
@@ -9,13 +8,11 @@ type Props = {
 const PdfTemplate = ({ art }: Props) => {
     const creatorName = art.author.first_name + ' ' + art.author.last_name
 
-    // const paragraphs = Array.isArray(art.body) ? art.body : art.body.split(/[\n\r]+/)
-
     return (
         <Document>
             <Page style={styles.body}>
 
-                <FileHeader date={art.created} />
+                <FileHeader date={art.createdAt} />
 
                 <Text style={styles.title}>
                     {art.title}
@@ -30,26 +27,17 @@ const PdfTemplate = ({ art }: Props) => {
                 </Text>
 
                 {art.body.blocks.map(({ text }, index) => {
-                    // const isHeader: RegExpMatchArray | null = paragraph.match(RegExpUtil.headers)
-
-                    // if (isHeader?.length) {
-                    //     const header = paragraph.slice(4, paragraph.length - 5)
                     return (
-                        <Text style={{ fontSize: '22px', fontWeight: 'bold', margin: '2% 0px' }}>
+                        <Text key={index} style={{ fontSize: '22px', fontWeight: 'bold', margin: '2% 0px' }}>
                             {text}
                         </Text>
                     )
-                    // }
-                    // else return (
-                    //     <Text key={index} >
-                    //         {paragraph}
-                    //     </Text>
-                    // )
                 })}
 
                 <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
                     `${pageNumber} / ${totalPages}`
                 )} fixed />
+
             </Page>
         </Document>
     )

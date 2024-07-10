@@ -66,18 +66,14 @@ const Article = () => {
 
                 if (artObj) {
                     const inProgressArticle = JSON.parse(artObj)
-                    console.log({ inProgressArticle })
 
                     const contentState: EditorState = EditorState.createWithContent(
                         convertFromRaw(inProgressArticle.body)
                     )
-                    console.log({ contentState })
 
                     const currentContent = contentState.getCurrentContent()
 
                     const raws = convertToRaw(currentContent)
-
-                    console.log({ raws })
 
                     inProgressArticle.body = raws
 
@@ -96,15 +92,6 @@ const Article = () => {
         navigate(`/cat/${author.first_name}-${author.last_name}/${author.id}`)
     }
 
-    const handleEditParagraph = (
-        { target: { value } }: React.ChangeEvent<HTMLTextAreaElement>,
-        index: number
-    ) => {
-
-    }
-
-    const toggleEdit = () => { setIsedit(prev => !prev) }
-
     const handleRatingArticle = React.useCallback((val: number) => {
         rateArt.mutate(val)
     }, [])
@@ -116,16 +103,16 @@ const Article = () => {
 
     const editArticle = () => { editArticleMutate.mutate() }
 
-    const { author, body, created, sub_title } = art
+    const { author, body, createdAt, sub_title } = art
 
     return (
         <div className='art'>
 
-            <ArtiTitle category={category} art={art} toggleEdit={toggleEdit} editArticleMutate={editArticle} />
+            <ArtiTitle category={category} art={art} editArticleMutate={editArticle} />
 
             <h2>{sub_title}</h2>
             <p>
-                <strong>{created}</strong>
+                <strong>{createdAt}</strong>
             </p>
 
             <div className='author'>
@@ -137,7 +124,6 @@ const Article = () => {
             <ArtiBody
                 body={body}
                 isedit={isedit}
-                handleEditParagraph={handleEditParagraph}
             />
 
             {art.active && <div style={style}>

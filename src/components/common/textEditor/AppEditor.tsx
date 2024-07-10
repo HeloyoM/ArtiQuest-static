@@ -1,24 +1,20 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import {
     Editor,
     EditorState,
     RichUtils,
     convertToRaw,
-    convertFromRaw,
     DraftHandleValue,
-    RawDraftContentState,
 } from "draft-js"
+import "./style.css"
 import Toolbar from "./Toolbar"
-import "./draftEditor.css"
 
 type Props = {
     editorState: EditorState
     isReadOnly: boolean
     setRawsContent: React.Dispatch<React.SetStateAction<EditorState>>
 }
-const DraftEditor = ({ editorState, isReadOnly, setRawsContent }: Props) => {
-
-
+const AppEditor = ({ editorState, isReadOnly, setRawsContent }: Props) => {
     const editor = useRef<Editor>(null)
 
     useEffect(() => {
@@ -115,4 +111,4 @@ const DraftEditor = ({ editorState, isReadOnly, setRawsContent }: Props) => {
     )
 }
 
-export default DraftEditor
+export default AppEditor

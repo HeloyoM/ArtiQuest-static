@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Article } from '../../interface/article.interface'
 import { ICategory } from '../../interface/category.interface'
 import localStorageKeys from '../../utils/localStorageKeys'
-import { EditorState, RawDraftContentState } from 'draft-js'
+import { RawDraftContentState } from 'draft-js'
 
 const useArticleEditor = () => {
     const [article, setArticle] = React.useState<Article<ICategory> | undefined>(undefined)

@@ -5,13 +5,13 @@ import AppProgress from '../common/AppProgress'
 import useArticleEditor from './useArticleEditor'
 import { Article } from '../../interface/article.interface'
 import { convertFromRaw, EditorState, convertToRaw } from 'draft-js'
-import MyEditor from './MyEditor'
+import AppEditor from '../common/textEditor/AppEditor'
 
 type Props = {
     article: Article<any>
     endStage: boolean
 }
-const PreviewArticleBody = (props: Props) => {
+const EditArticleBeforeUploading = (props: Props) => {
     const [rawsContent, setRawsContent] = useState(
         EditorState.createWithContent(
             convertFromRaw(props.article.body)
@@ -40,7 +40,7 @@ const PreviewArticleBody = (props: Props) => {
     return (
         <React.Fragment>
             <Box className="paragraphs-container">
-                <MyEditor isReadOnly={false} setRawsContent={setRawsContent} editorState={rawsContent} />
+                <AppEditor isReadOnly={false} setRawsContent={setRawsContent} editorState={rawsContent} />
             </Box>
 
         </React.Fragment>
@@ -48,4 +48,4 @@ const PreviewArticleBody = (props: Props) => {
     )
 }
 
-export default PreviewArticleBody
+export default EditArticleBeforeUploading

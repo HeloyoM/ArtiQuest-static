@@ -37,7 +37,7 @@ const AuthorControl = () => {
         if (!articlesChunk?.length) return
 
         const computedRows = articlesChunk.map((r: Article<ICategory>) => {
-            const row = computRows(r.title, r.created, r.viewers.length, r.rank.total, r.cat.name, tableOptions(r.id))
+            const row = computRows(r.title, r.createdAt, r.viewers.length, r.rank.total, r.cat.name, tableOptions(r.id))
 
             return row
         })
