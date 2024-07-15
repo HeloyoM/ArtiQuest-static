@@ -1,5 +1,6 @@
 import { User } from "../interface/user.interface"
 import { GET, POST, PUT } from "./api-req"
+import { ContactMsgDto } from "./dto/ContactMsg.dto"
 import { UpdateUserDto } from "./dto/UpdateUser.dto"
 
 const API = 'user'
@@ -31,5 +32,15 @@ export const findAllUsers = async () => {
         return response
     } catch (error) {
         throw new Error('Failed to fetch categories')
+    }
+}
+
+export const sendContactMsg = async (payload: ContactMsgDto) => {
+    try {
+        const response = await POST(`${API}/contact`, payload)
+
+        return response
+    } catch (error) {
+        throw new Error('Failed to send contact message')
     }
 }
