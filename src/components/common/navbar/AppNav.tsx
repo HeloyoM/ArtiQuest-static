@@ -56,7 +56,7 @@ const AppNav = (props: Props) => {
   }
 
   const handleOpenContactUs = () => {
-      navigate(`/contact-us`)
+    navigate(`/contact-us`)
   }
 
   const handleOpenProfile = () => {

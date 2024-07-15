@@ -4,6 +4,7 @@ export enum Paths {
     LOGIN = 'login',
     CONTROL = 'control',
     CONTACT = 'contact-us',
+    PENDING_ARTS = '/pending-articles',
     CAT = 'cat/:category/:id',
     AUTHOR = 'author/:id',
     ART = 'cat/:category/art/:name/:id',

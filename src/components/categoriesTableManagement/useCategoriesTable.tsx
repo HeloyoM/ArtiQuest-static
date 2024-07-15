@@ -16,6 +16,7 @@ import { ICategory } from '../../interface/category.interface'
 import { Article } from '../../interface/article.interface'
 import { User } from '../../interface/user.interface'
 import { Typography } from '@mui/material'
+import { Paths } from '../../utils/paths'
 
 const useCategoriesTable = () => {
     const [rows, setRows] = useState<any[]>([])
@@ -29,17 +30,16 @@ const useCategoriesTable = () => {
     const { pathname } = useLocation()
 
     const showOnlyInactiveArticles = (): boolean => {
-        return pathname === '/pending-articles'
+        return pathname === Paths.PENDING_ARTS
     }
 
     const categoriesChunk = React.useMemo(() => {
         let cats = categories
 
-
         if (showOnlyInactiveArticles()) {
             cats = categories.map((c: ICategory) => {
-                const inactiveArts = c.arts.filter((a: Article) => !a.active);
-                return { ...c, arts: inactiveArts, len: inactiveArts.length };
+                const inactiveArts = c.arts.filter((a: Article) => !a.active)
+                return { ...c, arts: inactiveArts, len: inactiveArts.length }
             })
         }
 
@@ -54,11 +54,10 @@ const useCategoriesTable = () => {
     const showAllAutherArticles = (author: User) => {
         navigate(`/cat/${author.first_name}-${author.last_name}/${author.id}`)
     }
-
     React.useEffect(() => {
         if (!categoriesChunk.length) return
 
-        const computedRows = categoriesChunk[0].arts.map((r: Article) => {
+        const computedRows = categoriesChunk[0].arts.length && categoriesChunk[0].arts.map((r: Article) => {
             const row = computRows(
                 <Typography sx={typographyStyle} onClick={() => goToArticle(r.title, r.id)}>{r.title}</Typography>,
                 <Typography sx={typographyStyle} onClick={() => showAllAutherArticles(r.author)}>

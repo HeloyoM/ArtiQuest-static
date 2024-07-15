@@ -9,6 +9,9 @@ type Props = {
 
 export default function AppTableBody(props: Props) {
     const { columns, page, rows, rowsPerPage } = props
+
+    if (!rows.length) return <></>
+
     return (
         <TableBody>
             {rows

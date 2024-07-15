@@ -27,8 +27,9 @@ const AcceptanceScreen = () => {
 
         data.map((art: Article) => {
             const { body, title, id } = art
-            // const [brife] = body.blocks.slice(0, 100)
-            steps.push({ id, label: title, description: "brife", author: art.author, ttl: art.ttl })
+            const brife = body.blocks[0].text.slice(0, -1) 
+
+            steps.push({ id, label: title, description: brife, author: art.author, ttl: art.ttl })
         })
 
         setInprogressArts(steps)
