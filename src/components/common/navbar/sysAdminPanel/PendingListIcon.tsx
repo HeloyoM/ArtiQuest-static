@@ -11,6 +11,8 @@ const PendingListIcon = (props: Props) => {
 
     let count = 0
 
+    if(!data) return <></> 
+
     data.map((c: ICategory) => {
         const inactiveArts = c.arts.filter((a: Article) => !a.active)
         count = count + inactiveArts.length
