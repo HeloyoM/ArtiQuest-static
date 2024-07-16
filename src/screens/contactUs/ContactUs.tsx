@@ -12,6 +12,7 @@ import AppUserContext from '../../contextes/AppUserContext'
 import UserProfileForm from '../../components/common/UserProfileForm'
 import { sendContactMsg } from '../../api/user'
 import { ContactMsgDto } from '../../api/dto/ContactMsg.dto'
+import { stateToHTML } from 'draft-js-export-html'
 
 const ContactUs = () => {
     const [topic, setTopic] = useState('')
@@ -33,13 +34,14 @@ const ContactUs = () => {
     const sendMessageToSystemManager = () => {
         const messagePayload: ContactMsgDto = {
             sender: {
+                id: user.id,
                 first_name: user.first_name || firstName,
                 last_name: user.last_name || lastName,
                 email: user.email || email,
                 phone_number: user.phone_number || phone_number,
             },
             topic,
-            msg: convertToRaw(rawsContent.getCurrentContent())
+            msg: stateToHTML(rawsContent.getCurrentContent())
         }
 
         contactUsMsg.mutate(messagePayload)
