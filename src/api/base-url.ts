@@ -1,1 +1,1 @@
-export default `https://artiquest.onrender.com`
+export default `https://artiquest.onrender.com/api`
