@@ -56,7 +56,7 @@ function App() {
           <RouterProvider router={router} />
           <SessionTimeout />
 
-          <AppToast serverMsg={serverMsg} />
+          <AppToast />
 
         </AppUserContext.Provider>
       </AppServerMsgContext.Provider>

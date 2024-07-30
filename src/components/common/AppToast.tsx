@@ -1,15 +1,17 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
-import Snackbar from '@mui/material/Snackbar'
 import toast, { Toaster } from 'react-hot-toast'
+import AppServerMsgContext from '../../contextes/AppServerMsgContext'
 
-type Props = {
-    serverMsg: string
-}
-export default function AppToast({ serverMsg }: Props) {
+export default function AppToast() {
+
+    const { updateServerMsgContext, serverMsg } = React.useContext(AppServerMsgContext)
 
     React.useEffect(() => {
         if (serverMsg) toast(serverMsg);
+
+        setTimeout(() => {
+            updateServerMsgContext('')
+        }, 5000)
     }, [serverMsg])
 
     return (
@@ -26,9 +28,11 @@ export default function AppToast({ serverMsg }: Props) {
                     background: '#363636',
                     color: '#fff',
                 },
+                icon: '❌',
 
                 success: {
                     duration: 3000,
+                   
                     // theme: {
 
                     //     primary: 'green',

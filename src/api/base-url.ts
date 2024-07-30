@@ -18,4 +18,4 @@ const LOCAL_DEV = 'http://localhost:3001/api'
 // 	development: STAGING,
 // }
 
-export default LOCAL_DEV
+export default PRODUCTION

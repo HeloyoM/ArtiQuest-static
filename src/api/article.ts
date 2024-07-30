@@ -12,8 +12,8 @@ export const getAllArticles = async () => {
         const response = await GET(`${API}`)
 
         return response
-    } catch (error) {
-        throw new Error('Failed to fetch categories')
+    } catch (error: any) {
+        return error.response.data
     }
 }
 
@@ -22,14 +22,14 @@ export const getAllCategories = async () => {
         const response = await GET(`${API}${CAT}`)
 
         return response
-    } catch (error) {
-        throw new Error('Failed to fetch categories')
+    } catch (error: any) {
+        return error.response.data
     }
 }
 
 export const getArticlesByCategoryId = async (id: string) => {
     try {
-        const response = await GET(`${API}/findBy/123`)
+        const response = await GET(`${API}/findBy/${id}`)
 
         return response
     } catch (error: any) {
@@ -42,8 +42,8 @@ export const getArticleById = async (id: string) => {
         const response = await GET(`${API}/findOne/${id}`)
 
         return response
-    } catch (error) {
-        throw new Error(`Failed to fetch article with given id ${id}`)
+    } catch (error: any) {
+        return error.response.data
     }
 }
 
@@ -52,8 +52,8 @@ export const getInprogressArtsByAuthorId = async () => {
         const response = await GET(`${API}${IN_PROGRESS}/findByAuthor`)
 
         return response
-    } catch (error) {
-        throw new Error(`Failed to fetch categories information, it's may not interrupt you watch categories`)
+    } catch (error: any) {
+        return error.response.data
     }
 }
 
@@ -62,8 +62,8 @@ export const getAllInprogressArts = async () => {
         const response = await GET(`${API}${IN_PROGRESS}`)
 
         return response
-    } catch (error) {
-        throw new Error(`Failed to fetch in progress as system admin`)
+    } catch (error: any) {
+        return error.response.data
     }
 }
 
@@ -72,8 +72,8 @@ export const initArticleBeforeUpload = async (art: FormData) => {
         const response = await POST(`${API}${IN_PROGRESS}`, art)
 
         return response
-    } catch (error) {
-        throw new Error(`Failed to create new article in category`)
+    } catch (error: any) {
+        return error.response.data
     }
 }
 
@@ -82,20 +82,18 @@ export const increasePendingArtTtl = async (payload: UpdateTtl) => {
         const response = await PATCH(`${API}${IN_PROGRESS}/ttl`, payload)
 
         return response
-    } catch (error) {
-        throw new Error(`Unavle to increase ttl of pending article with given ID [${payload.id}]`)
+    } catch (error: any) {
+        return error.response.data
     }
 }
-
-
 
 export const editArticleById = async (id: string, payload: EditArticleDto) => {
     try {
         const response = await PATCH(`${API}/${id}`, payload)
 
         return response
-    } catch (error) {
-        throw new Error(`Failed to fetch article with given id ${id}`)
+    } catch (error: any) {
+        return error.response.data
     }
 }
 
@@ -104,8 +102,8 @@ export const rateArticle = async (id: string, rate: number) => {
         const response = await PATCH(`${API}/rate/${id}`, { rate })
 
         return response
-    } catch (error) {
-        throw new Error(`Failed to rate article with given id ${id}`)
+    } catch (error: any) {
+        return error.response.data
     }
 
 }
@@ -115,8 +113,8 @@ export const createArticle = async (art: FormData) => {
         const response = await POST(API, art)
 
         return response
-    } catch (error) {
-        throw new Error(`Failed to create new article in category`)
+    } catch (error: any) {
+        return error.response.data
     }
 }
 
@@ -125,8 +123,8 @@ export const increaseArticleViewers = async (id: string) => {
         const response = await PATCH(`${API}/view/${id}`, {})
 
         return response
-    } catch (error) {
-        throw new Error(`Failed to update viewers list of article with given id ${id}`)
+    } catch (error: any) {
+        return error.response.data
     }
 }
 
@@ -135,8 +133,8 @@ export const deleteArticle = async (id: string) => {
         const response = await DELETE(`${API}/${id}`)
 
         return response
-    } catch (error) {
-        throw new Error(`Failed to update viewers list of article with given id ${id}`)
+    } catch (error: any) {
+        return error.response.data
     }
 }
 
@@ -145,8 +143,8 @@ export const createNewCategory = async (cat: CreateCatDto) => {
         const response = await POST(`${API}${CAT}`, cat)
 
         return response
-    } catch (error) {
-        throw new Error(`Failed to create new category by sysadmin at [${new Date().toLocaleDateString()}]`)
+    } catch (error: any) {
+        return error.response.data
     }
 }
 
@@ -155,9 +153,7 @@ export const toggleActiveArticle = async (id: string) => {
         const response = await PATCH(`${API}/active/${id}`, {})
 
         return response
-    } catch (error) {
-        throw new Error(`Failed to disabled article by sysadmin at [${new Date().toLocaleDateString()}] with the given article id [${id}]`)
+    } catch (error: any) {
+        return error.response.data
     }
 }
-
-
