@@ -29,11 +29,11 @@ export const getAllCategories = async () => {
 
 export const getArticlesByCategoryId = async (id: string) => {
     try {
-        const response = await GET(`${API}/findBy/${id}`)
+        const response = await GET(`${API}/findBy/123`)
 
         return response
-    } catch (error) {
-        throw new Error('Failed to fetch articles')
+    } catch (error: any) {
+        return error.response.data
     }
 }
 

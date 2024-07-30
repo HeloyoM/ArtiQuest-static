@@ -12,9 +12,12 @@ import useRoutes from "./utils/useRoutes"
 import getDecodedUser from "./api/getDecodedUser"
 
 import { User } from "./interface/user.interface"
+import AppServerMsgContext from "./contextes/AppServerMsgContext"
+import AppToast from "./components/common/AppToast"
 
 function App() {
   const [crrUser, setUser] = React.useState<any>(null)
+  const [serverMsg, setServerMsg] = React.useState('')
 
   const { data: sysUsers } = useQuery({
     queryKey: ['users'],
@@ -27,7 +30,7 @@ function App() {
     if (getDecodedUser())
       refrshTokenMutate.mutate()
   }, [])
-
+  console.log({ serverMsg })
   React.useEffect(() => {
     const decodedUser = getDecodedUser()
 
@@ -43,15 +46,20 @@ function App() {
   const { router } = useRoutes()
 
   const updateUserContext = (user: any) => { setUser(user) }
+  const updateServerMsgContext = (msg: any) => { setServerMsg(msg) }
 
   return (
     <React.Fragment>
-      <AppUserContext.Provider value={{ updateUserContext, user: crrUser }}>
+      <AppServerMsgContext.Provider value={{ updateServerMsgContext, serverMsg }}>
+        <AppUserContext.Provider value={{ updateUserContext, user: crrUser }}>
 
-        <RouterProvider router={router} />
-        <SessionTimeout />
+          <RouterProvider router={router} />
+          <SessionTimeout />
 
-      </AppUserContext.Provider>
+          <AppToast serverMsg={serverMsg} />
+
+        </AppUserContext.Provider>
+      </AppServerMsgContext.Provider>
     </React.Fragment >
   )
 }

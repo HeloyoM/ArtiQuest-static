@@ -18,7 +18,8 @@ const useCategoryQueries = (props: Props) => {
 
     const categoryArticles = useQuery({
         queryKey: ['categories-articles'],
-        queryFn: () => getArticlesByCategoryId(id!)
+        queryFn: () => getArticlesByCategoryId(id!),
+        throwOnError: true
     })
 
     const addNewCategory = useMutation({

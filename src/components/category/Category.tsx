@@ -21,6 +21,7 @@ import constants from '../../utils/system/constants'
 import useCategoryQueries from './useCategoryQueries'
 import localStorageKeys from '../../utils/localStorageKeys'
 import AppUserContext from '../../contextes/AppUserContext'
+import AppServerMsgContext from '../../contextes/AppServerMsgContext'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
@@ -28,6 +29,7 @@ const Category = () => {
     const [insertionOpen, setInsertionOpen] = React.useState(false)
 
     const { user } = React.useContext(AppUserContext)
+    const { updateServerMsgContext } = React.useContext(AppServerMsgContext)
 
     let { category, id } = useParams()
 
@@ -35,6 +37,8 @@ const Category = () => {
 
     React.useEffect(() => {
         if (!categoryArticles.data) return
+
+        if (categoryArticles.data.status > 400) return updateServerMsgContext(categoryArticles.data.error)
 
         setArticles(categoryArticles.data)
     }, [categoryArticles.data])
@@ -87,7 +91,7 @@ const Category = () => {
                 <div>
                     <h2>{category}</h2>
 
-                    {user && <AddCircleOutlineOutlinedIcon className='add-icon' sx={{cursor:'pointer'}} onClick={openInsertionModal} />}
+                    {user && <AddCircleOutlineOutlinedIcon className='add-icon' sx={{ cursor: 'pointer' }} onClick={openInsertionModal} />}
                 </div>
 
                 <p>Number of articles: {articles.length}</p>

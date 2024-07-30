@@ -4,11 +4,10 @@ import { getToken } from './getDecodedUser'
 
 export async function POST(endpoint: string, body: any) {
     const config = getRequestConfiguration()
-    
-    if(body instanceof FormData)
+
+    if (body instanceof FormData)
         config.headers['Content-type'] = "multipart/form-data"
 
-    console.log({config})
     return await (
         await axios.post(`${baseUrl}/${endpoint}`, body, config)
     ).data

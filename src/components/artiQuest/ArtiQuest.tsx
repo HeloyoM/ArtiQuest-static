@@ -22,7 +22,7 @@ const ArtiQuest = () => {
         setNewCategoryForm(prev => false)
     }
 
-    const { isLoading, data } = useCategories()
+    const { isLoading, data, isError } = useCategories()
 
     if (isLoading) return (<AppProgress />)
 
@@ -33,7 +33,7 @@ const ArtiQuest = () => {
     const onNameChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
-        if(e.target.value.length >= 25) return 
+        if (e.target.value.length >= 25) return
 
         else setNewCategoryName(e.target.value)
     }
