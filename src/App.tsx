@@ -13,7 +13,7 @@ import getDecodedUser from "./api/getDecodedUser"
 
 import { User } from "./interface/user.interface"
 import AppServerMsgContext from "./contextes/AppServerMsgContext"
-import AppToast from "./components/common/AppToast"
+import AppToast from "./components/common/toast/AppToast"
 
 function App() {
   const [crrUser, setUser] = React.useState<any>(null)

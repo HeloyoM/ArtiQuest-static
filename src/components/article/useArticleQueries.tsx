@@ -4,6 +4,9 @@ import { Article } from '../../interface/article.interface'
 import { useNavigate } from 'react-router-dom'
 import { Paths } from '../../utils/paths'
 import { UpdateTtl } from '../../api/dto/UpdateTtl.dto'
+import { useContext } from 'react'
+import AppServerMsgContext from '../../contextes/AppServerMsgContext'
+import { Toast } from '../../enum/Toast.enum'
 
 type Props = {
     setArt?: React.Dispatch<React.SetStateAction<Article<string> | undefined>>
@@ -14,6 +17,8 @@ const useArticleQueries = (props: Props) => {
     const { art, setArt } = props
 
     const navigate = useNavigate()
+
+    const { updateServerMsgContext } = useContext(AppServerMsgContext)
 
     const queryClient = useQueryClient()
 
@@ -57,7 +62,7 @@ const useArticleQueries = (props: Props) => {
         mutationFn: (payload: UpdateTtl) => increasePendingArtTtl(payload),
 
         onSuccess: () => {
-            
+
         }
     })
 
@@ -66,13 +71,16 @@ const useArticleQueries = (props: Props) => {
     }
 
     const deleteArticleMutate = useMutation({
-        mutationFn: (id: string) => deleteArticle(id)
+        mutationFn: (id: string) => deleteArticle(id),
+        onSuccess: async () => {
+            updateServerMsgContext(Toast.ARTICLE_DELETED)
+        }
     })
 
     const handleToggleActive = useMutation({
         mutationFn: (id: string) => toggleActiveArticle(id),
-        onSuccess: async (data: any) => {
-            console.log({ data })
+        onSuccess: async () => {
+            updateServerMsgContext(Toast.ARTICLE_CREATED)
         }
     })
 

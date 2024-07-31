@@ -6,6 +6,7 @@ import { IListItem } from '../../interface/IListItem.interface'
 type Props = {
     id: string
     active: boolean
+    togglePopover: (event?: React.MouseEvent<SVGSVGElement, MouseEvent>, id?: string) => void
 }
 const ArticleTableItemOptionsList = (props: Props) => {
     const { active, id } = props
@@ -16,6 +17,8 @@ const ArticleTableItemOptionsList = (props: Props) => {
     }
 
     const toggleActiveArticle = () => {
+        props.togglePopover()
+
         handleToggleActive.mutate(id)
     }
 

@@ -15,7 +15,7 @@ const RowTableOptions = (props: Props): JSX.Element => {
 
     const popover = (id: string) => (
         <AppPopover anchorEl={anchorEl} id={id} close={closePopover} open={open} >
-            <ArticleTableItemOptionsList id={id} active={active}/>
+            <ArticleTableItemOptionsList id={id} active={active} togglePopover={togglePopover}/>
         </AppPopover>
     )
 
