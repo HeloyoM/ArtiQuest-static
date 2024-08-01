@@ -47,6 +47,7 @@ const useArticleQueries = (props: Props) => {
             if (!art) return
 
             setArt!(prev => ({ ...prev!, rank: data }))
+            updateServerMsgContext(Toast.VOTED)
         }
     })
 

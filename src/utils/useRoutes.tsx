@@ -49,7 +49,7 @@ const useRoutes = () => {
         },
         {
             path: Paths.CAT,
-            element: (<ScreenContainer><Category /></ScreenContainer>)
+            element: (<Category />)
         },
         {
             path: Paths.ART,

@@ -17,6 +17,7 @@ import { Article } from '../../interface/article.interface'
 import { User } from '../../interface/user.interface'
 import { Typography } from '@mui/material'
 import { Paths } from '../../utils/paths'
+import AppProgress from '../common/AppProgress'
 
 const useCategoriesTable = () => {
     const [rows, setRows] = useState<any[]>([])
@@ -34,6 +35,8 @@ const useCategoriesTable = () => {
     }
 
     const categoriesChunk = React.useMemo(() => {
+        if (!categories) return []
+
         let cats = categories
 
         if (showOnlyInactiveArticles()) {
@@ -82,6 +85,8 @@ const useCategoriesTable = () => {
     ) => {
         setPage(prev => value)
     }
+
+    if (!categoriesChunk.length) return {main: <AppProgress />}
 
     const additionInfoAboutCategory = [
         { primary: 'Total articles', secondary: categoriesChunk[0].len, icon: <TurnedIcon /> },

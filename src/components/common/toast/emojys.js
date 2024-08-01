@@ -2,5 +2,6 @@ export default {
     error: '❌',
     checkmark: "✔️",
     article: "🧾",
-    delete: "🗑"
+    delete: "🗑",
+    love: "❤️"
 }

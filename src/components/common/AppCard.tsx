@@ -21,8 +21,9 @@ const AppCard = (props: Props) => {
     }
 
     return (
-        <Card sx={{ maxWidth: 345 }} >
+        <Card sx={{ /*maxWidth: 345*/ width: '100%' }} >
             <CardHeader
+                sx={{ textAlign: 'center' }}
                 onClick={openArticle}
                 title={props.item.title}
                 subheader={

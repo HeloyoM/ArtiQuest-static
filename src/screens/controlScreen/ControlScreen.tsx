@@ -17,7 +17,7 @@ const ControlScreen = () => {
                 <Typography component='p'>Addtional information about category</Typography>
             </Typography>
 
-            <AppList items={additionInfoAboutCategory} />
+            {additionInfoAboutCategory && <AppList items={additionInfoAboutCategory} />}
 
         </React.Fragment>
     )
