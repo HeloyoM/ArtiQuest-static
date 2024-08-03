@@ -22,6 +22,7 @@ import useCategoryQueries from './useCategoryQueries'
 import localStorageKeys from '../../utils/localStorageKeys'
 import AppUserContext from '../../contextes/AppUserContext'
 import AppServerMsgContext from '../../contextes/AppServerMsgContext'
+import AddIcon from '@mui/icons-material/Add'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
@@ -87,7 +88,7 @@ const Category = () => {
             <Box sx={{ backgroundColor: category.color }} className='cat' component='div'>
 
                 <div>
-                    <h2 style={{userSelect: 'none'}}>{categoryName}</h2>
+                    <h2 style={{ userSelect: 'none' }}>{categoryName}</h2>
 
                     {user && <AddCircleOutlineOutlinedIcon className='add-icon' sx={{ cursor: 'pointer' }} onClick={openInsertionModal} />}
                 </div>
@@ -115,7 +116,7 @@ const Category = () => {
                         </Stack>
 
                     </Box>
-                )) : <p className="empty">Not articles yet</p>}
+                )) : <p className="empty" style={{ display: 'flex', alignItems: 'center' }}>Not articles yet <AddIcon sx={{marginLeft: 2}} onClick={openInsertionModal} /></p>}
             </div>
 
             <AppMenu
