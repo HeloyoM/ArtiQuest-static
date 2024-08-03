@@ -22,7 +22,7 @@ const ArtiQuest = () => {
         setNewCategoryForm(prev => false)
     }
 
-    const { isLoading, data, isError } = useCategories()
+    const { isLoading, data } = useCategories()
 
     if (isLoading) return (<AppProgress />)
 

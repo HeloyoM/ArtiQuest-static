@@ -81,6 +81,15 @@
     font-size: 15px
 }
 
+.empty {
+    position: absolute;
+    top: 18%;
+    left: 27%;
+    user-select: none;
+    font-size: 23px;
+    font-weight: bold;
+}
+
 @keyframes slideIn {
     from {
         transform: translateY(-50%);

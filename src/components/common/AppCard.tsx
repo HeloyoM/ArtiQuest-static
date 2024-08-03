@@ -7,6 +7,7 @@ type Props = {
     item: Article<ICategory>
     handleSaveLastPage?: () => void
     categoryName: string
+    color: string
 }
 const AppCard = (props: Props) => {
     const navigate = useNavigate()
@@ -22,7 +23,7 @@ const AppCard = (props: Props) => {
     }
 
     return (
-        <Card sx={{ /*maxWidth: 345*/ width: '100%' }} >
+        <Card sx={{ width: '100%', border: `1px solid ${props.color}` }} >
             <CardHeader
                 sx={{ textAlign: 'center' }}
                 onClick={openArticle}

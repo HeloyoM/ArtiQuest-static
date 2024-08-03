@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
 import { useParams } from 'react-router-dom'
-import { Box, Paper, Stack, styled } from '@mui/material'
+import { Box, Paper, Stack } from '@mui/material'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 
@@ -33,7 +33,7 @@ const Category = () => {
 
     let { category: categoryName, id } = useParams()
 
-    const { /*categoryArticles,*/ categories } = useCategoryQueries({ id })
+    const { categories } = useCategoryQueries({ id })
 
     React.useEffect(() => {
         if (!categories.data) return
@@ -87,26 +87,26 @@ const Category = () => {
             <Box sx={{ backgroundColor: category.color }} className='cat' component='div'>
 
                 <div>
-                    <h2>{categoryName}</h2>
+                    <h2 style={{userSelect: 'none'}}>{categoryName}</h2>
 
                     {user && <AddCircleOutlineOutlinedIcon className='add-icon' sx={{ cursor: 'pointer' }} onClick={openInsertionModal} />}
                 </div>
 
-                {!!category.arts.length && <p>Number of articles: {category.arts.length}</p>}
+                {!!category.arts.length && <p>Number of articles: {category.arts.filter(a => a.active).length}</p>}
 
             </Box>
 
-            <AppPagination
+            {!!category.arts.length && <AppPagination
                 paginate={handlePaginate}
                 page={page}
-                itemsCount={category.arts.length}
-                pageSize={constants.PAGE_SIZE} />
+                itemsCount={category.arts.filter(a => a.active).length}
+                pageSize={constants.PAGE_SIZE} />}
 
             <div className='cards-container'>
                 {articlesChunk.length ? articlesChunk.filter((a: Article<ICategory>) => a.active).map((a: Article<ICategory>) => (
                     <Box sx={{ display: 'flex', flexDirection: 'column', }}>
 
-                        <AppCard categoryName={categoryName!} item={a} key={a.id} handleSaveLastPage={handleSaveLastPage} />
+                        <AppCard color={category.color!} categoryName={categoryName!} item={a} key={a.id} handleSaveLastPage={handleSaveLastPage} />
 
                         <Stack direction="row" spacing={2}>
                             <Item color={category.color}>voters: {a.rank.voters.length ? a.rank.voters.length : 0}</Item>
@@ -115,7 +115,7 @@ const Category = () => {
                         </Stack>
 
                     </Box>
-                )) : <p>Not articles yet</p>}
+                )) : <p className="empty">Not articles yet</p>}
             </div>
 
             <AppMenu
