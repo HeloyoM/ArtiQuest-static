@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { FC } from 'react'
 
 import { useParams } from 'react-router-dom'
-import { Box, Paper, Stack, Typography, styled } from '@mui/material'
+import { Box, Paper, Stack, styled } from '@mui/material'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 
@@ -25,23 +25,25 @@ import AppServerMsgContext from '../../contextes/AppServerMsgContext'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
-    const [articles, setArticles] = React.useState<any[]>([])
+    const [category, setCategory] = React.useState<ICategory>({} as ICategory)
     const [insertionOpen, setInsertionOpen] = React.useState(false)
 
     const { user } = React.useContext(AppUserContext)
     const { updateServerMsgContext } = React.useContext(AppServerMsgContext)
 
-    let { category, id } = useParams()
+    let { category: categoryName, id } = useParams()
 
-    const { categoryArticles, categories } = useCategoryQueries({ id })
+    const { /*categoryArticles,*/ categories } = useCategoryQueries({ id })
 
     React.useEffect(() => {
-        if (!categoryArticles.data) return
+        if (!categories.data) return
 
-        if (categoryArticles.data.status > 400) return updateServerMsgContext(categoryArticles.data.error)
+        if (categories.data.status > 400) return updateServerMsgContext(categories.data.error)
 
-        setArticles(categoryArticles.data)
-    }, [categoryArticles.data])
+        const category = categories.data.find((c: ICategory) => c.id === id)
+
+        setCategory(category)
+    }, [categories])
 
     React.useEffect(() => {
         const prevPage = localStorage.getItem(`category-${id}`)
@@ -72,54 +74,52 @@ const Category = () => {
     }
 
     const articlesChunk = React.useMemo(() => {
-        return paginate(articles, page, constants.PAGE_SIZE)
-    }, [articles, page])
+        if (!category?.arts?.length) return []
 
-    if (categoryArticles.isLoading) return (<AppProgress />)
+        return paginate(category?.arts!, page, constants.PAGE_SIZE)
+    }, [category, page])
+
+    if (categories.isLoading || !Object.keys(category).length) return (<AppProgress />)
 
     return (
         <React.Fragment>
 
-            <Box className='cat' component='div'>
+            <Box sx={{ backgroundColor: category.color }} className='cat' component='div'>
 
                 <div>
-                    <h2>{category}</h2>
+                    <h2>{categoryName}</h2>
 
                     {user && <AddCircleOutlineOutlinedIcon className='add-icon' sx={{ cursor: 'pointer' }} onClick={openInsertionModal} />}
                 </div>
 
-                <p>Number of articles: {articles.length}</p>
+                {!!category.arts.length && <p>Number of articles: {category.arts.length}</p>}
 
             </Box>
 
             <AppPagination
                 paginate={handlePaginate}
                 page={page}
-                itemsCount={articles.length}
+                itemsCount={category.arts.length}
                 pageSize={constants.PAGE_SIZE} />
 
             <div className='cards-container'>
-                {articlesChunk.filter((a: Article<ICategory>) => a.active).map((a: Article<ICategory>) => (
+                {articlesChunk.length ? articlesChunk.filter((a: Article<ICategory>) => a.active).map((a: Article<ICategory>) => (
                     <Box sx={{ display: 'flex', flexDirection: 'column', }}>
 
-                        <AppCard item={a} key={a.id} handleSaveLastPage={handleSaveLastPage} />
-
-                        {/* <Typography sx={{ display: 'flex', flexDirection: 'row' }}> */}
+                        <AppCard categoryName={categoryName!} item={a} key={a.id} handleSaveLastPage={handleSaveLastPage} />
 
                         <Stack direction="row" spacing={2}>
-                            <Item>voters: {a.rank.voters.length ? a.rank.voters.length : 0}</Item>
+                            <Item color={category.color}>voters: {a.rank.voters.length ? a.rank.voters.length : 0}</Item>
                             <AppRating readonly value={a?.rank?.total} handleRate={() => { }} />
-                            <Item>number of viewers: {a.viewers.length ? a.viewers.length : 0}</Item>
+                            <Item color={category.color}>number of viewers: {a.viewers.length ? a.viewers.length : 0}</Item>
                         </Stack>
 
-                        {/* </Typography> */}
-
                     </Box>
-                ))}
+                )) : <p>Not articles yet</p>}
             </div>
 
             <AppMenu
-                menuBody={<UploadArticleToCategory category={{ name: category, id }} />}
+                menuBody={<UploadArticleToCategory category={{ name: categoryName, id }} />}
                 openMenu={insertionOpen}
                 close={closeInsertion} />
 
@@ -129,11 +129,21 @@ const Category = () => {
 
 export default Category
 
+type Props = {
+    color: string | undefined
+    children: any
+}
+const Item: FC<Props> = (props: Props) => {
+    // const component = styled(Paper)(({ theme }) => ({
+    //     backgroundColor: props.color,
+    //     ...theme.typography.body2,
+    //     padding: theme.spacing(1),
+    //     textAlign: 'center',
+    //     color: theme.palette.text.secondary,
+    // }))
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
+    return <Paper
+        sx={{ backgroundColor: props.color, textAlign: 'center', padding: 1, color: 'white' }}>
+        {props.children}
+    </Paper>
+}

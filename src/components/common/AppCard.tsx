@@ -6,6 +6,7 @@ import { ICategory } from '../../interface/category.interface'
 type Props = {
     item: Article<ICategory>
     handleSaveLastPage?: () => void
+    categoryName: string
 }
 const AppCard = (props: Props) => {
     const navigate = useNavigate()
@@ -17,7 +18,7 @@ const AppCard = (props: Props) => {
 
         props.handleSaveLastPage!()
 
-        navigate(`/cat/${props.item.cat.name}/art/${title}/${props.item.id}`)
+        navigate(`/cat/${props.categoryName}/art/${title}/${props.item.id}`)
     }
 
     return (
