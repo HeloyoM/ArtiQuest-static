@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
 import { useParams } from 'react-router-dom'
-import { Box, Paper, Stack } from '@mui/material'
+import { Box, Paper, Stack, useMediaQuery } from '@mui/material'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 
@@ -23,11 +23,16 @@ import localStorageKeys from '../../utils/localStorageKeys'
 import AppUserContext from '../../contextes/AppUserContext'
 import AppServerMsgContext from '../../contextes/AppServerMsgContext'
 import AddIcon from '@mui/icons-material/Add'
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
+import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
     const [category, setCategory] = React.useState<ICategory>({} as ICategory)
     const [insertionOpen, setInsertionOpen] = React.useState(false)
+    const [categoryDisplay, setCategoryDisplay] = React.useState(true)
+
+    const isMobile = useMediaQuery('(max-width:900px)');
 
     const { user } = React.useContext(AppUserContext)
     const { updateServerMsgContext } = React.useContext(AppServerMsgContext)
@@ -56,6 +61,7 @@ const Category = () => {
         }
     }, [])
 
+    const toggleCategoryDisplay = () => { setCategoryDisplay(prev => !prev) }
     const openInsertionModal = () => { setInsertionOpen(true) }
     const closeInsertion = () => { setInsertionOpen(false) }
 
@@ -77,7 +83,8 @@ const Category = () => {
     const articlesChunk = React.useMemo(() => {
         if (!category?.arts?.length) return []
 
-        return paginate(category?.arts!, page, constants.PAGE_SIZE)
+        const activeArts = category.arts.filter((a: Article) => a.active)
+        return paginate(activeArts, page, constants.PAGE_SIZE)
     }, [category, page])
 
     if (categories.isLoading || !Object.keys(category).length) return (<AppProgress />)
@@ -97,15 +104,17 @@ const Category = () => {
 
             </Box>
 
+            {!isMobile && <DashboardOutlinedIcon onClick={toggleCategoryDisplay} className='toggle-category-display' />}
+
             {!!category.arts.length && <AppPagination
                 paginate={handlePaginate}
                 page={page}
                 itemsCount={category.arts.filter(a => a.active).length}
                 pageSize={constants.PAGE_SIZE} />}
 
-            <div className='cards-container'>
-                {articlesChunk.length ? articlesChunk.filter((a: Article<ICategory>) => a.active).map((a: Article<ICategory>) => (
-                    <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+            <Box className='cards-container' style={{ gridTemplateColumns: categoryDisplay ? 'auto' : 'auto auto auto' }}>
+                {articlesChunk.length ? articlesChunk.map((a: Article<ICategory>) => (
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
 
                         <AppCard color={category.color!} categoryName={categoryName!} item={a} key={a.id} handleSaveLastPage={handleSaveLastPage} />
 
@@ -116,8 +125,8 @@ const Category = () => {
                         </Stack>
 
                     </Box>
-                )) : <p className="empty" style={{ display: 'flex', alignItems: 'center' }}>Not articles yet <AddIcon sx={{marginLeft: 2}} onClick={openInsertionModal} /></p>}
-            </div>
+                )) : <p className="empty" style={{ display: 'flex', alignItems: 'center' }}>Not articles yet <AddIcon sx={{ marginLeft: 2 }} onClick={openInsertionModal} /></p>}
+            </Box>
 
             <AppMenu
                 menuBody={<UploadArticleToCategory category={{ name: categoryName, id }} />}
@@ -135,14 +144,6 @@ type Props = {
     children: any
 }
 const Item: FC<Props> = (props: Props) => {
-    // const component = styled(Paper)(({ theme }) => ({
-    //     backgroundColor: props.color,
-    //     ...theme.typography.body2,
-    //     padding: theme.spacing(1),
-    //     textAlign: 'center',
-    //     color: theme.palette.text.secondary,
-    // }))
-
     return <Paper
         sx={{ backgroundColor: props.color, textAlign: 'center', padding: 1, color: 'white' }}>
         {props.children}

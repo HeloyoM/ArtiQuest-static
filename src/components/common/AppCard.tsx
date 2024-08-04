@@ -30,7 +30,7 @@ const AppCard = (props: Props) => {
                 title={props.item.title}
                 subheader={
                     <Typography>
-                        {new Date(props.item.createdAt).toLocaleDateString()} {' '}
+                        {/* {new Date(props.item.createdAt).toLocaleDateString()} {' '} */}
                         {author.first_name + ' ' + author.last_name}
                     </Typography>
                 }
