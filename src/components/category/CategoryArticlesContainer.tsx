@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import AppCard from '../common/AppCard'
 import AppRating from '../common/AppRating'
 import { Box, Paper, Stack } from '@mui/material'

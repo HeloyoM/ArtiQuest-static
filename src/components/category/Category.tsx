@@ -21,9 +21,9 @@ import useCategoryQueries from './useCategoryQueries'
 import localStorageKeys from '../../utils/localStorageKeys'
 import AppUserContext from '../../contextes/AppUserContext'
 import AppServerMsgContext from '../../contextes/AppServerMsgContext'
-import AddIcon from '@mui/icons-material/Add'
 import CategoryArticlesContainer from './CategoryArticlesContainer'
 import ToggleCategoryDisplayButton from './ToggleCategoryDisplayButton'
+import CategoryHeader from './CategoryHeader'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
@@ -90,18 +90,7 @@ const Category = () => {
     return (
         <React.Fragment>
 
-            <Box sx={{ backgroundColor: category.color }} className='cat' component='div'>
-
-                <div>
-                    <h2 style={{ userSelect: 'none' }}>{category.name}</h2>
-
-                    {user && <AddCircleOutlineOutlinedIcon className='add-icon' sx={{ cursor: 'pointer' }} onClick={openInsertionModal} />}
-
-                </div>
-
-                {!!category.arts.length && <p>Number of articles: {category.arts.filter(a => a.active).length}</p>}
-
-            </Box>
+            <CategoryHeader category={category} openInsertionModal={openInsertionModal} />
 
             {!!articlesChunk.length && <ToggleCategoryDisplayButton categoryDisplay={categoryDisplay} toggleCategoryDisplay={toggleCategoryDisplay} />}
 
