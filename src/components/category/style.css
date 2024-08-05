@@ -26,6 +26,7 @@
     gap: 5.5%;
     height: 76%;
     margin: auto auto;
+    width: 50%;
 }
 
 .cards-container>div {
@@ -35,10 +36,13 @@
 
 .add-icon {
     cursor: pointer;
+    width: 50px;
+    height: 50px;
 }
 
 .add-icon:hover {
-    font-size: 35px;
+    width: 65px;
+    height: 65px;
 }
 
 .upload-art {
@@ -86,6 +90,8 @@
     user-select: none;
     font-size: 23px;
     font-weight: bold;
+    display: flex;
+    align-items: center;
 }
 
 .toggle-category-display {
@@ -123,9 +129,9 @@
     }
 }
 
-@media only screen and (min-width: 900px) {
+@media only screen and (max-width: 900px) {
     .cards-container {
-        width: 96%;
+        width: 50%;
     }
 
     .toggle-category-display {

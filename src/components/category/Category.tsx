@@ -9,8 +9,7 @@ import './style.css'
 
 import AppMenu from '../common/AppMenu'
 import AppProgress from '../common/AppProgress'
-import AppCard from '../common/AppCard'
-import AppRating from '../common/AppRating'
+
 import AppPagination from '../common/AppPagination'
 import UploadArticleToCategory from './UploadArticleToCategory'
 import { paginate } from '../../utils/paginate'
@@ -23,8 +22,8 @@ import localStorageKeys from '../../utils/localStorageKeys'
 import AppUserContext from '../../contextes/AppUserContext'
 import AppServerMsgContext from '../../contextes/AppServerMsgContext'
 import AddIcon from '@mui/icons-material/Add'
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
-import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined'
+import CategoryArticlesContainer from './CategoryArticlesContainer'
+import ToggleCategoryDisplayButton from './ToggleCategoryDisplayButton'
 
 const Category = () => {
     const [page, setPage] = React.useState(1)
@@ -32,12 +31,13 @@ const Category = () => {
     const [insertionOpen, setInsertionOpen] = React.useState(false)
     const [categoryDisplay, setCategoryDisplay] = React.useState(true)
 
-    const isMobile = useMediaQuery('(max-width:900px)');
-
     const { user } = React.useContext(AppUserContext)
     const { updateServerMsgContext } = React.useContext(AppServerMsgContext)
 
-    let { category: categoryName, id } = useParams()
+    let { id } = useParams()
+
+    const openInsertionModal = () => { setInsertionOpen(true) }
+    const closeInsertion = () => { setInsertionOpen(false) }
 
     const { categories } = useCategoryQueries({ id })
 
@@ -62,8 +62,6 @@ const Category = () => {
     }, [])
 
     const toggleCategoryDisplay = () => { setCategoryDisplay(prev => !prev) }
-    const openInsertionModal = () => { setInsertionOpen(true) }
-    const closeInsertion = () => { setInsertionOpen(false) }
 
     const handleSaveLastPage = () => {
         localStorage.setItem(`${localStorageKeys.CATEGORY_PAGE}${id}`, page.toString())
@@ -95,16 +93,17 @@ const Category = () => {
             <Box sx={{ backgroundColor: category.color }} className='cat' component='div'>
 
                 <div>
-                    <h2 style={{ userSelect: 'none' }}>{categoryName}</h2>
+                    <h2 style={{ userSelect: 'none' }}>{category.name}</h2>
 
                     {user && <AddCircleOutlineOutlinedIcon className='add-icon' sx={{ cursor: 'pointer' }} onClick={openInsertionModal} />}
+
                 </div>
 
                 {!!category.arts.length && <p>Number of articles: {category.arts.filter(a => a.active).length}</p>}
 
             </Box>
 
-            {!isMobile && <DashboardOutlinedIcon onClick={toggleCategoryDisplay} className='toggle-category-display' />}
+            {!!articlesChunk.length && <ToggleCategoryDisplayButton categoryDisplay={categoryDisplay} toggleCategoryDisplay={toggleCategoryDisplay} />}
 
             {!!category.arts.length && <AppPagination
                 paginate={handlePaginate}
@@ -112,24 +111,12 @@ const Category = () => {
                 itemsCount={category.arts.filter(a => a.active).length}
                 pageSize={constants.PAGE_SIZE} />}
 
-            <Box className='cards-container' style={{ gridTemplateColumns: categoryDisplay ? 'auto' : 'auto auto auto' }}>
-                {articlesChunk.length ? articlesChunk.map((a: Article<ICategory>) => (
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <CategoryArticlesContainer categoryDisplay={categoryDisplay} handleSaveLastPage={handleSaveLastPage} articlesChunk={articlesChunk} category={category} />
 
-                        <AppCard color={category.color!} categoryName={categoryName!} item={a} key={a.id} handleSaveLastPage={handleSaveLastPage} />
-
-                        <Stack direction="row" spacing={2}>
-                            <Item color={category.color}>voters: {a.rank.voters.length ? a.rank.voters.length : 0}</Item>
-                            <AppRating readonly value={a?.rank?.total} handleRate={() => { }} />
-                            <Item color={category.color}>number of viewers: {a.viewers.length ? a.viewers.length : 0}</Item>
-                        </Stack>
-
-                    </Box>
-                )) : <p className="empty" style={{ display: 'flex', alignItems: 'center' }}>Not articles yet <AddIcon sx={{ marginLeft: 2 }} onClick={openInsertionModal} /></p>}
-            </Box>
+            {!articlesChunk.length && user && <p className="empty">Not articles yet <AddCircleOutlineOutlinedIcon className='add-icon' onClick={openInsertionModal} /></p>}
 
             <AppMenu
-                menuBody={<UploadArticleToCategory category={{ name: categoryName, id }} />}
+                menuBody={<UploadArticleToCategory category={{ name: category.name, id }} />}
                 openMenu={insertionOpen}
                 close={closeInsertion} />
 
@@ -138,14 +125,3 @@ const Category = () => {
 }
 
 export default Category
-
-type Props = {
-    color: string | undefined
-    children: any
-}
-const Item: FC<Props> = (props: Props) => {
-    return <Paper
-        sx={{ backgroundColor: props.color, textAlign: 'center', padding: 1, color: 'white' }}>
-        {props.children}
-    </Paper>
-}
