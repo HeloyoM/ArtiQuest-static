@@ -1,7 +1,8 @@
 import { EditArticleDto } from './dto/EditArticle.dto'
-import { DELETE, GET, PATCH, POST } from './api-req'
+import { DELETE, GET, PATCH, POST, PUT } from './api-req'
 import { CreateCatDto } from './dto/CreateCat.dto'
 import { UpdateTtl } from './dto/UpdateTtl.dto'
+import { ChangeCatergoryName } from './dto/ChangeCategoryName.dto'
 
 const API = 'art'
 const CAT = `/cat`
@@ -20,6 +21,16 @@ export const getAllArticles = async () => {
 export const getAllCategories = async () => {
     try {
         const response = await GET(`${API}${CAT}`)
+
+        return response
+    } catch (error: any) {
+        return error.response.data
+    }
+}
+
+export const changeCategoryName = async (payload: ChangeCatergoryName) => {
+    try {
+        const response = await PUT(`${API}${CAT}`, payload)
 
         return response
     } catch (error: any) {

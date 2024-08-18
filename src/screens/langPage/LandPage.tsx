@@ -57,7 +57,7 @@ const LandPage = () => {
                 <p className='cursor'>{text}</p>
             </div>
             {!introEndes
-                ? <button className='intro-btn' onClick={() => nav('about')}>skip</button>
+                ? <button className='intro-btn' onClick={() => nav(Paths.HOME)}>skip</button>
                 : <button className='intro-btn sure' onClick={() => nav(Paths.HOME)}>Sure!</button>
             }
         </>

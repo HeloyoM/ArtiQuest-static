@@ -2,17 +2,20 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { getInprogressArtsByAuthorId } from '../api/article'
 import { getArtsInProgressFromLocalStorage, removeExceededProcess } from './pendingArtsStorage'
+import AppUserContext from '../contextes/AppUserContext'
+import React from 'react'
 
 const useInprogressArts = () => {
     const [livePendingArts, setLivePendingArts] = useState<string[]>([])
 
+    const { user } = React.useContext(AppUserContext)
     const { data: authorInprogressArts, isLoading } = useQuery({
         queryKey: ['my-inprogress-arts'],
         queryFn: getInprogressArtsByAuthorId
     })
 
     useEffect(() => {
-        if (!authorInprogressArts) return
+        if (!user || !authorInprogressArts) return
 
         const localPendingArts = getArtsInProgressFromLocalStorage()
 

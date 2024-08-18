@@ -1,21 +1,27 @@
-.cat {
-    /* background-color: #2d545e; */
+.category-header {
     overflow-y: hidden;
     height: 99%;
     padding: 15px;
+    user-select: none;
 }
 
-.cat> :first-child {
+.category-header> :first-child {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.cat>* {
+.category-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-header>* {
     color: white;
 }
 
-.cat-actions {
+.category-header-actions {
     display: flex;
     align-items: center;
     gap: 3%;

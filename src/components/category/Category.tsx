@@ -102,7 +102,7 @@ const Category = () => {
 
             <CategoryArticlesContainer categoryDisplay={categoryDisplay} handleSaveLastPage={handleSaveLastPage} articlesChunk={articlesChunk} category={category} />
 
-            {!articlesChunk.length && user && <p className="empty">Not articles yet <AddCircleOutlineOutlinedIcon className='add-icon' onClick={openInsertionModal} /></p>}
+            {!articlesChunk.length && user && <p className="empty">Not articles yet<AddCircleOutlineOutlinedIcon className='add-icon' onClick={openInsertionModal} /></p>}
 
             <AppMenu
                 menuBody={<UploadArticleToCategory category={{ name: category.name, id }} />}

@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { createNewCategory, getAllCategories, getArticlesByCategoryId, initArticleBeforeUpload } from '../../api/article'
+import { changeCategoryName, createNewCategory, getAllCategories, getArticlesByCategoryId, initArticleBeforeUpload } from '../../api/article'
 import localStorageKeys from '../../utils/localStorageKeys'
 import { useNavigate } from 'react-router-dom'
+import { ChangeCatergoryName } from '../../api/dto/ChangeCategoryName.dto'
 
 type Props = {
     id?: string
@@ -22,6 +23,14 @@ const useCategoryQueries = (props: Props) => {
         throwOnError: true
     })
 
+    const changeName = useMutation({
+        mutationFn: (payload: ChangeCatergoryName) => changeCategoryName(payload),
+        mutationKey: ['change-category-name'],
+        onSuccess: (data: string) => {
+            console.log({ data })
+        }
+    })
+
     const addNewCategory = useMutation({
         mutationFn: (catName: string) => createNewCategory({ name: catName }),
         mutationKey: ['create-category'],
@@ -39,7 +48,7 @@ const useCategoryQueries = (props: Props) => {
         }
     })
 
-    return { categoryArticles, initPendingArticle, categories, addNewCategory }
+    return { categoryArticles, initPendingArticle, categories, addNewCategory, changeName }
 }
 
 export default useCategoryQueries
