@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Paper, Typography } from '@mui/material'
+import { Box, Paper, Typography } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 import './style.css'
@@ -26,7 +26,7 @@ const HomePage = () => {
   const isSysAdmin = user && Roles.SysAdmin === user.role
 
   return (
-    <Typography className='home'>
+    <Box className='home'>
       <AppNav users={users} />
       {isSysAdmin && <SysadminAppNav />}
 
@@ -48,7 +48,7 @@ const HomePage = () => {
         </Typography>
       </Paper>
 
-    </Typography>
+    </Box>
   )
 }
 

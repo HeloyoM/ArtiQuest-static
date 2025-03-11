@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Chip, Input, Typography } from '@mui/material'
+import { Box, Button, Chip, Input, Typography, useMediaQuery } from '@mui/material'
 import './style.css'
 
 import AppChip from '../common/AppChip'
@@ -11,6 +11,8 @@ import AppModal from '../common/modal/AppModal'
 const ArtiQuest = () => {
     const [newCategoryForm, setNewCategoryForm] = useState(false)
     const [newCategoryName, setNewCategoryName] = useState('')
+
+    const isMobile = useMediaQuery('(max-width:600px)')
 
     const { addNewCategory } = useCategoryQueries({})
 
@@ -55,20 +57,19 @@ const ArtiQuest = () => {
 
     return (
         <React.Fragment>
-            <div className='chips-container'>
-                <ul>
-                    {data?.map((c: ICategory) => (
-                        <AppChip cat={c} key={c.id} />
-                    ))}
+            <Box className='chips-container' sx={{ gridTemplateColumns: isMobile ? 'auto auto' : 'auto auto auto auto' }}>
 
-                    {/* <Chip
+                {data?.map((c: ICategory) => (
+                    <AppChip cat={c} key={c.id} />
+                ))}
+
+                {/* <Chip
                         id="chip"
                         label="+"
                         color="primary"
                         variant={"outlined"}
                         onClick={createCategory} /> */}
-                </ul>
-            </div>
+            </Box>
 
             <AppModal popupModal open={newCategoryForm} children={categoryNameInput} close={closeForm} />
 
