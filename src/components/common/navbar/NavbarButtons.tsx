@@ -22,10 +22,10 @@ const NavbarButtons = (props: Props) => {
                     btn={<AccountCircle onClick={props.handleOpenProfile} />} />
                 <NavBtnAction
                     btn={<Edit onClick={props.handleOpenAuthorControl} />} /></>}
-        <NavBtnAction
+        {/* <NavBtnAction
             popover={{ elem: props.popover, id: 'account' }}
             btn={<MailOutlineOutlinedIcon onClick={props.handleOpenContactUs} />}
-        />
+        /> */}
         <NavBtnAction
             popover={{ elem: props.popover, id: 'account' }}
             btn={<ConnectIcon onClick={props.openConnectionForm} />}

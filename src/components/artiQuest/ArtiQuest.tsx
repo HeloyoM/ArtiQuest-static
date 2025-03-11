@@ -1,12 +1,12 @@
-import React from 'react'
-import AppChip from '../common/AppChip'
+import React, { useState } from 'react'
+import { Box, Button, Chip, Input, Typography } from '@mui/material'
 import './style.css'
+
+import AppChip from '../common/AppChip'
 import { ICategory } from '../../interface/category.interface'
 import AppProgress from '../common/AppProgress'
 import useCategoryQueries, { useCategories } from '../category/useCategoryQueries'
-import { Box, Button, Chip, Input, Typography } from '@mui/material'
 import AppModal from '../common/modal/AppModal'
-import { useState } from 'react'
 
 const ArtiQuest = () => {
     const [newCategoryForm, setNewCategoryForm] = useState(false)

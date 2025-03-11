@@ -15,18 +15,18 @@ import ContactUs from "../screens/contactUs/ContactUs"
 
 const useRoutes = () => {
     const router = createBrowserRouter([
+        // {
+        //     path: "/",
+        //     element: (<ScreenContainer><LandPage /></ScreenContainer>)
+        // },
         {
             path: "/",
-            element: (<ScreenContainer><LandPage /></ScreenContainer>)
-        },
-        {
-            path: "home",
             element: (<HomePage />)
         },
-        {
-            path: "about",
-            element: (<AboutAuthor />)
-        },
+        // {
+        //     path: "about",
+        //     element: (<AboutAuthor />)
+        // },
         {
             path: "control",
             element: (<ControlScreen />)

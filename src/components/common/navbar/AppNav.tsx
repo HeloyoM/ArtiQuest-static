@@ -86,7 +86,7 @@ const AppNav = (props: Props) => {
         <AppBar position="static">
           <Toolbar>
 
-            <Button sx={{ color: 'white' }} onClick={goAboutPage}>About author</Button>
+            {/* <Button sx={{ color: 'white' }} onClick={goAboutPage}>About author</Button> */}
 
             {isLoading && <AppProgress type="Circular" />}
 

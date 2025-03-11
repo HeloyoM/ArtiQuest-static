@@ -1,6 +1,7 @@
-import { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Typography } from '@mui/material'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 import './style.css'
 
@@ -33,7 +34,8 @@ const HomePage = () => {
 
       <Typography component='p' className='arti-quest-header'>
         <h1>Arti-Quest</h1>
-        <p className="transform-text">Discover programming world right under your hands</p>
+        <p className="transform-text">Upload {<ArrowForwardIcon />} Edit {<ArrowForwardIcon />} Publish</p>
+        <p className="transform-text">Simple</p>
       </Typography>
 
     </Typography>
