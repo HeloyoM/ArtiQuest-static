@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Typography } from '@mui/material'
+import { Paper, Typography } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 import './style.css'
@@ -37,6 +37,16 @@ const HomePage = () => {
         <p className="transform-text">Upload {<ArrowForwardIcon />} Edit {<ArrowForwardIcon />} Publish</p>
         <p className="transform-text">Simple</p>
       </Typography>
+
+      <Paper elevation={3} sx={{ width: "45%", display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItmes: 'center', margin: '3% auto', backgroundColor: 'inherit', fontFamily: 'Sora, sens-serif' }}>
+
+        <Typography sx={{ fontSize: '19px', color: 'cornflowerblue' }} className="banner">
+          All in one
+        </Typography>
+        <Typography sx={{ fontSize: '19px', fontFamily: 'Sora, sens-serif' }} className="banner">
+          Your platform for uploading PDF file, edit and style easily and publish.
+        </Typography>
+      </Paper>
 
     </Typography>
   )

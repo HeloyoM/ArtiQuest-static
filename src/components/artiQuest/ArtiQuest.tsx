@@ -61,12 +61,12 @@ const ArtiQuest = () => {
                         <AppChip cat={c} key={c.id} />
                     ))}
 
-                    <Chip
+                    {/* <Chip
                         id="chip"
                         label="+"
                         color="primary"
                         variant={"outlined"}
-                        onClick={createCategory} />
+                        onClick={createCategory} /> */}
                 </ul>
             </div>
 
